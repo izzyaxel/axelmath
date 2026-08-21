@@ -13,7 +13,7 @@ namespace axm
 
   /// A 4x4 matrix
   /// Immutable
-  /// Column-dominant by default, but can be transposed into row-dominant
+  /// Column-major by default, but can be transposed into row-major
   /// @tparam T Any type or class supporting the == (equivalence) operator and all basic math operators (+ - * /), plain numeric types will cause the matrix to be initialized to identity
   template <MathStorageType T>
   struct mat4x4
@@ -402,8 +402,8 @@ namespace axm
       };
     }
 
-    /// Convert this matrix from column-dominant to row-dominant or vice-versa
-    /// Be careful with this, keep track of which dominance each variable is!
+    /// Convert this matrix from column-major to row-major or vice-versa
+    /// Be careful with this, keep track of which way each matrix is!
     /// @return A mat4x4 containing the result
     CONST USE_RESULT CANNOT_FAIL
     auto transposed() const -> mat4x4

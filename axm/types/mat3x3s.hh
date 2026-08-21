@@ -11,7 +11,7 @@ namespace axm
 
   /// A 3x3 matrix
   /// Immutable
-  /// Column-dominant by default, but can be transposed into row-dominant
+  /// Column-major by default, but can be transposed into row-major
   /// @tparam T Any type or class supporting the == (equivalence) operator and all basic math operators (+ - * /), plain numeric types will cause the matrix to be initialized to identity
   template<MathStorageType T>
   struct mat3x3
