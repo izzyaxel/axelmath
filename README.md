@@ -2,8 +2,8 @@
 
 This is a C++26, header-only, templated math library.  It has no dependencies.
 
-It current includes 2, 3, and 4-component vectors, quaternions,
-4x4 matricies, circles, 2D rectangles, common math operations, game math, and collision detection.
+It currently includes 2, 3, and 4-component vectors, quaternions, 3x3 and 4x4 matricies, circles, 2D rectangles,
+common math operations, game math, and collision detection.
 
 This library is being developed by using it in other projects (game engine, drawing application, games, etc)
 so it will be added onto as I need new things, and bugs will be fixed as I find them.
