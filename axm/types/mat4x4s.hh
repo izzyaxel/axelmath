@@ -5,9 +5,6 @@
 
 #include "vec4s.hh"
 
-//TODO write mat2x2?
-//TODO include and transpose mat3x3 too
-
 namespace axm
 {
 
