@@ -15,18 +15,6 @@ namespace axm
   template <typename T>
   struct vec3;
 
-  template <MathStorageType T>
-  struct mat4x4;
-
-  template <MathStorageType T>
-  struct quat;
-
-  template <IsNumeric T>
-  struct circle;
-
-  template <IsNumeric T>
-  struct aabb2d;
-
   CONST USE_RESULT CANNOT_FAIL
   inline auto closeEnough(const float val, const float target) -> bool
   {

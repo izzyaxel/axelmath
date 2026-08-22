@@ -23,10 +23,10 @@ namespace axm
 
     return
     {
-      {sqx - sqy - sqz + sqw, (T)2 * (t1 + t2),       (T)2 * (t3 - t4),       0},
-      {(T)2 * (t1 - t2),      -sqx + sqy - sqz + sqw, (T)2 * (t5 + t6),       0},
-      {(T)2 * (t3 + t4),      (T)2 * (t5 - t6),       -sqx - sqy + sqz + sqw, 0},
-      {0,                     0,                      0,                      1}
+      {sqx - sqy - sqz + sqw, (T)2 * (t1 + t2),       (T)2 * (t3 - t4),       (T)0},
+      {(T)2 * (t1 - t2),      -sqx + sqy - sqz + sqw, (T)2 * (t5 + t6),       (T)0},
+      {(T)2 * (t3 + t4),      (T)2 * (t5 - t6),       -sqx - sqy + sqz + sqw, (T)0},
+      {(T)0,                  (T)0,                   (T)0,                   (T)1}
     };
   }
 
@@ -37,10 +37,10 @@ namespace axm
   {
     return
     {
-      {1, 0, 0, 0},
-      {0, 1, 0, 0},
-      {0, 0, 1, 0},
-      {translate.x(), translate.y(), translate.z(), 1}
+      {(T)1,          (T)0,          (T)0,          (T)0},
+      {(T)0,          (T)1,          (T)0,          (T)0},
+      {(T)0,          (T)0,          (T)1,          (T)0},
+      {translate.x(), translate.y(), translate.z(), (T)1}
     };
   }
 
@@ -59,10 +59,10 @@ namespace axm
   {
     return
     {
-      {scale[0], 0,        0,        0},
-      {0,        scale[1], 0,        0},
-      {0,        0,        scale[2], 0},
-      {0,        0,        0,        1}
+      {scale[0], (T)0,     (T)0,     (T)0},
+      {(T)0,     scale[1], (T)0,     (T)0},
+      {(T)0,     (T)0,     scale[2], (T)0},
+      {(T)0,     (T)0,     (T)0,     (T)1}
     };
   }
 
@@ -73,10 +73,10 @@ namespace axm
   {
     return
     {
-      {scalar, 0, 0, 0},
-      {0, scalar, 0, 0},
-      {0, 0, scalar, 0},
-      {0, 0, 0,      1}
+      {scalar,  (T)0,   (T)0,    (T)0},
+      {(T)0,    scalar, (T)0,    (T)0},
+      {(T)0,    (T)0,    scalar, (T)0},
+      {(T)0,    (T)0,    (T)0,   (T)1}
     };
   }
 
@@ -117,9 +117,6 @@ namespace axm
     const quat<T>& cameraRotation,
     const vec3<T>& cameraPosition) -> mat4x4<T>
   {
-    /*const mat4x4<T> rotation = quatToMat4x4(cameraRotation.inverse());
-    const mat4x4<T> translation = translateMat(cameraPosition.inverse());*/
-
     const mat4x4<T> rotation = quatToMat4x4(cameraRotation);
     const mat4x4<T> translation = translateMat(cameraPosition);
     return translation * rotation;
@@ -138,10 +135,10 @@ namespace axm
     const T a = width / height;
     return
     {
-      {(T)1 / (a * std::tan(fov / (T)2)), 0,                             0,                                                         0},
-      {0,                                 (T)1 / (std::tan(fov / (T)2)), 0,                                                         0},
-      {0,                                 0,                             -((farPlane + nearPlane) / (farPlane - nearPlane)),        -1},
-      {0,                                 0,                             -(((T)2 * farPlane * nearPlane) / (farPlane - nearPlane)), 0},
+      {(T)1 / (a * std::tan(fov / (T)2)),    (T)0,                          (T)0,                                                      (T)0},
+      {(T)0,                                 (T)1 / (std::tan(fov / (T)2)), (T)0,                                                      (T)0},
+      {(T)0,                                 (T)0,                          -((farPlane + nearPlane) / (farPlane - nearPlane)),        (T)-1},
+      {(T)0,                                 (T)0,                          -(((T)2 * farPlane * nearPlane) / (farPlane - nearPlane)), (T)0},
     };
   }
 
@@ -158,10 +155,10 @@ namespace axm
   {
     return
     {
-      {(T)2 / (right - left),              0,                                  0,                                  0},
-      {0,                                  (T)2 / (top - bottom),              0,                                  0},
-      {0,                                  0,                                  -((T)2 / (zFar - zNear)),           0},
-      {-((right + left) / (right - left)), -((top + bottom) / (top - bottom)), -((zFar + zNear) / (zFar - zNear)), 1},
+      {(T)2 / (right - left),              (T)0,                               (T)0,                               (T)0},
+      {(T)0,                               (T)2 / (top - bottom),              (T)0,                               (T)0},
+      {(T)0,                               (T)0,                               -((T)2 / (zFar - zNear)),           (T)0},
+      {-((right + left) / (right - left)), -((top + bottom) / (top - bottom)), -((zFar + zNear) / (zFar - zNear)), (T)1},
     };
   }
 

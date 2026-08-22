@@ -172,10 +172,10 @@ namespace axm
 
     const mat4x4<T> comp
     {
-      {right[0], orthogonalUp[0], forward[0], 0},
-      {right[1], orthogonalUp[1], forward[1], 0},
-      {right[2], orthogonalUp[2], forward[2], 0},
-      {0,        0,               0,          0}
+      {right[0], orthogonalUp[0], forward[0], (T)0},
+      {right[1], orthogonalUp[1], forward[1], (T)0},
+      {right[2], orthogonalUp[2], forward[2], (T)0},
+      {(T)0,     (T)0,            (T)0,       (T)0}
     };
 
     return mat4x4ToQuat(comp);
@@ -198,10 +198,10 @@ namespace axm
 
     const mat4x4<T> comp
     {
-      {left[0], orthogonalUp[0], forward[0], 0},
-      {left[1], orthogonalUp[1], forward[1], 0},
-      {left[2], orthogonalUp[2], forward[2], 0},
-      {0,       0,               0,          0}
+      {left[0], orthogonalUp[0], forward[0], (T)0},
+      {left[1], orthogonalUp[1], forward[1], (T)0},
+      {left[2], orthogonalUp[2], forward[2], (T)0},
+      {(T)0,    (T)0,            (T)0,       (T)0}
     };
 
     return mat4x4ToQuat(comp);
@@ -217,7 +217,7 @@ namespace axm
     const T lerp = (T)1) -> quat<T>
   {
     vec3 frontTo = vec3{targetPos - originPos}.normalized() * currentRotation.conjugated();
-    return vecDelta({0, 0, 1}, frontTo, lerp);
+    return vecDelta({(T)0, (T)0, (T)1}, frontTo, lerp);
   }
 
   /// Is this a SLERP?
@@ -228,16 +228,16 @@ namespace axm
       const vec3<T> to,
       T lerp = (T)1) -> quat<T>
   {
-    lerp = std::clamp(lerp, 0, 1);
+    lerp = std::clamp(lerp, (T)0, (T)1);
 
-    const T dot = std::clamp(to.dot(from), -1, 1);
-    if(dot == 1)
+    const T dot = std::clamp(to.dot(from), (T)-1, (T)1);
+    if(dot == (T)1)
     {
-      return quat{0, 0, 0, 1};
+      return quat{(T)0, (T)0, (T)0, (T)1};
     }
-    if(dot == -1)
+    if(dot == (T)-1)
     {
-      return quat{0, 0, 1, 0};
+      return quat{(T)0, (T)0, (T)1, (T)0};
     }
 
     const T rot = std::acos(dot);
@@ -256,7 +256,7 @@ namespace axm
   {
     vec3<T> upQ = -up * in.conjugated();
     upQ.normalize();
-    T dot = vec3<T>{0, 1, 0}.dot(upQ);
+    T dot = vec3<T>{(T)0, (T)1, (T)0}.dot(upQ);
 
     if(dot >= 1)
     {
@@ -274,7 +274,7 @@ namespace axm
       return {};
     }
 
-    vec3<T> rotAxis = vec3<T>{0, 1, 0}.cross(upQ);
+    vec3<T> rotAxis = vec3<T>{(T)0, (T)1, (T)0}.cross(upQ);
     rotAxis.normalize();
     return fromAxialRotation(rotAxis.x(), rotAxis.y(), rotAxis.z(), (angleLimit - angle) * lerp);
   }
@@ -289,15 +289,15 @@ namespace axm
   {
     vec3<T> upQ = up * in.conjugated();
     upQ.normalize();
-    vec3<T> side = vec3<T>{0, 0, 1}.cross(-upQ);
+    vec3<T> side = vec3<T>{(T)0, (T)0, (T)1}.cross(-upQ);
     side.normalize();
 
-    if(vec3<T>{0, 1, 0}.dot(upQ) <= 0)
+    if(vec3<T>{(T)0, (T)1, (T)0}.dot(upQ) <= 0)
     {
       side = -side;
     }
 
-    vec3 upFixed = vec3{0, 0, 1}.cross(side).normalized();
-    return vecDelta({0, 1, 0}, upFixed, lerp);
+    vec3 upFixed = vec3{(T)0, (T)0, (T)1}.cross(side).normalized();
+    return vecDelta({(T)0, (T)1, (T)0}, upFixed, lerp);
   }
 }
