@@ -1,6 +1,7 @@
 # axelmath
 
-This is a C++26, header-only, templated math library.  It has no dependencies.
+This is a C++20+, header-only, templated math library.  It has no dependencies, but the contents of the conversions
+header will only be enabled if GLM is present.
 
 It currently includes 2, 3, and 4-component vectors, quaternions, 3x3 and 4x4 matricies, circles, 2D rectangles,
 common math operations, game math, and collision detection.
@@ -10,7 +11,3 @@ so it will be added onto as I need new things, and bugs will be fixed as I find 
 
 To use axelmath, drop the `axm` folder into your project.  Typical folder structures might look
 like `/src/libs/axm`, `/src/vendor/axm`, `/src/3rdparty/axm`, etc.
-
-## Library Layout
-axelmath's classes are mostly immutable right now, in the future they will all be immutable.  This enables the compiler
-to make more optimizations, makes the classes thread-safe, have no side effects, and are easier to reason about.

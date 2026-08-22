@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 4.3)
 project(axelmath)
 project(tests)
-set(CMAKE_CXX_STANDARD 26)
+set(CMAKE_CXX_STANDARD 20)
 
 set(SRC
     axm/aliases.hh

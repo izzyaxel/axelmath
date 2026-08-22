@@ -8,48 +8,106 @@ namespace axm
 {
 
   /// A quaternion
-  /// Immutable
   /// 4-dimensional representation of rotation that's immune to gimbal lock, and can be oriented in any direction
+  /// Most useful for representing rotation in microgravity, but can be used for any kind of rotation
   /// @tparam T Any type or class supporting the == (equivalence) operator, and all basic math operators (+ - * /), plain numeric types will be handled slightly differently
   template <MathStorageType T>
   struct quat
   {
     /// X Y Z W, init to identity
-    const T data[4]{0, 0, 0, 1};
+    T data[4]{0, 0, 0, 1};
 
     constexpr quat() = default;
 
-    constexpr explicit quat(const quat& other) = default;
-
-    // Convert a quaternion of another storage type
     template <typename Q>
-    constexpr explicit quat(const quat<Q>& other) : data{other.data} {}
+    constexpr explicit quat(const quat<Q>& other)
+    {
+      this->x() = (T)other.x();
+      this->y() = (T)other.y();
+      this->z() = (T)other.z();
+      this->w() = (T)other.w();
+    }
 
-    /// Construct a quaternion out of given values
     constexpr quat(const T xIn, const T yIn, const T zIn, const T wIn) : data{xIn, yIn, zIn, wIn} {}
 
-    quat(quat&& other) noexcept = default;
+    //==Move============================================================================================================
 
-    auto operator = (const quat& other) -> quat&
+    quat(quat&& other) noexcept
     {
       if(this != &other)
       {
-        this->~quat();
-        ::new(this)quat(other);
+        this->data = other.data;
+        other.data = {};
       }
-      return *this;
     }
 
     auto operator = (quat&& other) noexcept -> quat&
     {
       if(this != &other)
       {
-        this->~quat();
-        ::new(this)quat(other);
-        other.~quat();
+        this->data = other.data;
+        other.data = {};
       }
       return *this;
     }
+
+    //==Copy============================================================================================================
+
+    quat(const quat& other)
+    {
+      if(this != &other)
+      {
+        this->data = other.data;
+      }
+    }
+
+    auto operator = (const quat& other) -> quat&
+    {
+      if(this != &other)
+      {
+        this->data = other.data;
+      }
+      return *this;
+    }
+
+    //==Accessors=======================================================================================================
+
+    USE_RESULT CANNOT_FAIL
+    auto operator [] (size_t index) -> T&
+    {
+      if(index > 3)
+      {
+        return {};
+      }
+
+      return this->data[index];
+    }
+
+    USE_RESULT CANNOT_FAIL
+    auto x() -> T&
+    {
+      return this->data[0];
+    }
+
+    USE_RESULT CANNOT_FAIL
+    auto y() -> T&
+    {
+      return this->data[1];
+    }
+
+    USE_RESULT CANNOT_FAIL
+    auto z() -> T&
+    {
+      return this->data[2];
+    }
+
+    USE_RESULT CANNOT_FAIL
+    auto w() -> T&
+    {
+      return this->data[3];
+    }
+
+    //==Const Accessors=================================================================================================
 
     CONST USE_RESULT CANNOT_FAIL
     auto operator [] (size_t index) const -> T
@@ -85,6 +143,8 @@ namespace axm
     {
       return this->data[3];
     }
+
+    //==Operators=======================================================================================================
 
     CONST USE_RESULT CANNOT_FAIL
     bool operator == (const quat& other) const
@@ -135,6 +195,16 @@ namespace axm
       return other + w1 * this->w() + w1.cross(q);
     }
 
+    //==Math============================================================================================================
+
+    CANNOT_FAIL
+    auto conjugate() -> void
+    {
+      this->x() = -this->x();
+      this->y() = -this->y();
+      this->z() = -this->z();
+    }
+
     CONST USE_RESULT CANNOT_FAIL
     auto conjugated() const -> quat
     {
@@ -146,6 +216,17 @@ namespace axm
     auto mag() const -> T
     {
       return std::sqrt(this->x() * this->x() + this->y() * this->y() + this->z() * this->z() + this->w() * this->w());
+    }
+
+    /// Make this quaternion unit length
+    CANNOT_FAIL
+    auto normalize() -> void
+    {
+      T length = this->mag();
+      this->x() /= length;
+      this->y() /= length;
+      this->z() /= length;
+      this->w() /= length;
     }
 
     /// Make a unit length version of this quaternion
@@ -163,13 +244,25 @@ namespace axm
       return this->w() * other.w() + this->x() * other.x() + this->y() * other.y() + this->z() * other.z();
     }
 
+    /// Invert this quaternion
+    CANNOT_FAIL
+    auto invert() -> void
+    {
+      this->conjugate();
+      this->normalize();
+    }
+
     /// Get the inverse of this quaternion
     CONST USE_RESULT CANNOT_FAIL
     auto inverse() const -> quat
     {
-      const T length = this->mag();
-      return quat{-this->x() / length, -this->y() / length, -this->z() / length, this->w() / length};
+      quat out{this->x(), this->y(), this->z(), this->w()};
+      out.conjugate();
+      out.normalize();
+      return out;
     }
+
+    //==Conversions=====================================================================================================
 
     /// Convert this quaternion into euler angles
     /// @return {roll pitch yaw} in radians
@@ -209,6 +302,8 @@ namespace axm
 
       return {this->x() / divisor, this->y() / divisor, this->z() / divisor, angle};
     }
+
+    //==Misc============================================================================================================
 
     constexpr static auto size() -> size_t
     {
