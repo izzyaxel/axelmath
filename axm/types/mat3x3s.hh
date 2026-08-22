@@ -65,7 +65,7 @@ namespace axm
       return this->data[0] == other.data[0] && this->data[1] == other.data[1] && this->data[2] == other.data[2];
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto operator [] (const size_t index) const -> vec3<T>
     {
       if(index > 2)
@@ -76,61 +76,61 @@ namespace axm
       return this->data[index];
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto x1() const -> T
     {
       return this->data[0][0];
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto y1() const -> T
     {
       return this->data[0][1];
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
      auto z1() const -> T
     {
       return this->data[0][2];
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto x2() const -> T
     {
       return this->data[1][0];
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto y2() const -> T
     {
       return this->data[1][1];
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
      auto z2() const -> T
     {
       return this->data[1][2];
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto x3() const -> T
     {
       return this->data[2][0];
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto y3() const -> T
     {
       return this->data[2][1];
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
      auto z3() const -> T
     {
       return this->data[2][2];
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto operator * (const T val) const -> mat3x3
     {
       return
@@ -141,7 +141,7 @@ namespace axm
       };
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto operator * (const mat3x3 other) const -> mat3x3
     {
       return
@@ -165,7 +165,7 @@ namespace axm
     }
 
     //TODO how to invert a 3x3
-    /*CONST USE_RESULT CANNOT_FAIL
+    /*GNUCONST USE_RESULT CANNOT_FAIL
     auto inverse() const -> mat3x3
     {
       T a = this->z3() * this->w4() - this->w3() * this->z4();
@@ -222,7 +222,7 @@ namespace axm
       };
     }*/
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto transposed() const -> mat3x3
     {
       return

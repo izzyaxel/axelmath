@@ -75,7 +75,7 @@ namespace axm
     /// The primary method of accessing the contents of this matrix
     /// @param index 0-3, The column to retrieve
     /// @return The specified column, or an empty vec4 if the index was out of bounds
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto operator [] (const size_t index) const -> vec4<T>
     {
       if(index > 3)
@@ -88,97 +88,97 @@ namespace axm
 
     //Math notation accessors
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto x1() const -> T
     {
       return this->data[0][0];
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto y1() const -> T
     {
       return this->data[0][1];
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
      auto z1() const -> T
     {
       return this->data[0][2];
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto w1() const -> T
     {
       return this->data[0][3];
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto x2() const -> T
     {
       return this->data[1][0];
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto y2() const -> T
     {
       return this->data[1][1];
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
      auto z2() const -> T
     {
       return this->data[1][2];
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto w2() const -> T
     {
       return this->data[1][3];
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto x3() const -> T
     {
       return this->data[2][0];
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto y3() const -> T
     {
       return this->data[2][1];
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
      auto z3() const -> T
     {
       return this->data[2][2];
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto w3() const -> T
     {
       return this->data[2][3];
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto x4() const -> T
     {
       return this->data[3][0];
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto y4() const -> T
     {
       return this->data[3][1];
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
      auto z4() const -> T
     {
       return this->data[3][2];
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto w4() const -> T
     {
       return this->data[3][3];
@@ -186,7 +186,7 @@ namespace axm
 
     /// Multiply each cell by a single value
     /// @return A mat4x4 containing the result
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto operator * (const T val) const -> mat4x4
     {
       return
@@ -201,7 +201,7 @@ namespace axm
     /// Multiply this matrix by another
     /// @param other Another mat4x4 of the same storage type
     /// @return A mat4x4 containing the result
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto operator * (const mat4x4 other) const -> mat4x4
     {
       return
@@ -236,7 +236,7 @@ namespace axm
     /// Multiply this mat4x4 by a 4-component vector
     /// @param vec A vec4 of the same storage type as this mat4x4
     /// @return A mat4x4 containing the result
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto operator * (const vec4<T>& vec) const -> vec4<T>
     {
       return
@@ -249,7 +249,7 @@ namespace axm
     }
 
     /// Get a new mat4x4 with the given cell set to the given value
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto set(const size_t column, const size_t row, T value) -> mat4x4
     {
       return
@@ -286,7 +286,7 @@ namespace axm
 
     /// Calculate the determinant of this mat4x4
     /// @return The determinant value, in the storage type of this mat4x4
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto determinant() const -> T
     {
       /*return
@@ -344,7 +344,7 @@ namespace axm
 
     /// Calculate the inverse of this mat4x4
     /// @return A mat4x4 containing the result
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto inverse() const -> mat4x4
     {
       T a = this->z3() * this->w4() - this->w3() * this->z4();
@@ -405,7 +405,7 @@ namespace axm
     /// Convert this matrix from column-major to row-major or vice-versa
     /// Be careful with this, keep track of which way each matrix is!
     /// @return A mat4x4 containing the result
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto transposed() const -> mat4x4
     {
       return

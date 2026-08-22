@@ -6,7 +6,7 @@
 namespace axm
 {
   template <IsNumeric T>
-  CONST USE_RESULT CANNOT_FAIL
+  GNUCONST USE_RESULT CANNOT_FAIL
   auto isColliding(const circle<T>& a, const circle<T>& b) -> bool
   {
     const T distanceSquared = distSqr(a.position, b.position);
@@ -15,7 +15,7 @@ namespace axm
   }
 
   template <IsNumeric T>
-  CONST USE_RESULT CANNOT_FAIL
+  GNUCONST USE_RESULT CANNOT_FAIL
   auto isColliding(const circle<T>& circle, const aabb2d<T>& aabb) -> bool
   {
     const vec2<T> closest{std::clamp(circle.position.x(), aabb.minX(), aabb.maxX()), std::clamp(circle.position.y(), aabb.minY(), aabb.maxY())};
@@ -26,7 +26,7 @@ namespace axm
   }
 
   template <IsNumeric T>
-  CONST USE_RESULT CANNOT_FAIL
+  GNUCONST USE_RESULT CANNOT_FAIL
   auto isColliding(const aabb2d<T>& a, const aabb2d<T>& b) -> bool
   {
     if(a.maxX() < b.minX() || a.minX() > b.maxX())

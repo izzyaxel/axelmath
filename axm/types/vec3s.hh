@@ -176,7 +176,7 @@ namespace axm
       return vec3<T> {(T)((float)this->x() / (float)other), (T)((float)this->y() / (float)other), (T)((float)this->z() / (float)other)};
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto operator * (const quat<T>& other) const -> vec3
     {
       const vec3 q = {other.x(), other.y(), other.z()};

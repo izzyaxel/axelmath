@@ -7,7 +7,7 @@ namespace axm
 {
   /// Convert a quaternion to a 4x4 matrix
   template <IsNumeric T>
-  CONST USE_RESULT CANNOT_FAIL
+  GNUCONST USE_RESULT CANNOT_FAIL
   auto quatToMat4x4(const quat<T>& rotation) -> mat4x4<T>
   {
     const T sqx = rotation.x() * rotation.x();
@@ -32,7 +32,7 @@ namespace axm
 
   /// Create a translation matrix
   template <IsNumeric T>
-  CONST USE_RESULT CANNOT_FAIL
+  GNUCONST USE_RESULT CANNOT_FAIL
   auto translateMat(const vec3<T>& translate) -> mat4x4<T>
   {
     return
@@ -46,7 +46,7 @@ namespace axm
 
   /// Create a rotation matrix
   template <IsNumeric T>
-  CONST USE_RESULT CANNOT_FAIL
+  GNUCONST USE_RESULT CANNOT_FAIL
   auto rotateMat(const quat<T>& in) -> mat4x4<T>
   {
     return quatToMat4x4(in);
@@ -54,7 +54,7 @@ namespace axm
 
   /// Create a scale matrix
   template <IsNumeric T>
-  CONST USE_RESULT CANNOT_FAIL
+  GNUCONST USE_RESULT CANNOT_FAIL
   auto scaleMat(const vec3<T>& scale) -> mat4x4<T>
   {
     return
@@ -68,7 +68,7 @@ namespace axm
 
   /// Create a scale matrix using 1 scale value
   template <IsNumeric T>
-  CONST USE_RESULT CANNOT_FAIL
+  GNUCONST USE_RESULT CANNOT_FAIL
   auto scaleMat(const T scalar) -> mat4x4<T>
   {
     return
@@ -82,7 +82,7 @@ namespace axm
 
   /// Create a model matrix
   template <IsNumeric T>
-  CONST USE_RESULT CANNOT_FAIL
+  GNUCONST USE_RESULT CANNOT_FAIL
   auto modelMatrix(
     const vec3<T>& position,
     const quat<T>& rotation,
@@ -96,7 +96,7 @@ namespace axm
 
   /// Create a model matrix with an offset
   template <IsNumeric T>
-  CONST USE_RESULT CANNOT_FAIL
+  GNUCONST USE_RESULT CANNOT_FAIL
   auto modelMatrix(
     const vec3<T>& position,
     const vec3<T>& origin,
@@ -112,7 +112,7 @@ namespace axm
 
   /// Create a view matrix
   template <IsNumeric T>
-  CONST USE_RESULT CANNOT_FAIL
+  GNUCONST USE_RESULT CANNOT_FAIL
   auto viewMatrix(
     const quat<T>& cameraRotation,
     const vec3<T>& cameraPosition) -> mat4x4<T>
@@ -124,7 +124,7 @@ namespace axm
 
   /// Create a projection matrix that transforms positions according to perspective
   template <IsNumeric T>
-  CONST USE_RESULT CANNOT_FAIL
+  GNUCONST USE_RESULT CANNOT_FAIL
   auto perspectiveProjectionMatrix(
     const T fov,
     const T nearPlane,
@@ -144,7 +144,7 @@ namespace axm
 
   /// Create a projection matrix that transforms positions with no perspective
   template <IsNumeric T>
-  CONST USE_RESULT CANNOT_FAIL
+  GNUCONST USE_RESULT CANNOT_FAIL
   auto orthoProjectionMatrix(
     const T left,
     const T right,
@@ -164,7 +164,7 @@ namespace axm
 
   /// Create a model-view-projection matrix to transform local coordinates to world coordinates
   template <IsNumeric T>
-  CONST USE_RESULT CANNOT_FAIL
+  GNUCONST USE_RESULT CANNOT_FAIL
   auto modelViewProjectionMatrix(
     const mat4x4<T>& model,
     const mat4x4<T>& view,

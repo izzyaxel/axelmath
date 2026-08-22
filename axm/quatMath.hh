@@ -5,7 +5,7 @@
 namespace axm
 {
   template <MathStorageType T>
-  CONST USE_RESULT CANNOT_FAIL
+  GNUCONST USE_RESULT CANNOT_FAIL
   auto mat4x4ToQuat(const mat4x4<T>& in) -> quat<T>
   {
     T trace = in[0][0] + in[1][1] + in[2][2];
@@ -57,7 +57,7 @@ namespace axm
 
   /// Create a rotation quaternion to multiply an orientation quaternion by, using relative mouse movement values
   template <MathStorageType T>
-  CONST USE_RESULT CANNOT_FAIL
+  GNUCONST USE_RESULT CANNOT_FAIL
   auto rotationFromMouseMovement(
     const T xrel,
     const T yrel,
@@ -73,7 +73,7 @@ namespace axm
 
   /// Convert euler angles ({roll, pitch, yaw} in radians) to a quaternion rotation
   template <MathStorageType T>
-  CONST USE_RESULT CANNOT_FAIL
+  GNUCONST USE_RESULT CANNOT_FAIL
   static auto fromEulerRotation(const vec3<T>& euler) -> quat<T>
   {
     constexpr float half = 0.5f;
@@ -96,7 +96,7 @@ namespace axm
   }
 
   template <MathStorageType T>
-  CONST USE_RESULT CANNOT_FAIL
+  GNUCONST USE_RESULT CANNOT_FAIL
   auto fromAxialRotation(const vec4<T>& in) -> quat<T>
   {
     const float a = in[3] / (T)2;
@@ -114,7 +114,7 @@ namespace axm
   }
 
   template <MathStorageType T>
-  CONST USE_RESULT CANNOT_FAIL
+  GNUCONST USE_RESULT CANNOT_FAIL
   auto fromAxialRotation(
     const T& xIn,
     const T& yIn,
@@ -136,7 +136,7 @@ namespace axm
   }
 
   template <MathStorageType T>
-  CONST USE_RESULT CANNOT_FAIL
+  GNUCONST USE_RESULT CANNOT_FAIL
   auto fromAxialRotation(
     const vec3<T>& xyzIn,
     const T& angle) -> quat<T>
@@ -160,7 +160,7 @@ namespace axm
   /// \param targetPos The point in the world to aim at
   /// \param upVec A normalized direction vector specifying what direction up is to be considered
   template <MathStorageType T>
-  CONST USE_RESULT CANNOT_FAIL
+  GNUCONST USE_RESULT CANNOT_FAIL
   auto lookAtRH(
     const vec3<T>& originPos,
     const vec3<T>& targetPos,
@@ -186,7 +186,7 @@ namespace axm
   /// \param targetPos The point in the world to aim at
   /// \param upVec A normalized direction vector specifying what direction up is to be considered
   template <MathStorageType T>
-  CONST USE_RESULT CANNOT_FAIL
+  GNUCONST USE_RESULT CANNOT_FAIL
   auto lookAtLH(
     const vec3<T>& originPos,
     const vec3<T>& targetPos,
@@ -209,7 +209,7 @@ namespace axm
 
   /// A cumulative/SLERPed version of lookAt
   template <MathStorageType T>
-  CONST USE_RESULT CANNOT_FAIL
+  GNUCONST USE_RESULT CANNOT_FAIL
   auto lookAt(
     const vec3<T> originPos,
     const vec3<T> targetPos,
@@ -222,7 +222,7 @@ namespace axm
 
   /// Is this a SLERP?
   template <MathStorageType T>
-  CONST USE_RESULT CANNOT_FAIL
+  GNUCONST USE_RESULT CANNOT_FAIL
   auto vecDelta(
       const vec3<T> from,
       const vec3<T> to,
@@ -247,7 +247,7 @@ namespace axm
 
   /// Prevent a quaternion rotation from exceeding a certain angle like you could do with euler angles
   template <MathStorageType T>
-  CONST USE_RESULT CANNOT_FAIL
+  GNUCONST USE_RESULT CANNOT_FAIL
   auto limitRotationRange(
     const quat<T> in,
     const vec3<T> up,
@@ -281,7 +281,7 @@ namespace axm
 
   ///Prevent rolling when moving the camera in circles by reorienting the quaternion with an up vector
   template <MathStorageType T>
- CONST USE_RESULT CANNOT_FAIL
+ GNUCONST USE_RESULT CANNOT_FAIL
   auto correctOrientation(
     const quat<T>& in,
     const vec3<T>& up,

@@ -114,7 +114,7 @@ namespace axm
 
     //==Const Accessors=================================================================================================
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto operator [] (size_t index) const -> T
     {
       if(index > 3)
@@ -125,25 +125,25 @@ namespace axm
       return this->data[index];
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto x() const -> T
     {
       return this->data[0];
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto y() const -> T
     {
       return this->data[1];
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto z() const -> T
     {
       return this->data[2];
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto w() const -> T
     {
       return this->data[3];
@@ -151,7 +151,7 @@ namespace axm
 
     //==Equivalence=====================================================================================================
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     bool operator == (const quat& other) const
     {
       return this->x() == other.x() && this->y() == other.y() && this->z() == other.z() && this->w() == other.w();
@@ -192,7 +192,7 @@ namespace axm
 
     //==Const Math Operators============================================================================================
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     quat operator + (const quat& other) const
     {
       return quat
@@ -203,7 +203,7 @@ namespace axm
         this->w() + other.w()};
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     quat operator * (const float val) const
     {
       return quat
@@ -215,7 +215,7 @@ namespace axm
       };
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto operator * (const quat& other) const -> quat
     {
       return quat
@@ -227,7 +227,7 @@ namespace axm
       }.normalized();
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto operator * (const vec3<T>& other) const -> vec3<T>
     {
       const vec3<T> q = {this->x(), this->y(), this->z()};
@@ -246,14 +246,14 @@ namespace axm
       this->z() = -this->z();
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto conjugated() const -> quat
     {
       return quat{-this->x(), -this->y(), -this->z(), this->w()};
     }
 
     /// Get the magnitude(length) of this quaternion
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto mag() const -> T
     {
       return std::sqrt(this->x() * this->x() + this->y() * this->y() + this->z() * this->z() + this->w() * this->w());
@@ -271,7 +271,7 @@ namespace axm
     }
 
     /// Make a unit length version of this quaternion
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto normalized() const -> quat
     {
       T length = this->mag();
@@ -279,7 +279,7 @@ namespace axm
     }
 
     /// Find the dot product of this quaternion
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto dot(const quat& other) const -> T
     {
       return this->w() * other.w() + this->x() * other.x() + this->y() * other.y() + this->z() * other.z();
@@ -294,7 +294,7 @@ namespace axm
     }
 
     /// Get the inverse of this quaternion
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto inverse() const -> quat
     {
       quat out{this->x(), this->y(), this->z(), this->w()};
@@ -307,7 +307,7 @@ namespace axm
 
     /// Convert this quaternion into euler angles
     /// @return {roll pitch yaw} in radians
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto toEulerRotation() const -> vec3<T>
     {
       constexpr T one = (T)1;
@@ -330,7 +330,7 @@ namespace axm
 
     /// Convert this quaternion to an axis + angle rotation
     /// @return {x, y, z, radians}
-    CONST USE_RESULT CANNOT_FAIL
+    GNUCONST USE_RESULT CANNOT_FAIL
     auto toAxial() const -> vec4<T>
     {
       const float angle = (T)2 * std::acos(this->w());
