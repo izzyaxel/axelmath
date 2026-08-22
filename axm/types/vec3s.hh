@@ -1,5 +1,6 @@
 #pragma once
 
+#include "quaternions.hh"
 #include "vec2s.hh"
 
 #include "../aliases.hh"
@@ -173,6 +174,15 @@ namespace axm
     auto operator / (const U other) const -> vec3<T>
     {
       return vec3<T> {(T)((float)this->x() / (float)other), (T)((float)this->y() / (float)other), (T)((float)this->z() / (float)other)};
+    }
+
+    CONST USE_RESULT CANNOT_FAIL
+    auto operator * (const quat<T>& other) const -> vec3
+    {
+      const vec3 q = {other.x(), other.y(), other.z()};
+      const vec3 c = this->cross(q);
+      const vec3 w1 = c * (T)2;
+      return *this + w1 * other.w() + w1.cross(q);
     }
 
     auto operator += (const vec3& other) -> vec3<T>&

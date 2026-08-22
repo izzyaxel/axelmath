@@ -1,11 +1,16 @@
 #pragma once
 
-#include "vec4s.hh"
-
+#include <string>
 #include <numbers>
 
 namespace axm
 {
+
+  template <typename T>
+  struct vec3;
+
+  template <typename T>
+  struct vec4;
 
   /// A quaternion
   /// 4-dimensional representation of rotation that's immune to gimbal lock, and can be oriented in any direction
@@ -154,7 +159,7 @@ namespace axm
 
     //==Math Operators==================================================================================================
 
-    CONST USE_RESULT CANNOT_FAIL
+    USE_RESULT CANNOT_FAIL
     quat operator + (const quat& other)
     {
       this->x() += other.x();
@@ -164,7 +169,7 @@ namespace axm
       return *this;
     }
 
-    CONST USE_RESULT CANNOT_FAIL
+    USE_RESULT CANNOT_FAIL
     quat operator * (const float val)
     {
       this->x() *= val;
@@ -215,10 +220,10 @@ namespace axm
     {
       return quat
       {
-        ( this->x() * other.w() + this->y() * other.z() - this->z() * other.y() + this->w() * other.x()),
-        (-this->x() * other.z() + this->y() * other.w() + this->z() * other.x() + this->w() * other.y()),
-        ( this->x() * other.y() - this->y() * other.x() + this->z() * other.w() + this->w() * other.z()),
-        (-this->x() * other.x() - this->y() * other.y() - this->z() * other.z() + this->w() * other.w())
+         this->x() * other.w() + this->y() * other.z() - this->z() * other.y() + this->w() * other.x(),
+        -this->x() * other.z() + this->y() * other.w() + this->z() * other.x() + this->w() * other.y(),
+         this->x() * other.y() - this->y() * other.x() + this->z() * other.w() + this->w() * other.z(),
+        -this->x() * other.x() - this->y() * other.y() - this->z() * other.z() + this->w() * other.w()
       }.normalized();
     }
 
