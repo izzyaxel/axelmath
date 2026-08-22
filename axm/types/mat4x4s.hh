@@ -36,7 +36,7 @@ namespace axm
 
     auto operator = (const mat4x4& other) -> mat4x4&
     {
-      if(*this != other)
+      if(this != &other)
       {
         this->~mat4x4();
         ::new(this)mat4x4(other);
@@ -46,7 +46,7 @@ namespace axm
 
     auto operator = (mat4x4&& other) noexcept -> mat4x4&
     {
-      if(*this != other)
+      if(this != &other)
       {
         this->~mat4x4();
         ::new(this)mat4x4(other);

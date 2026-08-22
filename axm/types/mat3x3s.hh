@@ -31,7 +31,7 @@ namespace axm
 
     auto operator = (const mat3x3& other) -> mat3x3&
     {
-      if(*this != other)
+      if(this != &other)
       {
         this->~mat3x3();
         ::new(this)mat3x3(other);
@@ -41,7 +41,7 @@ namespace axm
 
     auto operator = (mat3x3&& other) noexcept -> mat3x3&
     {
-      if(*this != other)
+      if(this != &other)
       {
         this->~mat3x3();
         ::new(this)mat3x3(other);

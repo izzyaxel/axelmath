@@ -32,7 +32,7 @@ namespace axm
 
     auto operator = (const quat& other) -> quat&
     {
-      if(*this != other)
+      if(this != &other)
       {
         this->~quat();
         ::new(this)quat(other);
@@ -42,7 +42,7 @@ namespace axm
 
     auto operator = (quat&& other) noexcept -> quat&
     {
-      if(*this != other)
+      if(this != &other)
       {
         this->~quat();
         ::new(this)quat(other);
@@ -89,7 +89,7 @@ namespace axm
     CONST USE_RESULT CANNOT_FAIL
     bool operator == (const quat& other) const
     {
-      return this->data[0] == other[0] && this->data[1] == other[1] && this->data[2] == other[2] && this->data[3] == other[3];
+      return this->x() == other.x() && this->y() == other.y() && this->z() == other.z() && this->w() == other.w();
     }
 
     CONST USE_RESULT CANNOT_FAIL
@@ -97,10 +97,10 @@ namespace axm
     {
       return quat
       {
-        this->data[0] + other.data[0],
-        this->data[1] + other.data[1],
-        this->data[2] + other.data[2],
-        this->data[3] + other.data[3]};
+        this->x() + other.x(),
+        this->y() + other.y(),
+        this->z() + other.z(),
+        this->w() + other.w()};
     }
 
     CONST USE_RESULT CANNOT_FAIL
@@ -108,10 +108,10 @@ namespace axm
     {
       return quat
       {
-        this->data[0] * val,
-        this->data[1] * val,
-        this->data[2] * val,
-        this->data[3] * val};
+        this->x() * val,
+        this->y() * val,
+        this->z() * val,
+        this->w() * val};
     }
 
     CONST USE_RESULT CANNOT_FAIL
@@ -119,33 +119,33 @@ namespace axm
     {
       return quat
       {
-        ( this->data[0] * other[3] + this->data[1] * other[2] - this->data[2] * other[1] + this->data[3] * other[0]),
-        (-this->data[0] * other[2] + this->data[1] * other[3] + this->data[2] * other[0] + this->data[3] * other[1]),
-        ( this->data[0] * other[1] - this->data[1] * other[0] + this->data[2] * other[3] + this->data[3] * other[2]),
-        (-this->data[0] * other[0] - this->data[1] * other[1] - this->data[2] * other[2] + this->data[3] * other[3])
+        ( this->x() * other.w() + this->y() * other.z() - this->z() * other.y() + this->w() * other.x()),
+        (-this->x() * other.z() + this->y() * other.w() + this->z() * other.x() + this->w() * other.y()),
+        ( this->x() * other.y() - this->y() * other.x() + this->z() * other.w() + this->w() * other.z()),
+        (-this->x() * other.x() - this->y() * other.y() - this->z() * other.z() + this->w() * other.w())
       }.normalized();
     }
 
     CONST USE_RESULT CANNOT_FAIL
     auto operator * (const vec3<T>& other) const -> vec3<T>
     {
-      const vec3<T> q = {this->data[0], this->data[1], this->data[2]};
+      const vec3<T> q = {this->x(), this->y(), this->z()};
       const vec3<T> c = other.cross(q);
       const vec3<T> w1 = c * (T)2;
-      return other + w1 * this->data[3] + w1.cross(q);
+      return other + w1 * this->w() + w1.cross(q);
     }
 
     CONST USE_RESULT CANNOT_FAIL
     auto conjugated() const -> quat
     {
-      return quat{-this->data[0], -this->data[1], -this->data[2], this->data[3]};
+      return quat{-this->x(), -this->y(), -this->z(), this->w()};
     }
 
     /// Get the magnitude(length) of this quaternion
     CONST USE_RESULT CANNOT_FAIL
     auto mag() const -> T
     {
-      return std::sqrt(this->data[0] * this->data[0] + this->data[1] * this->data[1] + this->data[2] * this->data[2] + this->data[3] * this->data[3]);
+      return std::sqrt(this->x() * this->x() + this->y() * this->y() + this->z() * this->z() + this->w() * this->w());
     }
 
     /// Make a unit length version of this quaternion
@@ -153,14 +153,14 @@ namespace axm
     auto normalized() const -> quat
     {
       T length = this->mag();
-      return quat{this->data[0] / length, this->data[1] / length, this->data[2] / length, this->data[3] / length};
+      return quat{this->x() / length, this->y() / length, this->z() / length, this->w() / length};
     }
 
     /// Find the dot product of this quaternion
     CONST USE_RESULT CANNOT_FAIL
     auto dot(const quat& other) const -> T
     {
-      return this->data[3] * other[3] + this->data[0] * other[0] + this->data[1] * other[1] + this->data[2] * other[2];
+      return this->w() * other.w() + this->x() * other.x() + this->y() * other.y() + this->z() * other.z();
     }
 
     /// Get the inverse of this quaternion
@@ -168,7 +168,7 @@ namespace axm
     auto inverse() const -> quat
     {
       const T length = this->mag();
-      return quat{-this->data[0] / length, -this->data[1] / length, -this->data[2] / length, this->data[3] / length};
+      return quat{-this->x() / length, -this->y() / length, -this->z() / length, this->w() / length};
     }
 
     /// Convert this quaternion into euler angles
