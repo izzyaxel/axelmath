@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 26)
 set(SRC
     axm/aliases.hh
     axm/types/aabb2ds.hh
-    axm/types/circles.hh
+    axm/types/circle2ds.hh
     axm/concepts.hh
     axm/math.hh
     axm/types/mat4x4s.hh

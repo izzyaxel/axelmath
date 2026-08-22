@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types/aabb2ds.hh"
-#include "types/circles.hh"
+#include "types/circle2ds.hh"
 
 namespace axm
 {

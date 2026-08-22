@@ -28,6 +28,29 @@ namespace axm
     /// Construct a quaternion out of given values
     constexpr quat(const T xIn, const T yIn, const T zIn, const T wIn) : data{xIn, yIn, zIn, wIn} {}
 
+    quat(quat&& other) noexcept = default;
+
+    auto operator = (const quat& other) -> quat&
+    {
+      if(*this != other)
+      {
+        this->~quat();
+        ::new(this)quat(other);
+      }
+      return *this;
+    }
+
+    auto operator = (quat&& other) noexcept -> quat&
+    {
+      if(*this != other)
+      {
+        this->~quat();
+        ::new(this)quat(other);
+        other.~quat();
+      }
+      return *this;
+    }
+
     CONST USE_RESULT CANNOT_FAIL
     auto operator [] (size_t index) const -> T
     {
