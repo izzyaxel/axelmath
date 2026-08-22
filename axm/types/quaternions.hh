@@ -144,13 +144,48 @@ namespace axm
       return this->data[3];
     }
 
-    //==Operators=======================================================================================================
+    //==Equivalence=====================================================================================================
 
     CONST USE_RESULT CANNOT_FAIL
     bool operator == (const quat& other) const
     {
       return this->x() == other.x() && this->y() == other.y() && this->z() == other.z() && this->w() == other.w();
     }
+
+    //==Math Operators==================================================================================================
+
+    CONST USE_RESULT CANNOT_FAIL
+    quat operator + (const quat& other)
+    {
+      this->x() += other.x();
+      this->y() += other.y();
+      this->z() += other.z();
+      this->w() += other.w();
+      return *this;
+    }
+
+    CONST USE_RESULT CANNOT_FAIL
+    quat operator * (const float val)
+    {
+      this->x() *= val;
+      this->y() *= val;
+      this->z() *= val;
+      this->w() *= val;
+      return *this;
+    }
+
+    USE_RESULT CANNOT_FAIL
+    auto operator * (const quat& other) -> quat
+    {
+      this->x() =  this->x() * other.w() + this->y() * other.z() - this->z() * other.y() + this->w() * other.x();
+      this->y() = -this->x() * other.z() + this->y() * other.w() + this->z() * other.x() + this->w() * other.y();
+      this->z() =  this->x() * other.y() - this->y() * other.x() + this->z() * other.w() + this->w() * other.z();
+      this->w() = -this->x() * other.x() - this->y() * other.y() - this->z() * other.z() + this->w() * other.w();
+      this->normalize();
+      return *this;
+    }
+
+    //==Const Math Operators============================================================================================
 
     CONST USE_RESULT CANNOT_FAIL
     quat operator + (const quat& other) const
@@ -171,7 +206,8 @@ namespace axm
         this->x() * val,
         this->y() * val,
         this->z() * val,
-        this->w() * val};
+        this->w() * val
+      };
     }
 
     CONST USE_RESULT CANNOT_FAIL
