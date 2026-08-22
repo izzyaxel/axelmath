@@ -15,7 +15,7 @@ namespace axm
   struct quat
   {
     /// X Y Z W, init to identity
-    T data[4]{0, 0, 0, 1};
+    std::array<T, 4> data{0, 0, 0, 1};
 
     constexpr quat() = default;
 
