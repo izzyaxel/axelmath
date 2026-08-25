@@ -59,10 +59,10 @@ namespace axm
   {
     return
     {
-      {scale[0], (T)0,     (T)0,     (T)0},
-      {(T)0,     scale[1], (T)0,     (T)0},
-      {(T)0,     (T)0,     scale[2], (T)0},
-      {(T)0,     (T)0,     (T)0,     (T)1}
+      {scale.x(), (T)0,      (T)0,      (T)0},
+      {(T)0,      scale.y(), (T)0,      (T)0},
+      {(T)0,      (T)0,      scale.z(), (T)0},
+      {(T)0,      (T)0,      (T)0,      (T)1}
     };
   }
 
@@ -117,8 +117,8 @@ namespace axm
     const quat<T>& cameraRotation,
     const vec3<T>& cameraPosition) -> mat4x4<T>
   {
-    const mat4x4<T> rotation = quatToMat4x4(cameraRotation);
-    const mat4x4<T> translation = translateMat(cameraPosition);
+    const mat4x4<T> rotation = quatToMat4x4(cameraRotation.inverse());
+    const mat4x4<T> translation = translateMat(cameraPosition.inverse());
     return translation * rotation;
   }
 
