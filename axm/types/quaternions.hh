@@ -5,6 +5,7 @@
 
 #include <string>
 #include <numbers>
+#include <cmath>
 
 namespace axm
 {
