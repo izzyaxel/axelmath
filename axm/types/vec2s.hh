@@ -211,6 +211,13 @@ namespace axm
       return this->x() >= other.x() && this->y() >= other.y();
     }
 
+    //==Math============================================================================================================
+
+    auto dot(const vec2& other) const -> T
+    {
+      return this->x() * other.x() + this->y() * other.y();
+    }
+
     auto half() -> vec2
     {
       vec2<T> out = *this;
