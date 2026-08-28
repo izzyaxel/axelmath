@@ -20,7 +20,11 @@ namespace axm
   auto isColliding(const circle<T>& circle, const aabb2d<T>& aabb) -> bool
   {
     const vec2 circlePos = circle.getPosition();
-    const vec2<T> closest{std::clamp(circlePos.x(), aabb.minX(), aabb.maxX()), std::clamp(circlePos.y(), aabb.minY(), aabb.maxY())};
+    const vec2<T> closest
+    {
+      std::clamp(circlePos.x(), std::min(aabb.minX(), aabb.maxX()), std::max(aabb.maxX(), aabb.minX())),
+      std::clamp(circlePos.y(), std::min(aabb.minY(), aabb.maxY()), std::max(aabb.maxY(), aabb.minY()))
+    };
     const vec2<T> distance = circlePos - closest;
     const float distanceSquared = std::powf(distance.x(), 2) + std::powf(distance.y(), 2);
     const float radiusSquared = std::powf(circle.getRadius(), 2);
