@@ -44,27 +44,27 @@ namespace axm
   GNUCONST USE_RESULT CANNOT_FAIL
   auto dist(const vec2<T>& a, const vec2<T>& b) -> T
   {
-    return std::sqrtf(std::powf(b.x - a.x, 2) + std::powf(b.y - a.y, 2));
+    return std::sqrtf(std::powf(b.x() - a.x(), (T)2) + std::powf(b.y() - a.y(), (T)2));
   }
 
   template <IsNumeric T>
   GNUCONST USE_RESULT CANNOT_FAIL
   auto distSqr(const vec2<T>& a, const vec2<T>& b) -> T
   {
-    return std::powf(b.x - a.x, 2) + std::powf(b.y - a.y, 2);
+    return std::powf(b.x() - a.x(), (T)2) + std::powf(b.y() - a.y(), (T)2);
   }
 
   template <IsNumeric T>
   GNUCONST USE_RESULT CANNOT_FAIL
   auto dist(const vec3<T>& a, const vec3<T>& b) -> T
   {
-    return std::sqrtf(std::powf(b.x - a.x, 2) + std::powf(b.y - a.y, 2) + std::powf(b.z - a.z, 2));
+    return std::sqrtf(std::powf(b.x() - a.x(), (T)2) + std::powf(b.y() - a.y(), (T)2) + std::powf(b.z() - a.z(), (T)2));
   }
 
   template <IsNumeric T>
   GNUCONST USE_RESULT CANNOT_FAIL
   auto distSqr(const vec3<T>& a, const vec3<T>& b) -> T
   {
-    return std::powf(b.x - a.x, 2) + std::powf(b.y - a.y, 2) + std::powf(b.z - a.z, 2);
+    return std::powf(b.x() - a.x(), (T)2) + std::powf(b.y() - a.y(), (T)2) + std::powf(b.z() - a.z(), (T)2);
   }
 }
