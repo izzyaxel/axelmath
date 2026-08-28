@@ -347,9 +347,6 @@ namespace axm
     GNUCONST USE_RESULT CANNOT_FAIL
     auto inverse() const -> mat4x4 requires(IsNumeric<T>)
     {
-      T det = this->determinant();
-      float invDet = 1.0f / (float)det;
-
       T a = this->z3() * this->w4() - this->w3() * this->z4();
       T b = this->y3() * this->w4() - this->w3() * this->y4();
       T c = this->y3() * this->z4() - this->z3() * this->y4();
