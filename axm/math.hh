@@ -28,42 +28,42 @@ namespace axm
 
   template <IsNumeric T>
   GNUCONST USE_RESULT CANNOT_FAIL
-  auto degToRad(T degree) -> T
+  auto degToRad(const T degree) -> T
   {
     return degree * (std::numbers::pi / (T)180);
   }
 
   template <IsNumeric T>
   GNUCONST USE_RESULT CANNOT_FAIL
-  auto dist(T a, T b) -> T
+  auto dist(const T a, const T b) -> T
   {
     return std::abs(a - b);
   }
 
   template <IsNumeric T>
   GNUCONST USE_RESULT CANNOT_FAIL
-  auto dist(vec2<T>& a, vec2<T>& b) -> T
+  auto dist(const vec2<T>& a, const vec2<T>& b) -> T
   {
     return std::sqrtf(std::powf(b.x - a.x, 2) + std::powf(b.y - a.y, 2));
   }
 
   template <IsNumeric T>
   GNUCONST USE_RESULT CANNOT_FAIL
-  auto distSqr(vec2<T>& a, vec2<T>& b) -> T
+  auto distSqr(const vec2<T>& a, const vec2<T>& b) -> T
   {
     return std::powf(b.x - a.x, 2) + std::powf(b.y - a.y, 2);
   }
 
   template <IsNumeric T>
   GNUCONST USE_RESULT CANNOT_FAIL
-  auto dist(vec3<T>& a, vec3<T>& b) -> T
+  auto dist(const vec3<T>& a, const vec3<T>& b) -> T
   {
     return std::sqrtf(std::powf(b.x - a.x, 2) + std::powf(b.y - a.y, 2) + std::powf(b.z - a.z, 2));
   }
 
   template <IsNumeric T>
   GNUCONST USE_RESULT CANNOT_FAIL
-  auto distSqr(vec3<T>& a, vec3<T>& b) -> T
+  auto distSqr(const vec3<T>& a, const vec3<T>& b) -> T
   {
     return std::powf(b.x - a.x, 2) + std::powf(b.y - a.y, 2) + std::powf(b.z - a.z, 2);
   }
