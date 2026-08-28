@@ -98,13 +98,13 @@ namespace axm
     GNUCONST USE_RESULT CANNOT_FAIL
     auto getLowerLeft() const -> vec2<T>
     {
-      return this->lowerRight;
+      return vec2{this->upperLeft.x(), this->lowerRight.y()};
     }
 
     GNUCONST USE_RESULT CANNOT_FAIL
     auto getLowerRight() const -> vec2<T>
     {
-      return vec2{this->upperLeft.x(), this->lowerRight.y()};
+      return this->lowerRight;
     }
 
     GNUCONST USE_RESULT CANNOT_FAIL
