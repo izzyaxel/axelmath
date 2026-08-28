@@ -1,5 +1,6 @@
 #pragma once
 
+#include "math.hh"
 #include "types/aabb2ds.hh"
 #include "types/circle2ds.hh"
 
