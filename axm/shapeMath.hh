@@ -9,8 +9,8 @@ namespace axm
   GNUCONST USE_RESULT CANNOT_FAIL
   auto isColliding(const circle<T>& a, const circle<T>& b) -> bool
   {
-    const T distanceSquared = distSqr(a.position, b.position);
-    const T radiiSquared = std::pow(a.radius + b.radius, 2);
+    const T distanceSquared = distSqr(a.getPosition(), b.getPosition());
+    const T radiiSquared = std::pow(a.getRadius() + b.getRadius(), 2);
     return distanceSquared <= radiiSquared;
   }
 
@@ -18,10 +18,11 @@ namespace axm
   GNUCONST USE_RESULT CANNOT_FAIL
   auto isColliding(const circle<T>& circle, const aabb2d<T>& aabb) -> bool
   {
-    const vec2<T> closest{std::clamp(circle.position.x(), aabb.minX(), aabb.maxX()), std::clamp(circle.position.y(), aabb.minY(), aabb.maxY())};
-    const vec2<T> distance = circle.position - closest;
+    const vec2 circlePos = circle.getPosition();
+    const vec2<T> closest{std::clamp(circlePos.x(), aabb.minX(), aabb.maxX()), std::clamp(circlePos.y(), aabb.minY(), aabb.maxY())};
+    const vec2<T> distance = circlePos - closest;
     const float distanceSquared = std::powf(distance.x(), 2) + std::powf(distance.y(), 2);
-    const float radiusSquared = std::powf(circle.radius, 2);
+    const float radiusSquared = std::powf(circle.getRadius(), 2);
     return distanceSquared <= radiusSquared;
   }
 
