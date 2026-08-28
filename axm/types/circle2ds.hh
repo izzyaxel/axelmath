@@ -56,7 +56,7 @@ namespace axm
     }
 
   private:
-    const T radius;
-    const vec2<T> position;
+    T radius;
+    vec2<T> position;
   };
 }
