@@ -22,12 +22,12 @@ namespace axm
     const vec2 circlePos = circle.getPosition();
     const vec2<T> closest
     {
-      std::clamp(circlePos.x(), std::min(aabb.minX(), aabb.maxX()), std::max(aabb.maxX(), aabb.minX())),
-      std::clamp(circlePos.y(), std::min(aabb.minY(), aabb.maxY()), std::max(aabb.maxY(), aabb.minY()))
+      std::max(aabb.minX(), std::min(circlePos.x(), aabb.maxX())),
+      std::max(aabb.minY(), std::min(circlePos.y(), aabb.maxY()))
     };
     const vec2<T> distance = circlePos - closest;
-    const float distanceSquared = std::powf(distance.x(), 2) + std::powf(distance.y(), 2);
-    const float radiusSquared = std::powf(circle.getRadius(), 2);
+    const float distanceSquared = (distance.x() * distance.x()) + (distance.y() * distance.y());
+    const float radiusSquared = circle.getRadius() * circle.getRadius();
     return distanceSquared <= radiusSquared;
   }
 

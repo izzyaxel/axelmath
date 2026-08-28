@@ -68,13 +68,13 @@ namespace axm
     GNUCONST USE_RESULT CANNOT_FAIL
     auto minY() const -> T
     {
-      return this->upperLeft.y();
+      return this->lowerRight.y();
     }
 
     GNUCONST USE_RESULT CANNOT_FAIL
     auto maxY() const -> T
     {
-      return this->lowerRight.x();
+      return this->upperLeft.x();
     }
 
     GNUCONST USE_RESULT CANNOT_FAIL
