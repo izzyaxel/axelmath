@@ -25,14 +25,11 @@ namespace axm
     aabb2d(const vec2<T>& center, const T width, const T height)
     {
       this->center = center;
-      float halfWidth = (float)width / (T)2;
-      float halfHeight = (float)height / (T)2;
+      T halfW = width / (T)2;
+      T halfH = height / (T)2;
 
-      this->upperLeft.x() = this->center.x() - halfWidth;
-      this->lowerRight.x() = this->center.x() + halfWidth;
-
-      this->upperLeft.y() = this->center.y() + halfHeight;
-      this->lowerRight.y() = this->center.y() - halfHeight;
+      this->upperLeft = {center.x() - halfW, center.y() + halfH};
+      this->lowerRight = {center.x() + halfW, center.y() - halfH};
     }
 
     GNUCONST USE_RESULT CANNOT_FAIL
