@@ -61,7 +61,7 @@ namespace axm
     }
 
     GNUCONST USE_RESULT CANNOT_FAIL
-    auto extents() -> vec3<T>
+    auto extents() const -> vec3<T>
     {
       return
       {
@@ -72,13 +72,13 @@ namespace axm
     }
 
     GNUCONST USE_RESULT CANNOT_FAIL
-    auto halfExtents() -> vec3<T>
+    auto halfExtents() const -> vec3<T>
     {
       return this->extents() / (T)2;
     }
 
     GNUCONST USE_RESULT CANNOT_FAIL
-    auto getCenter() -> vec3<T>
+    auto getCenter() const -> vec3<T>
     {
       vec3 offset = halfExtents();
       return this->botLL + halfExtents();
@@ -86,49 +86,49 @@ namespace axm
 
     //Corner getters
     GNUCONST USE_RESULT CANNOT_FAIL
-    auto getTopUL() -> vec3<T>
+    auto getTopUL() const -> vec3<T>
     {
       return vec2{this->botLL.x(), this->topUR.y(), this->topUR.z()};
     }
 
     GNUCONST USE_RESULT CANNOT_FAIL
-    auto getTopUR() -> vec3<T>
+    auto getTopUR() const -> vec3<T>
     {
       return this->topUR;
     }
 
     GNUCONST USE_RESULT CANNOT_FAIL
-    auto getTopLR() -> vec3<T>
+    auto getTopLR() const -> vec3<T>
     {
       return vec2{this->topUR.x(), this->topUR.y(), this->botLL.z()};
     }
 
     GNUCONST USE_RESULT CANNOT_FAIL
-    auto getTopLL() -> vec3<T>
+    auto getTopLL() const -> vec3<T>
     {
       return vec2{this->botLL.x(), this->topUR.y(), this->botLL.z()};
     }
 
     GNUCONST USE_RESULT CANNOT_FAIL
-    auto getBotUL() -> vec3<T>
+    auto getBotUL() const -> vec3<T>
     {
       return vec2{this->botLL.x(), this->botLL.y(), this->topUR.z()};
     }
 
     GNUCONST USE_RESULT CANNOT_FAIL
-    auto getBotUR() -> vec3<T>
+    auto getBotUR() const -> vec3<T>
     {
       return vec2{this->topUR.x(), this->botLL.y(), this->topUR.z()};
     }
 
     GNUCONST USE_RESULT CANNOT_FAIL
-    auto getBotLR() -> vec3<T>
+    auto getBotLR() const -> vec3<T>
     {
       return vec2{this->topUR.x(), this->botLL.y(), this->botLL.z()};
     }
 
     GNUCONST USE_RESULT CANNOT_FAIL
-    auto getBotLL() -> vec3<T>
+    auto getBotLL() const -> vec3<T>
     {
       return this->botLL;
     }
