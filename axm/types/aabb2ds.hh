@@ -14,6 +14,12 @@ namespace axm
   {
     aabb2d() = default;
 
+    aabb2d(const T minX, const T maxX, const T minY, const T maxY)
+    {
+      this->lowerRight = {minX, minY};
+      this->upperLeft = {maxX, maxY};
+    }
+
     aabb2d(const vec2<T>& upperLeft, const vec2<T>& lowerRight)
     {
       this->upperLeft = upperLeft;
