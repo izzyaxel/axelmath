@@ -29,7 +29,7 @@ namespace axm
                                            {0, 0, 1, 0},
                                            {0, 0, 0, 1}) {}
 
-    mat4x4(const mat4x4& other) : data(other.data) {}
+    /*mat4x4(const mat4x4& other) : data(other.data) {}
 
     mat4x4(mat4x4&& other) noexcept = default;
 
@@ -52,7 +52,7 @@ namespace axm
         other.~mat4x4();
       }
       return *this;
-    }
+    }*/
 
     mat4x4(
       const T val00, const T val01, const T val02, const T val03, //Column 0

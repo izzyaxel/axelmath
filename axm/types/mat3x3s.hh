@@ -24,7 +24,7 @@ namespace axm
                                            {0, 1, 0},
                                            {0, 0, 1}) {}
 
-    mat3x3(const mat3x3& other) : data(other.data) {}
+    /*mat3x3(const mat3x3& other) : data(other.data) {}
 
     mat3x3(mat3x3&& other) noexcept = default;
 
@@ -47,7 +47,7 @@ namespace axm
         other.~mat3x3();
       }
       return *this;
-    }
+    }*/
 
     mat3x3(
       const T valx1, const T valy1, const T valz1, //Column 0
