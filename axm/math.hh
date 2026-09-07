@@ -67,4 +67,11 @@ namespace axm
   {
     return std::powf(b.x() - a.x(), (T)2) + std::powf(b.y() - a.y(), (T)2) + std::powf(b.z() - a.z(), (T)2);
   }
+
+  template <IsNumeric T>
+  GNUCONST USE_RESULT CANNOT_FAIL
+  auto sign(const T& val) -> i8
+  {
+    return val < 0 ? -1 : (val == 0 ? 0 : 1);
+  }
 }
