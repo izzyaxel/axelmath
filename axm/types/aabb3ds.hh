@@ -13,6 +13,12 @@ namespace axm
   {
     aabb3d() = default;
 
+    aabb3d(const T minX, const T maxX, const T minY, const T maxY, const T minZ, const T maxZ)
+    {
+      this->botLL = {minX, minY, minZ};
+      this->topUR = {maxX, maxY, maxZ};
+    }
+
     /// Define an aabb3d by its extents
     /// @param topUR With the center of the aabb as 0, 0, 0, all 3 axes are positive
     /// @param botLL With the center of the aabb as 0, 0, 0, all 3 axes are negative
