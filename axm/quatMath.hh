@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types/quaternions.hh"
+#include "types/mat4x4s.hh"
 
 namespace axm
 {
