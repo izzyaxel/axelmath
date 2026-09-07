@@ -58,4 +58,25 @@ namespace axm
       (a.minY() <= b.maxY() && a.maxX() >= b.minY()) &&
       (a.minZ() <= b.maxZ() && a.maxZ() >= b.minZ());
   }
+
+  /// 2D AABB vs point
+  template <IsNumeric T>
+  GNUCONST USE_RESULT CANNOT_FAIL
+  auto isColliding(const aabb2d<T>& a, const vec2<T>& b) -> bool
+  {
+    return
+      (a.minX() <= b.x() && a.maxX() >= b.x()) &&
+      (a.minY() <= b.y() && a.maxX() >= b.y());
+  }
+
+  /// 3D AABB vs point
+  template <IsNumeric T>
+  GNUCONST USE_RESULT CANNOT_FAIL
+  auto isColliding(const aabb3d<T>& a, const vec3<T>& b) -> bool
+  {
+    return
+      (a.minX() <= b.x() && a.maxX() >= b.x()) &&
+      (a.minY() <= b.y() && a.maxX() >= b.y()) &&
+      (a.minZ() <= b.z() && a.maxZ() >= b.z());
+  }
 }
