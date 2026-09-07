@@ -86,6 +86,13 @@ namespace axm
     [[nodiscard]] auto y() -> T& {return this->data.at(1);}
     [[nodiscard]] auto z() -> T& {return this->data.at(2);}
 
+    [[nodiscard]] auto width() const -> const T& {return this->data.at(0);}
+    [[nodiscard]] auto height() const -> const T& {return this->data.at(1);}
+    [[nodiscard]] auto depth() const -> const T& {return this->data.at(2);}
+    [[nodiscard]] auto width() -> T& {return this->data.at(0);}
+    [[nodiscard]] auto height() -> T& {return this->data.at(1);}
+    [[nodiscard]] auto depth() -> T& {return this->data.at(2);}
+
     //ColorFormat
     [[nodiscard]] auto red() const ->   const T& {return this->data.at(0);}
     [[nodiscard]] auto green() const -> const T& {return this->data.at(1);}

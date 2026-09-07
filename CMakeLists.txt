@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(SRC
     axm/aliases.hh
     axm/types/aabb2ds.hh
-    axm/types/circle2ds.hh
+    axm/types/circles.hh
     axm/concepts.hh
     axm/math.hh
     axm/types/mat4x4s.hh
@@ -16,9 +16,11 @@ set(SRC
     axm/types/vec4s.hh
     axm/quatMath.hh
     axm/matrixMath.hh
-    axm/shapeMath.hh
     axm/conversion.hh
     axm/types/mat3x3s.hh
+    axm/collisions.hh
+    axm/types/aabb3ds.hh
+    axm/types/spheres.hh
 )
 
 set(TESTS_SRC

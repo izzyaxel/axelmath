@@ -2,7 +2,8 @@
 
 #include "math.hh"
 #include "types/aabb2ds.hh"
-#include "types/circle2ds.hh"
+#include "types/aabb3ds.hh"
+#include "types/circles.hh"
 
 namespace axm
 {
@@ -46,5 +47,15 @@ namespace axm
     }
 
     return true;
+  }
+
+  template <IsNumeric T>
+  GNUCONST USE_RESULT CANNOT_FAIL
+  auto isColliding(const aabb3d<T>& a, const aabb3d<T>& b) -> bool
+  {
+    return
+      (a.minX() <= b.maxX() && a.maxX() >= b.minX()) &&
+      (a.minY() <= b.maxY() && a.maxX() >= b.minY()) &&
+      (a.minZ() <= b.maxZ() && a.maxZ() >= b.minZ());
   }
 }

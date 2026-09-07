@@ -74,7 +74,7 @@ namespace axm
     GNUCONST USE_RESULT CANNOT_FAIL
     auto maxY() const -> T
     {
-      return this->upperLeft.x();
+      return this->upperLeft.y();
     }
 
     GNUCONST USE_RESULT CANNOT_FAIL
