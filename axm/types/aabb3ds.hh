@@ -11,6 +11,8 @@ namespace axm
   template <IsNumeric T>
   struct aabb3d
   {
+    aabb3d() = default;
+
     /// Define an aabb3d by its extents
     /// @param topUR With the center of the aabb as 0, 0, 0, all 3 axes are positive
     /// @param botLL With the center of the aabb as 0, 0, 0, all 3 axes are negative
