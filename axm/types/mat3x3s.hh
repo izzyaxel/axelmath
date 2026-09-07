@@ -10,13 +10,12 @@ namespace axm
   struct quat;
 
   /// A 3x3 matrix
-  /// Immutable
   /// Column-major by default, but can be transposed into row-major
   /// @tparam T Any type or class supporting the == (equivalence) operator and all basic math operators (+ - * /), plain numeric types will cause the matrix to be initialized to identity
   template<MathStorageType T>
   struct mat3x3
   {
-    const vec3<vec3<T>> data;
+    vec3<vec3<T>> data;
 
     mat3x3() requires(!IsNumeric<T>) = default;
 

@@ -12,13 +12,12 @@ namespace axm
   struct quat;
 
   /// A 4x4 matrix
-  /// Immutable
   /// Column-major by default, but can be transposed into row-major
   /// @tparam T Any type or class supporting the == (equivalence) operator and all basic math operators (+ - * /), plain numeric types will cause the matrix to be initialized to identity
   template <MathStorageType T>
   struct mat4x4
   {
-    const vec4<vec4<T>> data{};
+    vec4<vec4<T>> data{};
 
     /// mat4x4s are useful for a number of things such as convolution filters (like resampling), where you want to
     /// store non-numeric values, so we don't want to assume what T is
