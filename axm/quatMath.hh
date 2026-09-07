@@ -301,38 +301,4 @@ namespace axm
     vec3 upFixed = vec3{(T)0, (T)0, (T)1}.cross(side).normalized();
     return vecDelta({(T)0, (T)1, (T)0}, upFixed, lerp);
   }
-
-  /// Quaternion spherical linear interpolation
-  template <MathStorageType T>
-  GNUCONST USE_RESULT CANNOT_FAIL
-  auto slerpQuat(const quat<T>& a, const quat<T>& b, const T t) -> quat<T>
-  {
-    quat<T> aNorm = a.normalized();
-    quat<T> bNorm = b.normalized();
-    float dot = aNorm.dot(bNorm);
-    quat<T> qB = aNorm;
-
-    if(dot < 0.0f)
-    {
-      qB.x() = -bNorm.x();
-      qB.y() = -bNorm.y();
-      qB.z() = -bNorm.z();
-      qB.w() = -bNorm.w();
-      dot = -dot;
-    }
-
-    if(dot > 0.9995f)
-    {
-      return lerpQuat(a, qB, t).normalized();
-    }
-
-    float theta = std::acos(dot);
-    const float sinTheta = std::sin(theta);
-    float invSinTheta = 1.0f / sinTheta;
-
-    const float scaleA = std::sin((1.0f - t) * theta) * invSinTheta;
-    const float scaleB = std::sin(t * theta) * invSinTheta;
-
-    return a * scaleA + b * scaleB;
-  }
 }

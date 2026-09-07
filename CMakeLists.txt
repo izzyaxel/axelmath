@@ -5,22 +5,24 @@ set(CMAKE_CXX_STANDARD 20)
 
 set(SRC
     axm/aliases.hh
-    axm/types/aabb2ds.hh
-    axm/types/circles.hh
+    axm/collisions.hh
     axm/concepts.hh
+    axm/conversion.hh
+    axm/interpolation.hh
     axm/math.hh
+    axm/matrixMath.hh
+    axm/quatMath.hh
+    
+    axm/types/aabb2ds.hh
+    axm/types/aabb3ds.hh
+    axm/types/circles.hh
+    axm/types/mat3x3s.hh
     axm/types/mat4x4s.hh
     axm/types/quaternions.hh
+    axm/types/spheres.hh
     axm/types/vec2s.hh
     axm/types/vec3s.hh
     axm/types/vec4s.hh
-    axm/quatMath.hh
-    axm/matrixMath.hh
-    axm/conversion.hh
-    axm/types/mat3x3s.hh
-    axm/collisions.hh
-    axm/types/aabb3ds.hh
-    axm/types/spheres.hh
 )
 
 set(TESTS_SRC
