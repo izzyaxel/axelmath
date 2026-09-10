@@ -9,10 +9,10 @@ namespace axm
   GNUCONST USE_RESULT CANNOT_FAIL
   auto mat4x4ToQuat(const mat4x4<T>& in) -> quat<T>
   {
-    T trace = in[0][0] + in[1][1] + in[2][2];
+    const T trace = in[0][0] + in[1][1] + in[2][2];
     if(trace > 0)
     {
-      T root = (T)2 * std::sqrt(trace + (T)1);
+      const T root = (T)2 * std::sqrt(trace + (T)1);
       return
       {
         (in[2][1] - in[1][2]) / root,
@@ -24,7 +24,7 @@ namespace axm
 
     if(in[0][0] > in[1][1] && in[0][0] > in[2][2])
     {
-      T root = (T)2 * std::sqrt((T)1 + in[0][0] - in[1][1] - in[2][2]);
+      const T root = (T)2 * std::sqrt((T)1 + in[0][0] - in[1][1] - in[2][2]);
       return
       {
         root / (T)4,
@@ -36,7 +36,7 @@ namespace axm
 
     if(in[1][1] > in[2][2])
     {
-      T root = (T)2 * std::sqrt((T)1 + in[1][1] - in[0][0] - in[2][2]);
+      const T root = (T)2 * std::sqrt((T)1 + in[1][1] - in[0][0] - in[2][2]);
       return
       {
         (in[0][1] + in[1][0]) / root,
@@ -46,7 +46,7 @@ namespace axm
       };
     }
 
-    T root = (T)2 * std::sqrt((T)1 + in[2][2] - in[0][0] - in[1][1]);
+    const T root = (T)2 * std::sqrt((T)1 + in[2][2] - in[0][0] - in[1][1]);
     return
     {
       (in[0][2] + in[2][0]) / root,
@@ -65,11 +65,10 @@ namespace axm
     const T lookSensitivity) -> quat<T>
   {
     float a = (-xrel * lookSensitivity) / 2.0f;
-    quat<T> xQuat{0.0f, std::sin(a), 0.0f, std::cos(a)};
+    const quat<T> xQuat{0.0f, std::sin(a), 0.0f, std::cos(a)};
     a = (-yrel * lookSensitivity) / 2.0f;
-    quat<T> yQuat(std::sin(a), 0.0f, 0.0f, std::cos(a));
-    quat out = xQuat * yQuat;
-    return out.normalized();
+    const quat<T> yQuat(std::sin(a), 0.0f, 0.0f, std::cos(a));
+    return (xQuat * yQuat).normalized();
   }
 
   /// Convert euler angles ({roll, pitch, yaw} in radians) to a quaternion rotation
@@ -85,15 +84,13 @@ namespace axm
     const T cPitch = std::cos(euler[1] * half);
     const T sPitch = std::sin(euler[1] * half);
 
-    quat<T> out
+    return quat
     {
       cYaw * sRoll * cPitch - sYaw * cRoll * sPitch,
       cYaw * cRoll * sPitch + sYaw * sRoll * cPitch,
       sYaw * cRoll * cPitch - cYaw * sRoll * sPitch,
       cYaw * cRoll * cPitch + sYaw * sRoll * sPitch
-    };
-
-    return out.normalized();
+    }.normalized();
   }
 
   template <MathStorageType T>
@@ -103,15 +100,13 @@ namespace axm
     const float a = in[3] / (T)2;
     const float s = std::sin(a);
 
-    const quat out
+    return quat
     {
       in[0] * s,
       in[1] * s,
       in[2] * s,
       std::cos(a)
-    };
-
-    return out.normalized();
+    }.normalized();
   }
 
   template <MathStorageType T>
@@ -125,15 +120,13 @@ namespace axm
     const float a = angle / (T)2;
     const float s = std::sin(a);
 
-    const quat out
+    return quat
     {
       xIn * s,
       yIn * s,
       zIn * s,
       std::cos(a)
-    };
-
-    return out.normalized();
+    }.normalized();
   }
 
   template <MathStorageType T>
@@ -145,15 +138,13 @@ namespace axm
     const float a = angle / (T)2;
     const float s = std::sin(a);
 
-    const quat out
+    return quat
     {
       xyzIn[0] * s,
       xyzIn[1] * s,
       xyzIn[2] * s,
       std::cos(a)
-    };
-
-    return out.normalized();
+    }.normalized();
   }
 
   /// Calculate a right handed quaternion rotation that aims at the given coordinates
@@ -218,32 +209,34 @@ namespace axm
     const T lerp = (T)1) -> quat<T>
   {
     vec3 frontTo = vec3{targetPos - originPos}.normalized() * currentRotation.conjugated();
-    return vecDelta({(T)0, (T)0, (T)1}, frontTo, lerp);
+    return deltaBetweenVectorsAsRotation({(T)0, (T)0, (T)1}, frontTo, lerp);
   }
 
-  /// Is this a SLERP?
+  /// Find a rotation representing the delta between two directional vectors
+  /// @param lerp How far between `from` and `to` to return
   template <MathStorageType T>
   GNUCONST USE_RESULT CANNOT_FAIL
-  auto vecDelta(
+  auto deltaBetweenVectorsAsRotation(
       const vec3<T> from,
       const vec3<T> to,
       T lerp = (T)1) -> quat<T>
   {
-    lerp = std::clamp(lerp, (T)0, (T)1);
-
+    const T lerpClamped = std::clamp(lerp, (T)0, (T)1);
     const T dot = std::clamp(to.dot(from), (T)-1, (T)1);
+
     if(dot == (T)1)
     {
       return quat{(T)0, (T)0, (T)0, (T)1};
     }
+
     if(dot == (T)-1)
     {
       return quat{(T)0, (T)0, (T)1, (T)0};
     }
 
-    const T rot = std::acos(dot);
-    const vec3<T> rotAxis = to.cross(from).normalized();
-    return fromAxialRotation(rotAxis.x(), rotAxis.y(), rotAxis.z(), rot * lerp);
+    const T radianRotation = std::acos(dot);
+    const vec3 rotationAxis = to.cross(from).normalized();
+    return fromAxialRotation(rotationAxis, radianRotation * lerpClamped);
   }
 
   /// Prevent a quaternion rotation from exceeding a certain angle like you could do with euler angles
@@ -255,9 +248,8 @@ namespace axm
     const T angleLimit,
     const T lerp = (T)1) -> quat<T>
   {
-    vec3<T> upQ = -up * in.conjugated();
-    upQ.normalize();
-    T dot = vec3<T>{(T)0, (T)1, (T)0}.dot(upQ);
+    const vec3 upQ = (-up * in.conjugated()).normalized();
+    const T dot = vec3{(T)0, (T)1, (T)0}.dot(upQ);
 
     if(dot >= 1)
     {
@@ -269,15 +261,14 @@ namespace axm
       dot = -1;
     }
 
-    T angle = std::acos(dot);
-    if(angle > angleLimit)
+    T radians = std::acos(dot);
+    if(radians > angleLimit)
     {
       return {};
     }
 
-    vec3<T> rotAxis = vec3<T>{(T)0, (T)1, (T)0}.cross(upQ);
-    rotAxis.normalize();
-    return fromAxialRotation(rotAxis.x(), rotAxis.y(), rotAxis.z(), (angleLimit - angle) * lerp);
+    const vec3 rotAxis = (vec3{(T)0, (T)1, (T)0}.cross(upQ)).normalized();
+    return fromAxialRotation(rotAxis.x(), rotAxis.y(), rotAxis.z(), (angleLimit - radians) * lerp);
   }
 
   ///Prevent rolling when moving the camera in circles by reorienting the quaternion with an up vector
@@ -288,17 +279,15 @@ namespace axm
     const vec3<T>& up,
     T lerp = (T)1) -> quat<T>
   {
-    vec3<T> upQ = up * in.conjugated();
-    upQ.normalize();
-    vec3<T> side = vec3<T>{(T)0, (T)0, (T)1}.cross(-upQ);
-    side.normalize();
+    const vec3 upQ = (up * in.conjugated()).normalized();
+    const vec3 side = (vec3<T>{(T)0, (T)0, (T)1}.cross(-upQ)).normalized();
 
-    if(vec3<T>{(T)0, (T)1, (T)0}.dot(upQ) <= 0)
+    if(vec3{(T)0, (T)1, (T)0}.dot(upQ) <= 0)
     {
       side = -side;
     }
 
     vec3 upFixed = vec3{(T)0, (T)0, (T)1}.cross(side).normalized();
-    return vecDelta({(T)0, (T)1, (T)0}, upFixed, lerp);
+    return deltaBetweenVectorsAsRotation({(T)0, (T)1, (T)0}, upFixed, lerp);
   }
 }
