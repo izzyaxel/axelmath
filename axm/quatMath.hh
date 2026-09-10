@@ -162,12 +162,12 @@ namespace axm
     const vec3 right = upVec.cross(forward).normalized();
     const vec3 orthogonalUp = forward.cross(right).normalized();
 
-    const mat4x4<T> comp
+    mat4x4<T> comp
     {
-      {right[0], orthogonalUp[0], forward[0], (T)0},
-      {right[1], orthogonalUp[1], forward[1], (T)0},
-      {right[2], orthogonalUp[2], forward[2], (T)0},
-      {(T)0,     (T)0,            (T)0,       (T)0}
+      {right.x(),        right.y(),        right.z(),        (T)0},
+      {orthogonalUp.x(), orthogonalUp.y(), orthogonalUp.z(), (T)0},
+      {forward.x(),      forward.y(),      forward.z(),      (T)0},
+      {(T)0,             (T)0,             (T)0,             (T)0}
     };
 
     return mat4x4ToQuat(comp);
@@ -188,12 +188,12 @@ namespace axm
     const vec3 left = forward.cross(-upVec).normalized();
     const vec3 orthogonalUp = forward.cross(left).normalized();
 
-    const mat4x4<T> comp
+    mat4x4<T> comp
     {
-      {left[0], orthogonalUp[0], forward[0], (T)0},
-      {left[1], orthogonalUp[1], forward[1], (T)0},
-      {left[2], orthogonalUp[2], forward[2], (T)0},
-      {(T)0,    (T)0,            (T)0,       (T)0}
+      {left.x(),         left.y(),         left.z(),         (T)0},
+      {orthogonalUp.x(), orthogonalUp.y(), orthogonalUp.z(), (T)0},
+      {forward.x(),      forward.y(),      forward.z(),      (T)0},
+      {(T)0,             (T)0,             (T)0,             (T)0}
     };
 
     return mat4x4ToQuat(comp);
