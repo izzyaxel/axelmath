@@ -280,7 +280,7 @@ namespace axm
     T lerp = (T)1) -> quat<T>
   {
     const vec3 upQ = (up * in.conjugated()).normalized();
-    const vec3 side = (vec3<T>{(T)0, (T)0, (T)1}.cross(-upQ)).normalized();
+    vec3 side = (vec3<T>{(T)0, (T)0, (T)1}.cross(-upQ)).normalized();
 
     if(vec3{(T)0, (T)1, (T)0}.dot(upQ) <= 0)
     {
