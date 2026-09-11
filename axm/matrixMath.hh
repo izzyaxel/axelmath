@@ -1,10 +1,36 @@
 #pragma once
 
 #include "aliases.hh"
+#include "types/mat3x3s.hh"
 #include "types/mat4x4s.hh"
 
 namespace axm
 {
+  template <IsNumeric T>
+  GNUCONST USE_RESULT CANNOT_FAIL
+  auto mat4x4ToMat3x3(const mat4x4<T>& in) -> mat3x3<T>
+  {
+    return
+    {
+      {in[0][0], in[0][1], in[0][2]},
+      {in[1][0], in[1][1], in[1][2]},
+      {in[2][0], in[2][1], in[2][2]}
+    };
+  }
+
+  template <IsNumeric T>
+  GNUCONST USE_RESULT CANNOT_FAIL
+  auto mat3x3ToMat4x4(const mat3x3<T>& in) -> mat4x4<T>
+  {
+    return
+    {
+      {in[0][0], in[0][1], in[0][2], (T)0},
+      {in[1][0], in[1][1], in[1][2], (T)0},
+      {in[2][0], in[2][1], in[2][2], (T)0},
+      {(T)0,     (T)0,     (T)0,     (T)0}
+    };
+  }
+
   /// Convert a quaternion to a 4x4 matrix
   template <IsNumeric T>
   GNUCONST USE_RESULT CANNOT_FAIL
@@ -27,6 +53,29 @@ namespace axm
       {(T)2 * (t1 - t2),      -sqx + sqy - sqz + sqw, (T)2 * (t5 + t6),       (T)0},
       {(T)2 * (t3 + t4),      (T)2 * (t5 - t6),       -sqx - sqy + sqz + sqw, (T)0},
       {(T)0,                  (T)0,                   (T)0,                   (T)1}
+    };
+  }
+
+  template <IsNumeric T>
+  GNUCONST USE_RESULT CANNOT_FAIL
+  auto quatToMat3x3(const quat<T>& rotation) -> mat3x3<T>
+  {
+    const T sqx = rotation.x() * rotation.x();
+    const T sqy = rotation.y() * rotation.y();
+    const T sqz = rotation.z() * rotation.z();
+    const T sqw = rotation.w() * rotation.w();
+    const T t1 = rotation.data[0] * rotation.y();
+    const T t2 = rotation.data[2] * rotation.w();
+    const T t3 = rotation.data[0] * rotation.z();
+    const T t4 = rotation.data[1] * rotation.w();
+    const T t5 = rotation.data[1] * rotation.z();
+    const T t6 = rotation.data[0] * rotation.w();
+
+    return
+    {
+      {sqx - sqy - sqz + sqw, (T)2 * (t1 + t2),       (T)2 * (t3 - t4)},
+      {(T)2 * (t1 - t2),      -sqx + sqy - sqz + sqw, (T)2 * (t5 + t6)},
+      {(T)2 * (t3 + t4),      (T)2 * (t5 - t6),       -sqx - sqy + sqz + sqw},
     };
   }
 

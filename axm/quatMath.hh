@@ -1,18 +1,72 @@
 #pragma once
 
 #include "types/quaternions.hh"
+#include "types/mat3x3s.hh"
 #include "types/mat4x4s.hh"
 
 namespace axm
 {
   template <MathStorageType T>
   GNUCONST USE_RESULT CANNOT_FAIL
-  auto mat4x4ToQuat(const mat4x4<T>& in) -> quat<T>
+  auto matToQuat(const mat4x4<T>& in) -> quat<T>
   {
     const T trace = in[0][0] + in[1][1] + in[2][2];
     if(trace > 0)
     {
       const T root = (T)2 * std::sqrt(trace + (T)1);
+      return
+      {
+        (in[2][1] - in[1][2]) / root,
+        (in[0][2] - in[2][0]) / root,
+        (in[1][0] - in[0][1]) / root,
+        root / (T)4
+      };
+    }
+
+    if(in[0][0] > in[1][1] && in[0][0] > in[2][2])
+    {
+      const T root = (T)2 * std::sqrt((T)1 + in[0][0] - in[1][1] - in[2][2]);
+      return
+      {
+        root / (T)4,
+        (in[0][1] + in[1][0]) / root,
+        (in[0][2] + in[2][0]) / root,
+        (in[2][1] - in[1][2]) / root
+      };
+    }
+
+    if(in[1][1] > in[2][2])
+    {
+      const T root = (T)2 * std::sqrt((T)1 + in[1][1] - in[0][0] - in[2][2]);
+      return
+      {
+        (in[0][1] + in[1][0]) / root,
+        root / (T)4,
+        (in[1][2] + in[2][1]) / root,
+        (in[0][2] - in[2][0]) / root
+      };
+    }
+
+    const T root = (T)2 * std::sqrt((T)1 + in[2][2] - in[0][0] - in[1][1]);
+    return
+    {
+      (in[0][2] + in[2][0]) / root,
+      (in[1][2] + in[2][1]) / root,
+      root / (T)4,
+      (in[1][0] - in[0][1]) / root
+    };
+  }
+
+  template <MathStorageType T>
+  GNUCONST USE_RESULT CANNOT_FAIL
+  auto matToQuat(const mat3x3<T>& in) -> quat<T>
+  {
+    quat<T> out{};
+    const T trace = in[0][0] + in[1][1] + in[2][2];
+
+    if(trace > 0.0f)
+    {
+      const T root = std::sqrt(trace + (T)1) * (T)2;
       return
       {
         (in[2][1] - in[1][2]) / root,
@@ -170,7 +224,7 @@ namespace axm
       {(T)0,             (T)0,             (T)0,             (T)0}
     };
 
-    return mat4x4ToQuat(comp);
+    return matToQuat(comp);
   }
 
   /// Calculate a left handed quaternion rotation that aims at the given coordinates
@@ -196,7 +250,7 @@ namespace axm
       {(T)0,             (T)0,             (T)0,             (T)0}
     };
 
-    return mat4x4ToQuat(comp);
+    return matToQuat(comp);
   }
 
   /// A cumulative/SLERPed version of lookAt
