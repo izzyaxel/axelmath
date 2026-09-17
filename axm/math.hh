@@ -245,6 +245,17 @@ namespace axm
 
   //==Quaternion========================================================================================================
 
+  template <typename T>
+  auto rotateVec3 (const quat<T>& rotation, const vec3<T>& vector) -> vec3<T> requires(IsNumeric<T>)
+  {
+    const quat<T> q = normalize(rotation);
+    const vec3<T> u = {q.x(), q.y(), q.z()};
+    const vec3<T> uv = cross(u, *vector);
+    const vec3<T> uuv = cross(u, uv);
+    const T dW = q.w() * (T)2;
+    return *vector + vec3{dW} * uv + vec3{(T)2} * uuv;
+  }
+
   ///
   template <typename T>
   GNUCONST USE_RESULT CANNOT_FAIL

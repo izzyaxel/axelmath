@@ -1,16 +1,12 @@
 #pragma once
 
+#include "vec4s.hh"
+
 #include "../aliases.hh"
 #include "../concepts.hh"
 
 namespace axm
 {
-
-  template <typename T>
-  struct vec3;
-
-  template <typename T>
-  struct vec4;
 
   /// A quaternion
   /// 4-dimensional representation of rotation that's immune to gimbal lock, and can be oriented in any direction

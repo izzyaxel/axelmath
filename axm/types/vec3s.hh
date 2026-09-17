@@ -7,9 +7,6 @@
 namespace axm
 {
 
-  template<MathStorageType T>
-  struct quat;
-
   template <typename T>
   struct vec3
   {
@@ -106,7 +103,6 @@ namespace axm
     GNUCONST USE_RESULT CANNOT_FAIL auto operator - (const vec3& other) const -> vec3 requires(IsNumeric<T>);
     GNUCONST USE_RESULT CANNOT_FAIL auto operator * (const vec3& other) const -> vec3 requires(IsNumeric<T>);
     GNUCONST USE_RESULT CANNOT_FAIL auto operator / (const vec3& other) const -> vec3 requires(IsNumeric<T>);
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator * (const quat<T>& other) const -> vec3 requires(IsNumeric<T>);
     CANNOT_FAIL                     auto operator += (const vec3& other) -> vec3& requires(IsNumeric<T>);
     CANNOT_FAIL                     auto operator -= (const vec3& other) -> vec3& requires(IsNumeric<T>);
     CANNOT_FAIL                     auto operator *= (const vec3& other) -> vec3& requires(IsNumeric<T>);
