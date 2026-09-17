@@ -551,7 +551,7 @@ namespace axm
 
     normalize(forward);
     vec3 right = normalize(cross(upVec, forward));
-    if(closeEnough(right.dot(right), (T)0))
+    if(closeEnough(dot(right, right), (T)0))
     {
       right = cross(vec3{(T)1, (T)0, (T)0}, forward);
     }
@@ -603,7 +603,7 @@ namespace axm
     const T lerp = (T)1) -> quat<T>
   {
     const vec3 upQ = normalize(-up * in.conjugated());
-    const T dot = vec3{(T)0, (T)1, (T)0}.dot(upQ);
+    const T dot = dot(vec3{(T)0, (T)1, (T)0}, upQ);
 
     if(dot >= 1)
     {
@@ -679,7 +679,7 @@ namespace axm
     /*const vec3 upQ = (up * in.conjugated()).normalized();
     vec3 side = (vec3{(T)0, (T)0, (T)1}.cross(-upQ)).normalized();
 
-    if(vec3{(T)0, (T)1, (T)0}.dot(upQ) <= 0)
+    if(dot(vec3{(T)0, (T)1, (T)0}, upQ) <= 0)
     {
       side = -side;
     }
