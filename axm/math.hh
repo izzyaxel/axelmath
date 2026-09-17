@@ -93,12 +93,11 @@ namespace axm
   GNUCONST USE_RESULT CANNOT_FAIL
   auto normalize(const vec2<T>& in) -> vec2<T>
   {
-    vec2<T> out{};
-    T length = mag(in);
-    if(length > 1e-5f)
+    vec2<T> out = in;
+    const T length = mag(in);
+    if(length > (T)0)
     {
-      out.x() = in.x() / length;
-      out.y() = in.y() / length;
+      out /= length;
     }
 
     return out;
@@ -212,16 +211,13 @@ namespace axm
   CANNOT_FAIL
   auto normalize(const vec3<T>& in) -> vec3<T>
   {
-    vec3<T> out{};
+    vec3<T> out = in;
     const T length = mag(in);
-    if(closeEnough(length, 0.0f))
+    if(length > (T)0)
     {
-      return out;
+      out /= length;
     }
 
-    in.x() /= length;
-    in.y() /= length;
-    in.z() /= length;
     return out;
   }
 
@@ -238,14 +234,11 @@ namespace axm
   USE_RESULT CANNOT_FAIL
   auto normalize(const vec4<T>& in) -> vec4<T>
   {
-    vec4<T> out{};
-    T len = in.mag();
-    if(len > (T)0)
+    vec4<T> out = in;
+    const T length = mag(in);
+    if(length > (T)0)
     {
-      out.x() = in / len;
-      out.y() = in / len;
-      out.z() = in / len;
-      out.w() = in / len;
+      out /= length;
     }
     return out;
   }
@@ -457,7 +450,7 @@ namespace axm
     const quat<T> xQuat{0.0f, std::sin(a), 0.0f, std::cos(a)};
     a = (-rel.y() * lookSensitivity) / 2.0f;
     const quat<T> yQuat(std::sin(a), 0.0f, 0.0f, std::cos(a));
-    return (xQuat * yQuat).normalized();
+    return normalize(xQuat * yQuat);
   }
 
   /// Convert euler angles ({roll, pitch, yaw} in radians) to a quaternion rotation
@@ -473,13 +466,13 @@ namespace axm
     const T cPitch = std::cos(euler[1] * half);
     const T sPitch = std::sin(euler[1] * half);
 
-    return quat
+    return normalize(quat
     {
       cYaw * sRoll * cPitch - sYaw * cRoll * sPitch,
       cYaw * cRoll * sPitch + sYaw * sRoll * cPitch,
       sYaw * cRoll * cPitch - cYaw * sRoll * sPitch,
       cYaw * cRoll * cPitch + sYaw * sRoll * sPitch
-    }.normalized();
+    });
   }
 
   template <MathStorageType T>
@@ -489,13 +482,13 @@ namespace axm
     const float a = in[3] / (T)2;
     const float s = std::sin(a);
 
-    return quat
+    return normalize(quat
     {
       in[0] * s,
       in[1] * s,
       in[2] * s,
       std::cos(a)
-    }.normalized();
+    });
   }
 
   template <MathStorageType T>
@@ -509,13 +502,13 @@ namespace axm
     const float a = angle / (T)2;
     const float s = std::sin(a);
 
-    return quat
+    return normalize(quat
     {
       xIn * s,
       yIn * s,
       zIn * s,
       std::cos(a)
-    }.normalized();
+    });
   }
 
   template <MathStorageType T>
@@ -527,13 +520,13 @@ namespace axm
     const float a = angle / (T)2;
     const float s = std::sin(a);
 
-    return quat
+    return normalize(quat
     {
       xyzIn[0] * s,
       xyzIn[1] * s,
       xyzIn[2] * s,
       std::cos(a)
-    }.normalized();
+    });
   }
 
   /// Find a right handed orientation quaternion that points at the target
@@ -549,22 +542,22 @@ namespace axm
     const vec3<T>& upVec) -> quat<T>
   {
     vec3 forward = originPos - targetPos;
-    const T magnitude = forward.mag();
+    const T length = mag(forward);
 
-    if(closeEnough(magnitude, (T)0))
+    if(closeEnough(length, (T)0))
     {
       return {};
     }
 
-    forward.normalize();
-    vec3 right = upVec.cross(forward).normalized();
+    normalize(forward);
+    vec3 right = normalize(cross(upVec, forward));
     if(closeEnough(right.dot(right), (T)0))
     {
-      right = vec3{(T)1, (T)0, (T)0}.cross(forward);
+      right = cross(vec3{(T)1, (T)0, (T)0}, forward);
     }
 
-    right.normalize();
-    const vec3 orthogonalUp = forward.cross(right).normalized();
+    normalize(right);
+    const vec3 orthogonalUp = normalize(cross(forward, right));
     return matToQuat(mat3x3{right, orthogonalUp, forward});
   }
 
@@ -581,9 +574,9 @@ namespace axm
     const vec3<T>& upVec) -> quat<T>
   {
     //FIXME rewrite with the 0 checks
-    const vec3 forward = (targetPos - originPos).normalized();
-    const vec3 left = forward.cross(-upVec).normalized();
-    const vec3 orthogonalUp = forward.cross(left).normalized();
+    const vec3 forward = normalize(targetPos - originPos);
+    const vec3 left = normalize(cross(forward, -upVec));
+    const vec3 orthogonalUp = normalize(cross(forward, left));
     return matToQuat(mat3x3{left, orthogonalUp, forward});
   }
 
@@ -596,7 +589,7 @@ namespace axm
     const quat<T>& currentRotation,
     const T lerp = (T)1) -> quat<T>
   {
-    vec3 frontTo = vec3{targetPos - originPos}.normalized() * currentRotation.conjugated();
+    vec3 frontTo = normalize(targetPos - originPos) * conjugate(currentRotation);
     return deltaBetweenVectorsAsRotation({(T)0, (T)0, (T)1}, frontTo, lerp);
   }
 
@@ -609,7 +602,7 @@ namespace axm
     const T angleLimit,
     const T lerp = (T)1) -> quat<T>
   {
-    const vec3 upQ = (-up * in.conjugated()).normalized();
+    const vec3 upQ = normalize(-up * in.conjugated());
     const T dot = vec3{(T)0, (T)1, (T)0}.dot(upQ);
 
     if(dot >= 1)
@@ -628,7 +621,7 @@ namespace axm
       return {};
     }
 
-    const vec3 rotAxis = (vec3{(T)0, (T)1, (T)0}.cross(upQ)).normalized();
+    const vec3 rotAxis = normalize(vec3{(T)0, (T)1, (T)0}.cross(upQ));
     return fromAxialRotation(rotAxis.x(), rotAxis.y(), rotAxis.z(), (angleLimit - radians) * lerp);
   }
 
@@ -643,9 +636,9 @@ namespace axm
     const vec3<T>& start,
     const vec3<T>& end) -> quat<T>
   {
-    const vec3 startNorm = start.normalized();
-    const vec3 endNorm = end.normalized();
-    const float cosTheta = startNorm.dot(endNorm);
+    const vec3 startNorm = normalize(start);
+    const vec3 endNorm = normalize(end);
+    const float cosTheta = dot(startNorm, endNorm);
     vec3<T> axis;
 
     if(cosTheta < -1.0f + 0.001f)
@@ -655,11 +648,11 @@ namespace axm
       {
         axis = cross(vec3{1.0f, 0.0f, 0.0f}, startNorm);
       }
-      axis.normalize();
+      normalize(axis);
       return fromAxialRotation(axis, degToRad(180.0f));
     }
 
-    axis = startNorm.cross(endNorm);
+    axis = cross(startNorm, endNorm);
     const float root = std::sqrt((1.0f + cosTheta) * 2.0f);
     float invRoot = 1.0f / root;
     return {root * 0.5f, axis.x() * invRoot, axis.y() * invRoot, axis.z() * invRoot};
@@ -703,24 +696,24 @@ namespace axm
   GNUCONST USE_RESULT CANNOT_FAIL
   auto invert(const mat3x3<T>& in) -> mat3x3<T>
   {
-    T a = in.z3() * in.w4() - in.w3() * in.z4();
-    T b = in.y3() * in.w4() - in.w3() * in.y4();
-    T c = in.y3() * in.z4() - in.z3() * in.y4();
-    T d = in.x3() * in.w4() - in.w3() * in.x4();
-    T e = in.x3() * in.z4() - in.z3() * in.x4();
-    T f = in.x3() * in.y4() - in.y3() * in.x4();
-    T g = in.z2() * in.w4() - in.w2() * in.z4();
-    T h = in.y2() * in.w4() - in.w2() * in.y4();
-    T i = in.y2() * in.z4() - in.z2() * in.y4();
-    T j = in.z2() * in.w3() - in.w2() * in.z3();
-    T k = in.y2() * in.w3() - in.w2() * in.y3();
-    T l = in.y2() * in.z3() - in.z2() * in.y3();
-    T m = in.x2() * in.w4() - in.w2() * in.x4();
-    T n = in.x2() * in.z4() - in.z2() * in.x4();
-    T o = in.x2() * in.w3() - in.w2() * in.x3();
-    T p = in.x2() * in.z3() - in.z2() * in.x3();
-    T q = in.x2() * in.y4() - in.y2() * in.x4();
-    T r = in.x2() * in.y3() - in.y2() * in.x3();
+    const T a = in.z3() * in.w4() - in.w3() * in.z4();
+    const T b = in.y3() * in.w4() - in.w3() * in.y4();
+    const T c = in.y3() * in.z4() - in.z3() * in.y4();
+    const T d = in.x3() * in.w4() - in.w3() * in.x4();
+    const T e = in.x3() * in.z4() - in.z3() * in.x4();
+    const T f = in.x3() * in.y4() - in.y3() * in.x4();
+    const T g = in.z2() * in.w4() - in.w2() * in.z4();
+    const T h = in.y2() * in.w4() - in.w2() * in.y4();
+    const T i = in.y2() * in.z4() - in.z2() * in.y4();
+    const T j = in.z2() * in.w3() - in.w2() * in.z3();
+    const T k = in.y2() * in.w3() - in.w2() * in.y3();
+    const T l = in.y2() * in.z3() - in.z2() * in.y3();
+    const T m = in.x2() * in.w4() - in.w2() * in.x4();
+    const T n = in.x2() * in.z4() - in.z2() * in.x4();
+    const T o = in.x2() * in.w3() - in.w2() * in.x3();
+    const T p = in.x2() * in.z3() - in.z2() * in.x3();
+    const T q = in.x2() * in.y4() - in.y2() * in.x4();
+    const T r = in.x2() * in.y3() - in.y2() * in.x3();
 
     T det =   in.x1() * (in.y2() * a - in.z2() * b + in.w2() * c)
             - in.y1() * (in.x2() * a - in.z2() * d + in.w2() * e)
@@ -776,9 +769,9 @@ namespace axm
   {
     return
     {
-      {in[0][0], in[0][1], in[0][2], (T)0},
-      {in[1][0], in[1][1], in[1][2], (T)0},
-      {in[2][0], in[2][1], in[2][2], (T)0},
+      {in.x1(), in.y1(), in.z1(), (T)0},
+      {in.x2(), in.y2(), in.z2(), (T)0},
+      {in.x3(), in.y3(), in.z3(), (T)0},
       {(T)0,     (T)0,     (T)0,     (T)0}
     };
   }
@@ -847,24 +840,24 @@ namespace axm
   GNUCONST USE_RESULT CANNOT_FAIL
   auto invert(const mat4x4<T>& in) -> mat4x4<T> requires(IsNumeric<T>)
   {
-    T a = in.z3() * in.w4() - in.w3() * in.z4();
-    T b = in.y3() * in.w4() - in.w3() * in.y4();
-    T c = in.y3() * in.z4() - in.z3() * in.y4();
-    T d = in.x3() * in.w4() - in.w3() * in.x4();
-    T e = in.x3() * in.z4() - in.z3() * in.x4();
-    T f = in.x3() * in.y4() - in.y3() * in.x4();
-    T g = in.z2() * in.w4() - in.w2() * in.z4();
-    T h = in.y2() * in.w4() - in.w2() * in.y4();
-    T i = in.y2() * in.z4() - in.z2() * in.y4();
-    T j = in.z2() * in.w3() - in.w2() * in.z3();
-    T k = in.y2() * in.w3() - in.w2() * in.y3();
-    T l = in.y2() * in.z3() - in.z2() * in.y3();
-    T m = in.x2() * in.w4() - in.w2() * in.x4();
-    T n = in.x2() * in.z4() - in.z2() * in.x4();
-    T o = in.x2() * in.w3() - in.w2() * in.x3();
-    T p = in.x2() * in.z3() - in.z2() * in.x3();
-    T q = in.x2() * in.y4() - in.y2() * in.x4();
-    T r = in.x2() * in.y3() - in.y2() * in.x3();
+    const T a = in.z3() * in.w4() - in.w3() * in.z4();
+    const T b = in.y3() * in.w4() - in.w3() * in.y4();
+    const T c = in.y3() * in.z4() - in.z3() * in.y4();
+    const T d = in.x3() * in.w4() - in.w3() * in.x4();
+    const T e = in.x3() * in.z4() - in.z3() * in.x4();
+    const T f = in.x3() * in.y4() - in.y3() * in.x4();
+    const T g = in.z2() * in.w4() - in.w2() * in.z4();
+    const T h = in.y2() * in.w4() - in.w2() * in.y4();
+    const T i = in.y2() * in.z4() - in.z2() * in.y4();
+    const T j = in.z2() * in.w3() - in.w2() * in.z3();
+    const T k = in.y2() * in.w3() - in.w2() * in.y3();
+    const T l = in.y2() * in.z3() - in.z2() * in.y3();
+    const T m = in.x2() * in.w4() - in.w2() * in.x4();
+    const T n = in.x2() * in.z4() - in.z2() * in.x4();
+    const T o = in.x2() * in.w3() - in.w2() * in.x3();
+    const T p = in.x2() * in.z3() - in.z2() * in.x3();
+    const T q = in.x2() * in.y4() - in.y2() * in.x4();
+    const T r = in.x2() * in.y3() - in.y2() * in.x3();
 
     T det =   in.x1() * (in.y2() * a - in.z2() * b + in.w2() * c)
             - in.y1() * (in.x2() * a - in.z2() * d + in.w2() * e)
@@ -924,9 +917,9 @@ namespace axm
   {
     return
     {
-      {in[0][0], in[0][1], in[0][2]},
-      {in[1][0], in[1][1], in[1][2]},
-      {in[2][0], in[2][1], in[2][2]}
+      {in.x1(), in.y1(), in.z1()},
+      {in.x2(), in.y2(), in.z2()},
+      {in.x3(), in.y3(), in.z3()}
     };
   }
 
@@ -939,12 +932,12 @@ namespace axm
     const T sqy = rotation.y() * rotation.y();
     const T sqz = rotation.z() * rotation.z();
     const T sqw = rotation.w() * rotation.w();
-    const T t1 = rotation.data[0] * rotation.y();
-    const T t2 = rotation.data[2] * rotation.w();
-    const T t3 = rotation.data[0] * rotation.z();
-    const T t4 = rotation.data[1] * rotation.w();
-    const T t5 = rotation.data[1] * rotation.z();
-    const T t6 = rotation.data[0] * rotation.w();
+    const T t1 = rotation.x() * rotation.y();
+    const T t2 = rotation.z() * rotation.w();
+    const T t3 = rotation.x() * rotation.z();
+    const T t4 = rotation.y() * rotation.w();
+    const T t5 = rotation.y() * rotation.z();
+    const T t6 = rotation.x() * rotation.w();
 
     return
     {
