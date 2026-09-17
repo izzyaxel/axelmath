@@ -11,7 +11,6 @@ set(SRC
     axm/interpolation.hh
     axm/math.hh
     axm/matrixMath.hh
-    axm/quatMath.hh
     
     axm/types/aabb2ds.hh
     axm/types/aabb3ds.hh
@@ -23,6 +22,7 @@ set(SRC
     axm/types/vec2s.hh
     axm/types/vec3s.hh
     axm/types/vec4s.hh
+    axm/operators.hh
 )
 
 set(TESTS_SRC

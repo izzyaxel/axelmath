@@ -1,5 +1,8 @@
 #pragma once
 
+#include "../aliases.hh"
+#include "../concepts.hh"
+
 #include <algorithm>
 #include <cmath>
 #include <string>
@@ -16,6 +19,9 @@ namespace axm
   template <typename T>
   struct vec2
   {
+    constexpr static size_t MAX_INDEX = 1;
+    std::array<T, 2> data{};
+
     constexpr vec2() = default;
 
     constexpr vec2(const T x, const T y)
@@ -41,226 +47,120 @@ namespace axm
       this->data = {val, val};
     }
 
-    //Copy semantics
     vec2(const vec2& other)
     {
-      this->data = other.data;
-    }
-
-    auto operator = (const vec2& other) -> vec2&
-    {
-      if(other == *this)
+      if(this == &other)
       {
-        return *this;
+        return;
       }
+
       this->data = other.data;
-      return *this;
     }
 
-    auto operator - () const -> vec2
-    {
-      vec2 out{-this->x(), -this->y()};
-      return out;
-    }
-
-    //Move semantics
     vec2(vec2&& other) noexcept
     {
+      if(this == &other)
+      {
+        return;
+      }
+
       this->data = std::move(other.data);
     }
 
-    auto operator = (vec2&& other) noexcept -> vec2&
-    {
-      if(other == *this)
-      {
-        return *this;
-      }
-      this->data = std::move(other.data);
-      return *this;
-    }
+    GNUCONST USE_RESULT CANNOT_FAIL auto x() const -> const T& {return this->data[0];}
+    GNUCONST USE_RESULT CANNOT_FAIL auto y() const -> const T& {return this->data[1];}
+    USE_RESULT CANNOT_FAIL          auto x() -> T& {return this->data[0];}
+    USE_RESULT CANNOT_FAIL          auto y() -> T& {return this->data[1];}
+    GNUCONST USE_RESULT CANNOT_FAIL auto width() const ->  const T& {return this->data[0];}
+    GNUCONST USE_RESULT CANNOT_FAIL auto height() const -> const T& {return this->data[1];}
+    USE_RESULT CANNOT_FAIL          auto width() ->  T& {return this->data[0];}
+    USE_RESULT CANNOT_FAIL          auto height() -> T& {return this->data[1];}
+    GNUCONST USE_RESULT CANNOT_FAIL auto min() const -> const T& {return this->data[0];}
+    GNUCONST USE_RESULT CANNOT_FAIL auto max() const -> const T& {return this->data[1];}
+    USE_RESULT CANNOT_FAIL          auto min() -> T& {return this->data[0];}
+    USE_RESULT CANNOT_FAIL          auto max() -> T& {return this->data[1];}
 
-    //Dimension
-    [[nodiscard]] auto x() const -> const T& {return this->data.at(0);}
-    [[nodiscard]] auto y() const -> const T& {return this->data.at(1);}
-    [[nodiscard]] auto x() -> T& {return this->data.at(0);}
-    [[nodiscard]] auto y() -> T& {return this->data.at(1);}
+    USE_RESULT CANNOT_FAIL          auto operator = (const vec2& other) -> vec2&;
+    USE_RESULT CANNOT_FAIL          auto operator = (vec2&& other) noexcept -> vec2&;
+    USE_RESULT CANNOT_FAIL          auto operator [] (size_t index) -> T&;
+    GNUCONST USE_RESULT CANNOT_FAIL auto operator [] (size_t index) const -> const T&;
+    GNUCONST USE_RESULT CANNOT_FAIL auto operator == (const vec2& other) const -> bool requires(HasEquivalenceOperator<T>);
+    GNUCONST USE_RESULT CANNOT_FAIL auto operator < (const vec2& other) const -> bool requires(HasComparisonOperators<T>);
+    GNUCONST USE_RESULT CANNOT_FAIL auto operator > (const vec2& other) const -> bool requires(HasComparisonOperators<T>);
+    GNUCONST USE_RESULT CANNOT_FAIL auto operator <= (const vec2& other) const -> bool requires(HasComparisonOperators<T>);
+    GNUCONST USE_RESULT CANNOT_FAIL auto operator >= (const vec2& other) const -> bool requires(HasComparisonOperators<T>);
+    GNUCONST USE_RESULT CANNOT_FAIL auto operator - () const -> vec2 requires(IsNumeric<T>);
+    GNUCONST USE_RESULT CANNOT_FAIL auto operator + (const vec2& other) const -> vec2 requires(IsNumeric<T>);
+    GNUCONST USE_RESULT CANNOT_FAIL auto operator - (const vec2& other) const -> vec2 requires(IsNumeric<T>);
+    GNUCONST USE_RESULT CANNOT_FAIL auto operator * (const vec2& other) const -> vec2 requires(IsNumeric<T>);
+    GNUCONST USE_RESULT CANNOT_FAIL auto operator / (const vec2& other) const -> vec2 requires(IsNumeric<T>);
+    CANNOT_FAIL                     auto operator += (const vec2& other) -> vec2 requires(IsNumeric<T>);
+    CANNOT_FAIL                     auto operator -= (const vec2& other) -> vec2 requires(IsNumeric<T>);
+    CANNOT_FAIL                     auto operator *= (const vec2& other) -> vec2 requires(IsNumeric<T>);
+    CANNOT_FAIL                     auto operator /= (const vec2& other) -> vec2 requires(IsNumeric<T>);
 
-    [[nodiscard]] auto width() const ->  const T& {return this->data.at(0);}
-    [[nodiscard]] auto height() const -> const T& {return this->data.at(1);}
-    [[nodiscard]] auto width() ->  T& {return this->data.at(0);}
-    [[nodiscard]] auto height() -> T& {return this->data.at(1);}
-
-    [[nodiscard]] auto min() const -> const T& {return this->data.at(0);}
-    [[nodiscard]] auto max() const -> const T& {return this->data.at(1);}
-    [[nodiscard]] auto min() -> T& {return this->data.at(0);}
-    [[nodiscard]] auto max() -> T& {return this->data.at(1);}
-
-    //Subscript
-    [[nodiscard]] auto operator [] (const size_t index) -> T&
-    {
-      size_t sanitized = index;
-      if(sanitized > MAX_INDEX)
-      {
-        sanitized = MAX_INDEX;
-      }
-      return this->data.at(sanitized);
-    }
-    [[nodiscard]] auto operator [] (const size_t index) const -> const T&
-    {
-      size_t sanitized = index;
-      if(sanitized > MAX_INDEX)
-      {
-        sanitized = MAX_INDEX;
-      }
-      return this->data.at(sanitized);
-    }
-
-    //Arithmetic
-    auto operator + (const vec2& other) const -> vec2 {return vec2 {this->x() + other.x(), this->y() + other.y()};}
-    auto operator - (const vec2& other) const -> vec2 {return vec2 {this->x() - other.x(), this->y() - other.y()};}
-    auto operator * (const vec2& other) const -> vec2 {return vec2 {this->x() * other.x(), this->y() * other.y()};}
-    auto operator / (const vec2& other) const -> vec2 {return vec2 {this->x() / other.x(), this->y() / other.y()};}
-
-    template <typename U> auto operator + (const U other) const -> vec2 {return vec2 {(T)((float)this->x() + (float)other), (T)((float)this->y() + (float)other)};}
-    template <typename U> auto operator - (const U other) const -> vec2 {return vec2 {(T)((float)this->x() - (float)other), (T)((float)this->y() - (float)other)};}
-    template <typename U> auto operator * (const U other) const -> vec2 {return vec2 {(T)((float)this->x() * (float)other), (T)((float)this->y() * (float)other)};}
-    template <typename U> auto operator / (const U other) const -> vec2 {return vec2 {(T)((float)this->x() / (float)other), (T)((float)this->y() / (float)other)};}
-
-    auto operator += (const vec2& other) -> vec2&
-    {
-      this->x() += other.x();
-      this->y() += other.y();
-      return *this;
-    }
-    auto operator -= (const vec2& other) -> vec2&
-    {
-      this->x() -= other.x();
-      this->y() -= other.y();
-      return *this;
-    }
-    auto operator *= (const vec2& other) -> vec2&
-    {
-      this->x() *= other.x();
-      this->y() *= other.y();
-      return *this;
-    }
-    auto operator /= (const vec2& other) -> vec2&
-    {
-      this->x() /= other.x();
-      this->y() /= other.y();
-      return *this;
-    }
+    //Converting
 
     template <typename U>
-    auto operator += (const U other) -> vec2&
-    {
-      this->x() = (T)((float)this->x() + (float)other);
-      this->y() = (T)((float)this->y() + (float)other);
-      return *this;
-    }
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator + (U other) const -> vec2;
+
     template <typename U>
-    auto operator -= (const U other) -> vec2&
-    {
-      this->x() = (T)((float)this->x() - (float)other);
-      this->y() = (T)((float)this->y() - (float)other);
-      return *this;
-    }
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator - (U other) const -> vec2;
+
     template <typename U>
-    auto operator *= (const U other) -> vec2&
-    {
-      this->x() = (T)((float)this->x() * (float)other);
-      this->y() = (T)((float)this->y() * (float)other);
-      return *this;
-    }
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator * (U other) const -> vec2;
+
     template <typename U>
-    auto operator /= (const U other) -> vec2&
-    {
-      this->x() = (T)((float)this->x() / (float)other);
-      this->y() = (T)((float)this->y() / (float)other);
-      return *this;
-    }
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator / (U other) const -> vec2;
 
-    //Comparison
-    auto operator == (const vec2& other) const -> bool
-    {
-      return this->x() == other.x() && this->y() == other.y();
-    }
+    template <typename U>
+    CANNOT_FAIL
+    auto operator += (U other) -> vec2;
 
-    auto operator == (vec2& other) -> bool
-    {
-      return this->x() == other.x() && this->y() == other.y();
-    }
+    template <typename U>
+    CANNOT_FAIL
+    auto operator -= (U other) -> vec2;
 
-    auto operator < (const vec2& other) const -> bool
-    {
-      return this->x() < other.x() && this->y() < other.y();
-    }
+    template <typename U>
+    CANNOT_FAIL
+    auto operator *= (U other) -> vec2;
 
-    auto operator > (const vec2& other) const -> bool
-    {
-      return this->x() > other.x() && this->y() > other.y();
-    }
+    template <typename U>
+    CANNOT_FAIL
+    auto operator /= (U other) -> vec2;
 
-    auto operator <= (const vec2& other) const -> bool
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto toString() const -> std::string requires(ConvertibleToString<T>)
     {
-      return this->x() <= other.x() && this->y() <= other.y();
-    }
-
-    auto operator >= (const vec2& other) const -> bool
-    {
-      return this->x() >= other.x() && this->y() >= other.y();
-    }
-
-    //==Math============================================================================================================
-
-    auto dot(const vec2& other) const -> T
-    {
-      return this->x() * other.x() + this->y() * other.y();
-    }
-
-    auto half() -> vec2
-    {
-      vec2<T> out = *this;
-      out.x() /= (T)2;
-      out.y() /= (T)2;
-      return *this;
-    }
-
-    [[nodiscard]]
-    T mag() const
-    {
-      return std::sqrt(this->data[0] * this->data[0] + this->data[1] * this->data[1]);
-    }
-
-    auto normalize() -> void
-    {
-      T length = this->mag();
-      if(length > 1e-5f)
+      std::string out = "(vec2)\n[";
+      for(int i = 0; i < 2; i++)
       {
-        this->data[0] /= length;
-        this->data[1] /= length;
+        switch(i)
+        {
+          case 0:
+            out += "x: ";
+            break;
+          case 1:
+            out += "y: ";
+            break;
+          default: break;
+        }
+        out += std::to_string(this->data[i]);
+        if(i < 1) out += ' ';
       }
-    }
-
-    auto normalized() const -> vec2<T>
-    {
-      vec2<T> out{};
-      T length = this->mag();
-      if(length > 1e-5f)
-      {
-        out[0] = this->data[0] / length;
-        out[1] = this->data[1] / length;
-      }
+      out += "]\n";
       return out;
     }
 
-    auto print(const std::string& pre = "") const -> void
+    CANNOT_FAIL
+    auto print(const std::string& pre = "") const -> void  requires(ConvertibleToString<T>)
     {
-      printf("%s[%f %f]\n", pre.c_str(), (float)this->x(), (float)this->y());
+      printf("%s: %s\n", pre.c_str(), this->toString().c_str());
     }
-
-    constexpr static size_t MAX_INDEX = 1;
-    std::array<T, 2> data{};
   };
 
   template <typename T>

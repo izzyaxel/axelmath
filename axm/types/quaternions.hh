@@ -3,10 +3,6 @@
 #include "../aliases.hh"
 #include "../concepts.hh"
 
-#include <string>
-#include <numbers>
-#include <cmath>
-
 namespace axm
 {
 
@@ -39,8 +35,6 @@ namespace axm
 
     constexpr quat(const T xIn, const T yIn, const T zIn, const T wIn) : data{xIn, yIn, zIn, wIn} {}
 
-    //==Move============================================================================================================
-
     quat(quat&& other) noexcept
     {
       if(this != &other)
@@ -60,8 +54,6 @@ namespace axm
       return *this;
     }
 
-    //==Copy============================================================================================================
-
     quat(const quat& other)
     {
       if(this != &other)
@@ -78,8 +70,6 @@ namespace axm
       }
       return *this;
     }
-
-    //==Accessors=======================================================================================================
 
     USE_RESULT CANNOT_FAIL
     auto operator [] (size_t index) -> T&
@@ -116,8 +106,6 @@ namespace axm
       return this->data[3];
     }
 
-    //==Const Accessors=================================================================================================
-
     GNUCONST USE_RESULT CANNOT_FAIL
     auto operator [] (size_t index) const -> T
     {
@@ -153,18 +141,14 @@ namespace axm
       return this->data[3];
     }
 
-    //==Equivalence=====================================================================================================
-
     GNUCONST USE_RESULT CANNOT_FAIL
-    bool operator == (const quat& other) const
+    bool operator == (const quat& other) const requires(HasEquivalenceOperator<T>)
     {
       return this->x() == other.x() && this->y() == other.y() && this->z() == other.z() && this->w() == other.w();
     }
 
-    //==Math Operators==================================================================================================
-
-    USE_RESULT CANNOT_FAIL
-    quat operator + (const quat& other)
+    CANNOT_FAIL
+    auto operator += (const quat& other) -> quat requires(IsNumeric<T>)
     {
       this->x() += other.x();
       this->y() += other.y();
@@ -173,8 +157,8 @@ namespace axm
       return *this;
     }
 
-    USE_RESULT CANNOT_FAIL
-    quat operator * (const float val)
+    CANNOT_FAIL
+    auto operator *= (const float val) -> quat requires(IsNumeric<T>)
     {
       this->x() *= val;
       this->y() *= val;
@@ -183,21 +167,18 @@ namespace axm
       return *this;
     }
 
-    USE_RESULT CANNOT_FAIL
-    auto operator * (const quat& other) -> quat
+    CANNOT_FAIL
+    auto operator *= (const quat& other) -> quat requires(IsNumeric<T>)
     {
-      this->x() =  this->x() * other.w() + this->y() * other.z() - this->z() * other.y() + this->w() * other.x();
-      this->y() = -this->x() * other.z() + this->y() * other.w() + this->z() * other.x() + this->w() * other.y();
-      this->z() =  this->x() * other.y() - this->y() * other.x() + this->z() * other.w() + this->w() * other.z();
-      this->w() = -this->x() * other.x() - this->y() * other.y() - this->z() * other.z() + this->w() * other.w();
-      this->normalize();
+      this->x() = this->x() * other.w() + this->w() * other.x() + this->y() * other.z() - this->z() * other.y();
+      this->y() = this->y() * other.w() + this->w() * other.y() + this->z() * other.x() - this->x() * other.z();
+      this->z() = this->z() * other.w() + this->w() * other.z() + this->x() * other.y() - this->y() * other.x();
+      this->w() = this->w() * other.w() - this->x() * other.x() - this->y() * other.y() - this->z() * other.z();
       return *this;
     }
 
-    //==Const Math Operators============================================================================================
-
     GNUCONST USE_RESULT CANNOT_FAIL
-    quat operator + (const quat& other) const
+    quat operator + (const quat& other) const requires(IsNumeric<T>)
     {
       return quat
       {
@@ -208,7 +189,7 @@ namespace axm
     }
 
     GNUCONST USE_RESULT CANNOT_FAIL
-    quat operator * (const float val) const
+    auto operator * (const float val) const -> quat requires(IsNumeric<T>)
     {
       return quat
       {
@@ -220,135 +201,19 @@ namespace axm
     }
 
     GNUCONST USE_RESULT CANNOT_FAIL
-    auto operator * (const quat& other) const -> quat
+    auto operator * (const quat& other) const -> quat requires(IsNumeric<T>)
     {
       return quat
       {
-         this->x() * other.w() + this->y() * other.z() - this->z() * other.y() + this->w() * other.x(),
-        -this->x() * other.z() + this->y() * other.w() + this->z() * other.x() + this->w() * other.y(),
-         this->x() * other.y() - this->y() * other.x() + this->z() * other.w() + this->w() * other.z(),
-        -this->x() * other.x() - this->y() * other.y() - this->z() * other.z() + this->w() * other.w()
-      }.normalized();
+        this->x() * other.w() + this->w() * other.x() + this->y() * other.z() - this->z() * other.y(),
+        this->y() * other.w() + this->w() * other.y() + this->z() * other.x() - this->x() * other.z(),
+        this->z() * other.w() + this->w() * other.z() + this->x() * other.y() - this->y() * other.x(),
+        this->w() * other.w() - this->x() * other.x() - this->y() * other.y() - this->z() * other.z()
+     };
     }
 
     GNUCONST USE_RESULT CANNOT_FAIL
-    auto operator * (const vec3<T>& other) const -> vec3<T>
-    {
-      const vec3<T> q = {this->x(), this->y(), this->z()};
-      const vec3<T> c = other.cross(q);
-      const vec3<T> w1 = c * (T)2;
-      return other + w1 * this->w() + w1.cross(q);
-    }
-
-    //==Math============================================================================================================
-
-    CANNOT_FAIL
-    auto conjugate() -> void
-    {
-      this->x() = -this->x();
-      this->y() = -this->y();
-      this->z() = -this->z();
-    }
-
-    GNUCONST USE_RESULT CANNOT_FAIL
-    auto conjugated() const -> quat
-    {
-      return quat{-this->x(), -this->y(), -this->z(), this->w()};
-    }
-
-    /// Get the magnitude(length) of this quaternion
-    GNUCONST USE_RESULT CANNOT_FAIL
-    auto mag() const -> T
-    {
-      return std::sqrt(this->x() * this->x() + this->y() * this->y() + this->z() * this->z() + this->w() * this->w());
-    }
-
-    /// Make this quaternion unit length
-    CANNOT_FAIL
-    auto normalize() -> void
-    {
-      T length = this->mag();
-      this->x() /= length;
-      this->y() /= length;
-      this->z() /= length;
-      this->w() /= length;
-    }
-
-    /// Make a unit length version of this quaternion
-    GNUCONST USE_RESULT CANNOT_FAIL
-    auto normalized() const -> quat
-    {
-      T length = this->mag();
-      return quat{this->x() / length, this->y() / length, this->z() / length, this->w() / length};
-    }
-
-    /// Find the dot product of this quaternion
-    GNUCONST USE_RESULT CANNOT_FAIL
-    auto dot(const quat& other) const -> T
-    {
-      return this->w() * other.w() + this->x() * other.x() + this->y() * other.y() + this->z() * other.z();
-    }
-
-    /// Invert this quaternion
-    CANNOT_FAIL
-    auto invert() -> void
-    {
-      this->conjugate();
-      this->normalize();
-    }
-
-    /// Get the inverse of this quaternion
-    GNUCONST USE_RESULT CANNOT_FAIL
-    auto inverse() const -> quat
-    {
-      quat out{this->x(), this->y(), this->z(), this->w()};
-      out.conjugate();
-      out.normalize();
-      return out;
-    }
-
-    //==Conversions=====================================================================================================
-
-    /// Convert this quaternion into euler angles
-    /// @return {roll pitch yaw} in radians
-    GNUCONST USE_RESULT CANNOT_FAIL
-    auto toEulerRotation() const -> vec3<T>
-    {
-      constexpr T one = (T)1;
-      constexpr T two = (T)2;
-      const T sinr = two * (this->w() * this->x() + this->y() * this->z());
-      const T cosr = one - (two * (this->x() * this->x() + this->y() * this->y()));
-      const T roll = std::atan2(sinr, cosr);
-      const T sinp = two * (this->w() * this->y() - this->z() * this->x());
-      const T siny = two * (this->w() * this->z() + this->x() * this->y());
-      const T cosy = one - (two * (this->y() * this->y() + this->z() * this->z()));
-      const T yaw = std::atan2(siny, cosy);
-
-      if(std::fabs(sinp) >= 1)
-      {
-        return {roll, std::copysign(std::numbers::pi / two, sinp), yaw};
-      }
-
-      return {roll, std::asin(sinp), yaw};
-    }
-
-    /// Convert this quaternion to an axis + angle rotation
-    /// @return {x, y, z, radians}
-    GNUCONST USE_RESULT CANNOT_FAIL
-    auto toAxial() const -> vec4<T>
-    {
-      const float angle = (T)2 * std::acos(this->w());
-      const float divisor = std::sqrt(1 - (this->w() * this->w()));
-
-      if(divisor < 0.001f)
-      {
-        return {this->x(), this->y(), this->z(), angle};
-      }
-
-      return {this->x() / divisor, this->y() / divisor, this->z() / divisor, angle};
-    }
-
-    //==Misc============================================================================================================
+    auto operator * (const vec3<T>& other) const -> vec3<T> requires(IsNumeric<T>);
 
     constexpr static auto size() -> size_t
     {
@@ -356,7 +221,8 @@ namespace axm
     }
 
     /// Get a formatted string of the contents of this quaternion
-    [[nodiscard]] auto toString() const -> std::string
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto toString() const -> std::string requires(ConvertibleToString<T>)
     {
       std::string out = "(quat)\n[";
       for(int i = 0; i < 4; i++)
@@ -385,7 +251,7 @@ namespace axm
     }
 
     /// Print this quaternion with printf
-    void print(const std::string& name) const
+    auto print(const std::string& name) const -> void requires(ConvertibleToString<T>)
     {
       printf("%s: %s\n", name.data(), this->toString().data());
     }

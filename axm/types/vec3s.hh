@@ -1,6 +1,5 @@
 #pragma once
 
-#include "quaternions.hh"
 #include "vec2s.hh"
 
 #include "../aliases.hh"
@@ -8,12 +7,15 @@
 namespace axm
 {
 
-  //TODO make this immutable
-  //TODO mark all math functions with requires(MathStorageType)
+  template<MathStorageType T>
+  struct quat;
 
   template <typename T>
   struct vec3
   {
+    constexpr static size_t MAX_INDEX = 2;
+    std::array<T, 3> data{};
+
     constexpr vec3() = default;
 
     constexpr vec3(T x, T y, T z)
@@ -37,331 +39,115 @@ namespace axm
       this->y() = other.y();
     }
 
-    //Copy semantics
     vec3(const vec3& other)
     {
-      this->data = other.data;
-    }
-
-    auto operator = (const vec3& other) -> vec3&
-    {
-      if(other == *this)
+      if(this == &other)
       {
-        return *this;
+        return;
       }
+
       this->data = other.data;
-      return *this;
     }
 
-    auto operator - () const -> vec3
-    {
-      vec3 out;
-      out.x() = -this->x();
-      out.y() = -this->y();
-      out.z() = -this->z();
-      return out;
-    }
-
-    //Move semantics
     vec3(vec3&& other) noexcept
     {
-      this->data = std::move(other.data);
-    }
-
-    auto operator = (vec3&& other) noexcept -> vec3&
-    {
-      if(other == *this)
+      if(this == &other)
       {
-        return *this;
+        return;
       }
-      this->data = std::move(other.data);
-      return *this;
+
+      this->data = other.data;
+      other.data = {};
     }
 
-    //Dimension
-    [[nodiscard]] auto x() const -> const T& {return this->data.at(0);}
-    [[nodiscard]] auto y() const -> const T& {return this->data.at(1);}
-    [[nodiscard]] auto z() const -> const T& {return this->data.at(2);}
-    [[nodiscard]] auto x() -> T& {return this->data.at(0);}
-    [[nodiscard]] auto y() -> T& {return this->data.at(1);}
-    [[nodiscard]] auto z() -> T& {return this->data.at(2);}
+    GNUCONST USE_RESULT CANNOT_FAIL auto x() const -> const T& {return this->data.at(0);}
+    GNUCONST USE_RESULT CANNOT_FAIL auto y() const -> const T& {return this->data.at(1);}
+    GNUCONST USE_RESULT CANNOT_FAIL auto z() const -> const T& {return this->data.at(2);}
+    USE_RESULT CANNOT_FAIL          auto x() -> T& {return this->data.at(0);}
+    USE_RESULT CANNOT_FAIL          auto y() -> T& {return this->data.at(1);}
+    USE_RESULT CANNOT_FAIL          auto z() -> T& {return this->data.at(2);}
+    GNUCONST USE_RESULT CANNOT_FAIL auto width() const -> const T& {return this->data.at(0);}
+    GNUCONST USE_RESULT CANNOT_FAIL auto height() const -> const T& {return this->data.at(1);}
+    GNUCONST USE_RESULT CANNOT_FAIL auto depth() const -> const T& {return this->data.at(2);}
+    USE_RESULT CANNOT_FAIL          auto width() -> T& {return this->data.at(0);}
+    USE_RESULT CANNOT_FAIL          auto height() -> T& {return this->data.at(1);}
+    USE_RESULT CANNOT_FAIL          auto depth() -> T& {return this->data.at(2);}
+    GNUCONST USE_RESULT CANNOT_FAIL auto red() const -> const T& {return this->data.at(0);}
+    GNUCONST USE_RESULT CANNOT_FAIL auto green() const -> const T& {return this->data.at(1);}
+    GNUCONST USE_RESULT CANNOT_FAIL auto blue() const -> const T& {return this->data.at(2);}
+    USE_RESULT CANNOT_FAIL          auto red() -> T& {return this->data.at(0);}
+    USE_RESULT CANNOT_FAIL          auto green() -> T& {return this->data.at(1);}
+    USE_RESULT CANNOT_FAIL          auto blue() -> T& {return this->data.at(2);}
+    GNUCONST USE_RESULT CANNOT_FAIL auto hue() const -> const T& {return this->data.at(0);}
+    GNUCONST USE_RESULT CANNOT_FAIL auto saturation() const -> const T& {return this->data.at(1);}
+    GNUCONST USE_RESULT CANNOT_FAIL auto value() const -> const T& {return this->data.at(2);}
+    GNUCONST USE_RESULT CANNOT_FAIL auto lightness() const -> const T& {return this->data.at(2);}
+    USE_RESULT CANNOT_FAIL          auto hue() -> T& {return this->data.at(0);}
+    USE_RESULT CANNOT_FAIL          auto saturation() -> T& {return this->data.at(1);}
+    USE_RESULT CANNOT_FAIL          auto value() -> T& {return this->data.at(2);}
+    USE_RESULT CANNOT_FAIL          auto lightness() -> T& {return this->data.at(0);}
+    USE_RESULT CANNOT_FAIL          auto a() -> T& {return this->data.at(1);} //Red-green axis
+    USE_RESULT CANNOT_FAIL          auto b() -> T& {return this->data.at(2);} //yellow-blue axis
+    GNUCONST USE_RESULT CANNOT_FAIL auto a() const -> T& {return this->data.at(1);} //Red-green axis
+    GNUCONST USE_RESULT CANNOT_FAIL auto b() const -> T& {return this->data.at(2);} //yellow-blue axis
+    USE_RESULT CANNOT_FAIL          auto xy() -> vec2<T> {return {this->x(), this->y()};}
+    USE_RESULT CANNOT_FAIL          auto bgr() -> vec3 {return {this->blue(), this->green(), this->red()};}
+    GNUCONST USE_RESULT CANNOT_FAIL auto xy() const -> vec2<T> {return {this->x(), this->y()};}
+    GNUCONST USE_RESULT CANNOT_FAIL auto bgr() const -> vec3 {return {this->blue(), this->green(), this->red()};}
 
-    [[nodiscard]] auto width() const -> const T& {return this->data.at(0);}
-    [[nodiscard]] auto height() const -> const T& {return this->data.at(1);}
-    [[nodiscard]] auto depth() const -> const T& {return this->data.at(2);}
-    [[nodiscard]] auto width() -> T& {return this->data.at(0);}
-    [[nodiscard]] auto height() -> T& {return this->data.at(1);}
-    [[nodiscard]] auto depth() -> T& {return this->data.at(2);}
+    USE_RESULT CANNOT_FAIL          auto operator = (const vec3& other) -> vec3&;
+    USE_RESULT CANNOT_FAIL          auto operator = (vec3&& other) noexcept -> vec3&;
+    USE_RESULT CANNOT_FAIL          auto operator [] (size_t index) -> T&;
+    GNUCONST USE_RESULT CANNOT_FAIL auto operator [] (size_t index) const -> const T&;
+    GNUCONST USE_RESULT CANNOT_FAIL auto operator == (const vec3& other) const -> bool requires(HasEquivalenceOperator<T>);
+    //TODO comparison operators
+    GNUCONST USE_RESULT CANNOT_FAIL auto operator - () const -> vec3 requires(IsNumeric<T>);
+    GNUCONST USE_RESULT CANNOT_FAIL auto operator + (const vec3& other) const -> vec3 requires(IsNumeric<T>);
+    GNUCONST USE_RESULT CANNOT_FAIL auto operator - (const vec3& other) const -> vec3 requires(IsNumeric<T>);
+    GNUCONST USE_RESULT CANNOT_FAIL auto operator * (const vec3& other) const -> vec3 requires(IsNumeric<T>);
+    GNUCONST USE_RESULT CANNOT_FAIL auto operator / (const vec3& other) const -> vec3 requires(IsNumeric<T>);
+    GNUCONST USE_RESULT CANNOT_FAIL auto operator * (const quat<T>& other) const -> vec3 requires(IsNumeric<T>);
+    CANNOT_FAIL                     auto operator += (const vec3& other) -> vec3& requires(IsNumeric<T>);
+    CANNOT_FAIL                     auto operator -= (const vec3& other) -> vec3& requires(IsNumeric<T>);
+    CANNOT_FAIL                     auto operator *= (const vec3& other) -> vec3& requires(IsNumeric<T>);
+    CANNOT_FAIL                     auto operator /= (const vec3& other) -> vec3& requires(IsNumeric<T>);
 
-    //ColorFormat
-    [[nodiscard]] auto red() const ->   const T& {return this->data.at(0);}
-    [[nodiscard]] auto green() const -> const T& {return this->data.at(1);}
-    [[nodiscard]] auto blue() const ->  const T& {return this->data.at(2);}
-    [[nodiscard]] auto red() ->   T& {return this->data.at(0);}
-    [[nodiscard]] auto green() -> T& {return this->data.at(1);}
-    [[nodiscard]] auto blue() ->  T& {return this->data.at(2);}
-
-    [[nodiscard]] auto hue() const ->        const T& {return this->data.at(0);}
-    [[nodiscard]] auto saturation() const -> const T& {return this->data.at(1);}
-    [[nodiscard]] auto value() const ->      const T& {return this->data.at(2);}
-    [[nodiscard]] auto hue() ->        T& {return this->data.at(0);}
-    [[nodiscard]] auto saturation() -> T& {return this->data.at(1);}
-    [[nodiscard]] auto value() ->      T& {return this->data.at(2);}
-
-    [[nodiscard]] auto lightness() ->      T& {return this->data.at(0);}
-    [[nodiscard]] auto a() ->      T& {return this->data.at(1);} //Red-green axis
-    [[nodiscard]] auto b() ->      T& {return this->data.at(2);} //yellow-blue axis
-
-    //Swizzling
-    [[nodiscard]] auto xy() const -> vec2<T> {return {this->x(), this->y()};}
-
-    [[nodiscard]] auto bgr() const -> vec3 {return {this->blue(), this->green(), this->red()};}
-
-    //Subscript
-    [[nodiscard]] auto operator [] (const size_t index) -> T&
-    {
-      size_t sanitized = index;
-      if(sanitized > MAX_INDEX)
-      {
-        sanitized = MAX_INDEX;
-      }
-      return this->data.at(sanitized);
-    }
-    [[nodiscard]] auto operator [] (const size_t index) const -> const T&
-    {
-      size_t sanitized = index;
-      if(sanitized > MAX_INDEX)
-      {
-        sanitized = MAX_INDEX;
-      }
-      return this->data.at(sanitized);
-    }
-
-    //Arithmetic
-
-    auto operator + (const vec3<T>& other) const -> vec3<T>
-    {
-      return vec3<T> {this->x() + other.x(), this->y() + other.y(), this->z() + other.z()};
-    }
-
-    auto operator - (const vec3<T>& other) const -> vec3<T>
-    {
-      return vec3<T> {this->x() - other.x(), this->y() - other.y(), this->z() - other.z()};
-    }
-
-    auto operator * (const vec3<T>& other) const -> vec3<T>
-    {
-      return vec3<T> {this->x() * other.x(), this->y() * other.y(), this->z() * other.z()};
-    }
-
-    auto operator / (const vec3<T>& other) const -> vec3<T>
-    {
-      return vec3<T> {this->x() / other.x(), this->y() / other.y(), this->z() / other.z()};
-    }
+    //Converting
 
     template <typename U>
-    auto operator + (const U other) const -> vec3<T>
-    {
-      return vec3<T> {(T)((float)this->x() + (float)other), (T)((float)this->y() + (float)other), (T)((float)this->z() + (float)other)};
-    }
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator + (U other) const -> vec3 requires(IsNumeric<T>);
 
     template <typename U>
-    auto operator - (const U other) const -> vec3<T>
-    {
-      return vec3<T> {(T)((float)this->x() - (float)other), (T)((float)this->y() - (float)other), (T)((float)this->z() - (float)other)};
-    }
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator - (U other) const -> vec3 requires(IsNumeric<T>);
 
     template <typename U>
-    auto operator * (const U other) const -> vec3<T>
-    {
-      return vec3<T>{(T)((float)this->x() * (float)other), (T)((float)this->y() * (float)other), (T)((float)this->z() * (float)other)};
-    }
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator * (U other) const -> vec3 requires(IsNumeric<T>);
 
     template <typename U>
-    auto operator / (const U other) const -> vec3<T>
-    {
-      return vec3<T> {(T)((float)this->x() / (float)other), (T)((float)this->y() / (float)other), (T)((float)this->z() / (float)other)};
-    }
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator / (U other) const -> vec3 requires(IsNumeric<T>);
+
+    template <typename U>
+    CANNOT_FAIL
+    auto operator += (U other) -> vec3& requires(IsNumeric<T>);
+
+    template <typename U>
+    CANNOT_FAIL
+    auto operator -= (U other) -> vec3& requires(IsNumeric<T>);
+
+    template <typename U>
+    CANNOT_FAIL
+    auto operator *= (U other) -> vec3& requires(IsNumeric<T>);
+
+    template <typename U>
+    CANNOT_FAIL
+    auto operator /= (U other) -> vec3& requires(IsNumeric<T>);
 
     GNUCONST USE_RESULT CANNOT_FAIL
-    auto operator * (const quat<T>& other) const -> vec3
-    {
-      const vec3 q = {other.x(), other.y(), other.z()};
-      const vec3 c = this->cross(q);
-      const vec3 w1 = c * (T)2;
-      return *this + w1 * other.w() + w1.cross(q);
-    }
-
-    auto operator += (const vec3& other) -> vec3<T>&
-    {
-      this->x() += other.x();
-      this->y() += other.y();
-      this->z() += other.z();
-      return *this;
-    }
-    auto operator -= (const vec3& other) -> vec3<T>&
-    {
-      this->x() -= other.x();
-      this->y() -= other.y();
-      this->z() -= other.z();
-      return *this;
-    }
-    auto operator *= (const vec3& other) -> vec3&
-    {
-      this->x() *= other.x();
-      this->y() *= other.y();
-      this->z() *= other.z();
-      return *this;
-    }
-    auto operator /= (const vec3& other) -> vec3&
-    {
-      this->x() /= other.x();
-      this->y() /= other.y();
-      this->z() /= other.z();
-      return *this;
-    }
-
-    template <typename U>
-    auto operator += (const U other) -> vec3&
-    {
-      this->x() = (T)((float)this->x() + (float)other);
-      this->y() = (T)((float)this->y() + (float)other);
-      this->z() = (T)((float)this->z() + (float)other);
-      return *this;
-    }
-    template <typename U>
-    auto operator -= (const U other) -> vec3&
-    {
-      this->x() = (T)((float)this->x() - (float)other);
-      this->y() = (T)((float)this->y() - (float)other);
-      this->z() = (T)((float)this->z() - (float)other);
-      return *this;
-    }
-    template <typename U>
-    auto operator *= (const U other) -> vec3&
-    {
-      this->x() = (T)((float)this->x() * (float)other);
-      this->y() = (T)((float)this->y() * (float)other);
-      this->z() = (T)((float)this->z() * (float)other);
-      return *this;
-    }
-    template <typename U>
-    auto operator /= (const U other) -> vec3&
-    {
-      this->x() = (T)((float)this->x() / (float)other);
-      this->y() = (T)((float)this->y() / (float)other);
-      this->z() = (T)((float)this->z() / (float)other);
-      return *this;
-    }
-
-    //Comparison
-
-    auto operator == (const vec3<T>& other) const -> bool
-    {
-      return this->x() == other.x() && this->y() == other.y() && this->z() == other.z();
-    }
-
-    //Utility
-
-    [[nodiscard]]
-    auto sqrt() const -> vec3<T>
-    {
-      return {(T)std::sqrt(this->x()), (T)std::sqrt(this->y()), (T)std::sqrt(this->z())};
-    }
-
-    [[nodiscard]]
-    auto pow(const T val) const -> vec3<T>
-    {
-      return {(T)std::pow(this->x(), val), (T)std::pow(this->y(), val), (T)std::pow(this->z(), val)};
-    }
-
-    [[nodiscard]]
-    auto pow(const vec3<T> val) const -> vec3<T>
-    {
-      return {(T)std::pow(this->x(), val.x()), (T)std::pow(this->y(), val.y()), (T)std::pow(this->z(), val.z())};
-    }
-
-    void floor()
-    {
-      this->data[0] = (T)std::floor(this->data[0]);
-      this->data[1] = (T)std::floor(this->data[1]);
-      this->data[2] = (T)std::floor(this->data[2]);
-    }
-
-    void ceil()
-    {
-      this->data[0] = (T)std::ceil(this->data[0]);
-      this->data[1] = (T)std::ceil(this->data[1]);
-      this->data[2] = (T)std::ceil(this->data[2]);
-    }
-
-    void round()
-    {
-      this->data[0] = (T)std::round(this->data[0]);
-      this->data[1] = (T)std::round(this->data[1]);
-      this->data[2] = (T)std::round(this->data[2]);
-    }
-
-    void invert()
-    {
-      this->data[0] = -this->data[0];
-      this->data[1] = -this->data[1];
-      this->data[2] = -this->data[2];
-    }
-
-    [[nodiscard]]
-    vec3<T> inverse() const
-    {
-      return vec3{-this->data[0], -this->data[1], -this->data[2]};
-    }
-
-    [[nodiscard]]
-    T mag() const
-    {
-      return std::sqrt(this->data[0] * this->data[0] + this->data[1] * this->data[1] + this->data[2] * this->data[2]);
-    }
-
-    [[nodiscard]]
-    T dot(const vec3<T>& b) const
-    {
-      return this->data[0] * b[0] + this->data[1] * b[1] + this->data[2] * b[2];
-    }
-
-    USE_RESULT CANNOT_FAIL
-    auto cross(const vec3& other) const -> vec3
-    {
-      vec3 out{};
-      out[0] = this->data[1] * other[2] - this->data[2] * other[1];
-      out[1] = this->data[2] * other[0] - this->data[0] * other[2];
-      out[2] = this->data[0] * other[1] - this->data[1] * other[0];
-      return out;
-    }
-
-    auto normalize() -> void
-    {
-      T length = this->mag();
-      if(length > 1e-5f)
-      {
-        this->data[0] /= length;
-        this->data[1] /= length;
-        this->data[2] /= length;
-      }
-    }
-
-    auto normalized() const -> vec3<T>
-    {
-      vec3<T> out{};
-      T length = this->mag();
-      if(length > 1e-5f)
-      {
-        out[0] = this->data[0] / length;
-        out[1] = this->data[1] / length;
-        out[2] = this->data[2] / length;
-      }
-      return out;
-    }
-
-    [[nodiscard]] auto toString() const -> std::string
+    auto toString() const -> std::string requires(ConvertibleToString<T>)
     {
       std::string out = "(vec3)\n[";
       for(int i = 0; i < 3; i++)
@@ -386,13 +172,11 @@ namespace axm
       return out;
     }
 
-    void print(const std::string& name) const
+    CANNOT_FAIL
+    auto print(const std::string& pre = "") const -> void requires(ConvertibleToString<T>)
     {
-      printf("%s: %s\n", name.data(), this->toString().data());
+      printf("%s: %s\n", pre.c_str(), this->toString().c_str());
     }
-
-    constexpr static size_t MAX_INDEX = 2;
-    std::array<T, 3> data{};
   };
 
   template <typename T>
