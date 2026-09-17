@@ -621,7 +621,7 @@ namespace axm
       return {};
     }
 
-    const vec3 rotAxis = normalize(vec3{(T)0, (T)1, (T)0}.cross(upQ));
+    const vec3 rotAxis = normalize(cross(vec3{(T)0, (T)1, (T)0}, upQ));
     return fromAxialRotation(rotAxis.x(), rotAxis.y(), rotAxis.z(), (angleLimit - radians) * lerp);
   }
 

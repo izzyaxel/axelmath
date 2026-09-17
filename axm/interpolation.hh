@@ -224,9 +224,9 @@ namespace axm
   GNUCONST USE_RESULT CANNOT_FAIL
   auto slerpQuat(const quat<T>& a, const quat<T>& b, const T t) -> quat<T>
   {
-    quat<T> aNorm = a.normalized();
-    quat<T> bNorm = b.normalized();
-    float dot = aNorm.dot(bNorm);
+    quat<T> aNorm = normalize(a);
+    quat<T> bNorm = normalize(b);
+    float dot = dot(aNorm, bNorm);
     quat<T> qB = aNorm;
 
     if(dot < 0.0f)
@@ -240,7 +240,7 @@ namespace axm
 
     if(dot > 0.9995f)
     {
-      return lerpQuat(a, qB, t).normalized();
+      return normalize(lerpQuat(a, qB, t));
     }
 
     float theta = std::acos(dot);

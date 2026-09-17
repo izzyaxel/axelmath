@@ -288,7 +288,7 @@ namespace axm
   template <typename T>
   auto vec3<T>::operator * (const quat<T>& other) const -> vec3 requires(IsNumeric<T>)
   {
-    const quat q = other.normalized();
+    const quat q = normalize(other);
     const vec3 u = {q.x(), q.y(), q.z()};
     const vec3 uv = cross(u, *this);
     const vec3 uuv = cross(u, uv);
@@ -732,8 +732,8 @@ namespace axm
   {
     const quat q = normalize(*this);
     const vec3 u = {q.x(), q.y(), q.z()};
-    const vec3 uv = u.cross(other);
-    const vec3 uuv = u.cross(uv);
+    const vec3 uv = cross(u, other);
+    const vec3 uuv = cross(u, uv);
     const T dW = q.w() * (T)2;
     return other + vec3{dW} * uv + vec3<T>{2} * uuv;
   }
