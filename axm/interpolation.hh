@@ -226,24 +226,24 @@ namespace axm
   {
     quat<T> aNorm = normalize(a);
     quat<T> bNorm = normalize(b);
-    float dot = dot(aNorm, bNorm);
+    float dotProd = dot(aNorm, bNorm);
     quat<T> qB = aNorm;
 
-    if(dot < 0.0f)
+    if(dotProd < 0.0f)
     {
       qB.x() = -bNorm.x();
       qB.y() = -bNorm.y();
       qB.z() = -bNorm.z();
       qB.w() = -bNorm.w();
-      dot = -dot;
+      dotProd = -dotProd;
     }
 
-    if(dot > 0.9995f)
+    if(dotProd > 0.9995f)
     {
       return normalize(lerpQuat(a, qB, t));
     }
 
-    float theta = std::acos(dot);
+    float theta = std::acos(dotProd);
     const float sinTheta = std::sin(theta);
     float invSinTheta = 1.0f / sinTheta;
 
