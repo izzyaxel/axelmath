@@ -1,6 +1,6 @@
 #pragma once
 
-#include "aliases.hh"
+#include "math.hh"
 #include "types/quaternions.hh"
 #include "types/vec4s.hh"
 
