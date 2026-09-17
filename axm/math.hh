@@ -1035,8 +1035,8 @@ namespace axm
     const quat<T>& cameraRotation,
     const vec3<T>& cameraPosition) -> mat4x4<T>
   {
-    const mat4x4<T> rotation = quatToMat4x4(cameraRotation.inverse());
-    const mat4x4<T> translation = translateMat(cameraPosition.inverse());
+    const mat4x4<T> rotation = quatToMat4x4(invert(cameraRotation));
+    const mat4x4<T> translation = translateMat(invert(cameraPosition));
     return translation * rotation;
   }
 
