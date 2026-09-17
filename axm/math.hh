@@ -266,7 +266,7 @@ namespace axm
   GNUCONST USE_RESULT CANNOT_FAIL
   auto normalize(const quat<T>& in) -> quat<T>
   {
-    T length = in.mag();
+    T length = mag(in);
     if(closeEnough(length, 0.0f))
     {
       return {(T)0, (T)0, (T)0, (T)0};
@@ -644,7 +644,7 @@ namespace axm
     if(cosTheta < -1.0f + 0.001f)
     {
       axis = cross(vec3{0.0f, 0.0f, 1.0f}, startNorm);
-      if(axis.mag() < 0.01f)
+      if(mag(axis) < 0.01f)
       {
         axis = cross(vec3{1.0f, 0.0f, 0.0f}, startNorm);
       }
