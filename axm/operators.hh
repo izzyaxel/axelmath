@@ -614,6 +614,120 @@ namespace axm
   //==Quaternion========================================================================================================
 
   template <MathStorageType T>
+  auto quat<T>::operator = (const quat& other) -> quat&
+  {
+    if(this != &other)
+    {
+      this->data = other.data;
+    }
+    return *this;
+  }
+
+  template <MathStorageType T>
+  auto quat<T>::operator = (quat&& other) noexcept -> quat&
+  {
+    if(this != &other)
+    {
+      this->data = other.data;
+      other.data = {};
+    }
+    return *this;
+  }
+
+  template <MathStorageType T>
+  auto quat<T>::operator [] (size_t index) -> T&
+  {
+    if(index > 3)
+    {
+      return {};
+    }
+
+    return this->data[index];
+  }
+
+  template <MathStorageType T>
+  auto quat<T>::operator [] (size_t index) const -> T
+  {
+    if(index > 3)
+    {
+      return {};
+    }
+
+    return this->data[index];
+  }
+
+  template <MathStorageType T>
+  auto quat<T>::operator == (const quat& other) const -> bool requires(HasEquivalenceOperator<T>)
+  {
+    return this->x() == other.x() && this->y() == other.y() && this->z() == other.z() && this->w() == other.w();
+  }
+
+  template <MathStorageType T>
+  auto quat<T>::operator += (const quat& other) -> quat requires(IsNumeric<T>)
+  {
+    this->x() += other.x();
+    this->y() += other.y();
+    this->z() += other.z();
+    this->w() += other.w();
+    return *this;
+  }
+
+  template <MathStorageType T>
+  auto quat<T>::operator *= (const float val) -> quat requires(IsNumeric<T>)
+  {
+    this->x() *= val;
+    this->y() *= val;
+    this->z() *= val;
+    this->w() *= val;
+    return *this;
+  }
+
+  template <MathStorageType T>
+  auto quat<T>::operator *= (const quat& other) -> quat requires(IsNumeric<T>)
+  {
+    this->x() = this->x() * other.w() + this->w() * other.x() + this->y() * other.z() - this->z() * other.y();
+    this->y() = this->y() * other.w() + this->w() * other.y() + this->z() * other.x() - this->x() * other.z();
+    this->z() = this->z() * other.w() + this->w() * other.z() + this->x() * other.y() - this->y() * other.x();
+    this->w() = this->w() * other.w() - this->x() * other.x() - this->y() * other.y() - this->z() * other.z();
+    return *this;
+  }
+
+  template <MathStorageType T>
+  auto quat<T>::operator + (const quat& other) const -> quat requires(IsNumeric<T>)
+  {
+    return quat
+    {
+      this->x() + other.x(),
+      this->y() + other.y(),
+      this->z() + other.z(),
+      this->w() + other.w()};
+  }
+
+  template <MathStorageType T>
+  auto quat<T>::operator * (const float val) const -> quat requires(IsNumeric<T>)
+  {
+    return quat
+    {
+      this->x() * val,
+      this->y() * val,
+      this->z() * val,
+      this->w() * val
+    };
+  }
+
+  template <MathStorageType T>
+  auto quat<T>::operator * (const quat& other) const -> quat requires(IsNumeric<T>)
+  {
+    return quat
+    {
+      this->x() * other.w() + this->w() * other.x() + this->y() * other.z() - this->z() * other.y(),
+      this->y() * other.w() + this->w() * other.y() + this->z() * other.x() - this->x() * other.z(),
+      this->z() * other.w() + this->w() * other.z() + this->x() * other.y() - this->y() * other.x(),
+      this->w() * other.w() - this->x() * other.x() - this->y() * other.y() - this->z() * other.z()
+   };
+  }
+
+  template <MathStorageType T>
   auto quat<T>::operator * (const vec3<T>& other) const -> vec3<T> requires(IsNumeric<T>)
   {
     const quat q = normalize(*this);

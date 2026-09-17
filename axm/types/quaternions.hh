@@ -24,8 +24,8 @@ namespace axm
 
     constexpr quat() = default;
 
-    template <typename Q>
-    constexpr explicit quat(const quat<Q>& other)
+    template <typename U>
+    constexpr explicit quat(const quat<U>& other)
     {
       this->x() = (T)other.x();
       this->y() = (T)other.y();
@@ -44,16 +44,6 @@ namespace axm
       }
     }
 
-    auto operator = (quat&& other) noexcept -> quat&
-    {
-      if(this != &other)
-      {
-        this->data = other.data;
-        other.data = {};
-      }
-      return *this;
-    }
-
     quat(const quat& other)
     {
       if(this != &other)
@@ -62,158 +52,27 @@ namespace axm
       }
     }
 
-    auto operator = (const quat& other) -> quat&
-    {
-      if(this != &other)
-      {
-        this->data = other.data;
-      }
-      return *this;
-    }
+    GNUCONST USE_RESULT CANNOT_FAIL auto x() const -> T {return this->data[0];}
+    GNUCONST USE_RESULT CANNOT_FAIL auto y() const -> T {return this->data[1];}
+    GNUCONST USE_RESULT CANNOT_FAIL auto z() const -> T {return this->data[2];}
+    GNUCONST USE_RESULT CANNOT_FAIL auto w() const -> T {return this->data[3];}
+    USE_RESULT CANNOT_FAIL          auto x() -> T& {return this->data[0];}
+    USE_RESULT CANNOT_FAIL          auto y() -> T& {return this->data[1];}
+    USE_RESULT CANNOT_FAIL          auto z() -> T& {return this->data[2];}
+    USE_RESULT CANNOT_FAIL          auto w() -> T& {return this->data[3];}
 
-    USE_RESULT CANNOT_FAIL
-    auto operator [] (size_t index) -> T&
-    {
-      if(index > 3)
-      {
-        return {};
-      }
-
-      return this->data[index];
-    }
-
-    USE_RESULT CANNOT_FAIL
-    auto x() -> T&
-    {
-      return this->data[0];
-    }
-
-    USE_RESULT CANNOT_FAIL
-    auto y() -> T&
-    {
-      return this->data[1];
-    }
-
-    USE_RESULT CANNOT_FAIL
-    auto z() -> T&
-    {
-      return this->data[2];
-    }
-
-    USE_RESULT CANNOT_FAIL
-    auto w() -> T&
-    {
-      return this->data[3];
-    }
-
-    GNUCONST USE_RESULT CANNOT_FAIL
-    auto operator [] (size_t index) const -> T
-    {
-      if(index > 3)
-      {
-        return {};
-      }
-
-      return this->data[index];
-    }
-
-    GNUCONST USE_RESULT CANNOT_FAIL
-    auto x() const -> T
-    {
-      return this->data[0];
-    }
-
-    GNUCONST USE_RESULT CANNOT_FAIL
-    auto y() const -> T
-    {
-      return this->data[1];
-    }
-
-    GNUCONST USE_RESULT CANNOT_FAIL
-    auto z() const -> T
-    {
-      return this->data[2];
-    }
-
-    GNUCONST USE_RESULT CANNOT_FAIL
-    auto w() const -> T
-    {
-      return this->data[3];
-    }
-
-    GNUCONST USE_RESULT CANNOT_FAIL
-    bool operator == (const quat& other) const requires(HasEquivalenceOperator<T>)
-    {
-      return this->x() == other.x() && this->y() == other.y() && this->z() == other.z() && this->w() == other.w();
-    }
-
-    CANNOT_FAIL
-    auto operator += (const quat& other) -> quat requires(IsNumeric<T>)
-    {
-      this->x() += other.x();
-      this->y() += other.y();
-      this->z() += other.z();
-      this->w() += other.w();
-      return *this;
-    }
-
-    CANNOT_FAIL
-    auto operator *= (const float val) -> quat requires(IsNumeric<T>)
-    {
-      this->x() *= val;
-      this->y() *= val;
-      this->z() *= val;
-      this->w() *= val;
-      return *this;
-    }
-
-    CANNOT_FAIL
-    auto operator *= (const quat& other) -> quat requires(IsNumeric<T>)
-    {
-      this->x() = this->x() * other.w() + this->w() * other.x() + this->y() * other.z() - this->z() * other.y();
-      this->y() = this->y() * other.w() + this->w() * other.y() + this->z() * other.x() - this->x() * other.z();
-      this->z() = this->z() * other.w() + this->w() * other.z() + this->x() * other.y() - this->y() * other.x();
-      this->w() = this->w() * other.w() - this->x() * other.x() - this->y() * other.y() - this->z() * other.z();
-      return *this;
-    }
-
-    GNUCONST USE_RESULT CANNOT_FAIL
-    quat operator + (const quat& other) const requires(IsNumeric<T>)
-    {
-      return quat
-      {
-        this->x() + other.x(),
-        this->y() + other.y(),
-        this->z() + other.z(),
-        this->w() + other.w()};
-    }
-
-    GNUCONST USE_RESULT CANNOT_FAIL
-    auto operator * (const float val) const -> quat requires(IsNumeric<T>)
-    {
-      return quat
-      {
-        this->x() * val,
-        this->y() * val,
-        this->z() * val,
-        this->w() * val
-      };
-    }
-
-    GNUCONST USE_RESULT CANNOT_FAIL
-    auto operator * (const quat& other) const -> quat requires(IsNumeric<T>)
-    {
-      return quat
-      {
-        this->x() * other.w() + this->w() * other.x() + this->y() * other.z() - this->z() * other.y(),
-        this->y() * other.w() + this->w() * other.y() + this->z() * other.x() - this->x() * other.z(),
-        this->z() * other.w() + this->w() * other.z() + this->x() * other.y() - this->y() * other.x(),
-        this->w() * other.w() - this->x() * other.x() - this->y() * other.y() - this->z() * other.z()
-     };
-    }
-
-    GNUCONST USE_RESULT CANNOT_FAIL
-    auto operator * (const vec3<T>& other) const -> vec3<T> requires(IsNumeric<T>);
+    CANNOT_FAIL auto operator = (const quat& other) -> quat&;
+    CANNOT_FAIL auto operator = (quat&& other) noexcept -> quat&;
+    USE_RESULT CANNOT_FAIL auto operator [] (size_t index) -> T&;
+    GNUCONST USE_RESULT CANNOT_FAIL auto operator [] (size_t index) const -> T;
+    GNUCONST USE_RESULT CANNOT_FAIL bool operator == (const quat& other) const requires(HasEquivalenceOperator<T>);
+    CANNOT_FAIL auto operator += (const quat& other) -> quat requires(IsNumeric<T>);
+    CANNOT_FAIL auto operator *= (float val) -> quat requires(IsNumeric<T>);
+    CANNOT_FAIL auto operator *= (const quat& other) -> quat requires(IsNumeric<T>);
+    GNUCONST USE_RESULT CANNOT_FAIL quat operator + (const quat& other) const requires(IsNumeric<T>);
+    GNUCONST USE_RESULT CANNOT_FAIL auto operator * (float val) const -> quat requires(IsNumeric<T>);
+    GNUCONST USE_RESULT CANNOT_FAIL auto operator * (const quat& other) const -> quat requires(IsNumeric<T>);
+    GNUCONST USE_RESULT CANNOT_FAIL auto operator * (const vec3<T>& other) const -> vec3<T> requires(IsNumeric<T>);
 
     constexpr static auto size() -> size_t
     {
@@ -253,7 +112,7 @@ namespace axm
     /// Print this quaternion with printf
     auto print(const std::string& name) const -> void requires(ConvertibleToString<T>)
     {
-      printf("%s: %s\n", name.data(), this->toString().data());
+      printf("quat %s: %s\n", name.data(), this->toString().data());
     }
   };
 }
