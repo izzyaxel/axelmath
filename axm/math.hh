@@ -289,7 +289,7 @@ namespace axm
   auto invert(const quat<T>& in) -> quat<T>
   {
     quat out{in.x(), in.y(), in.z(), in.w()};
-    out = conjugated(out);
+    out = conjugate(out);
     out = normalize(out);
     return out;
   }
