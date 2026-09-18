@@ -45,16 +45,98 @@ namespace axm
     USE_RESULT CANNOT_FAIL          auto z() -> T& {return this->data[2];}
     USE_RESULT CANNOT_FAIL          auto w() -> T& {return this->data[3];}
 
-    USE_RESULT CANNOT_FAIL          auto operator [] (size_t index) -> T&;
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator [] (size_t index) const -> T;
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator == (const quat& other) const -> bool requires(HasEquivalenceOperator<T>);
-    CANNOT_FAIL                     auto operator += (const quat& other) -> quat requires(IsNumeric<T>);
-    CANNOT_FAIL                     auto operator *= (float val) -> quat requires(IsNumeric<T>);
-    CANNOT_FAIL                     auto operator *= (const quat& other) -> quat requires(IsNumeric<T>);
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator + (const quat& other) const -> quat requires(IsNumeric<T>);
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator * (float val) const -> quat requires(IsNumeric<T>);
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator * (const quat& other) const -> quat requires(IsNumeric<T>);
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator * (const vec3<T>& other) const -> vec3<T> requires(IsNumeric<T>);
+    USE_RESULT CANNOT_FAIL
+    auto operator [] (const size_t index) -> T&
+    {
+      if(index > 3)
+      {
+        return {};
+      }
+
+      return this->data[index];
+    }
+
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator [] (size_t index) const -> T
+    {
+      if(index > 3)
+      {
+        return {};
+      }
+
+      return this->data[index];
+    }
+
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator == (const quat& other) const -> bool requires(HasEquivalenceOperator<T>)
+    {
+      return this->x() == other.x() && this->y() == other.y() && this->z() == other.z() && this->w() == other.w();
+    }
+
+    CANNOT_FAIL
+    auto operator += (const quat& other) -> quat requires(IsNumeric<T>)
+    {
+      this->x() += other.x();
+      this->y() += other.y();
+      this->z() += other.z();
+      this->w() += other.w();
+      return *this;
+    }
+
+    CANNOT_FAIL
+    auto operator *= (float val) -> quat requires(IsNumeric<T>)
+    {
+      this->x() *= val;
+      this->y() *= val;
+      this->z() *= val;
+      this->w() *= val;
+      return *this;
+    }
+
+    CANNOT_FAIL
+    auto operator *= (const quat& other) -> quat requires(IsNumeric<T>)
+    {
+      this->x() = this->x() * other.w() + this->w() * other.x() + this->y() * other.z() - this->z() * other.y();
+      this->y() = this->y() * other.w() + this->w() * other.y() + this->z() * other.x() - this->x() * other.z();
+      this->z() = this->z() * other.w() + this->w() * other.z() + this->x() * other.y() - this->y() * other.x();
+      this->w() = this->w() * other.w() - this->x() * other.x() - this->y() * other.y() - this->z() * other.z();
+      return *this;
+    }
+
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator + (const quat& other) const -> quat requires(IsNumeric<T>)
+    {
+      return quat
+      {
+        this->x() + other.x(),
+        this->y() + other.y(),
+        this->z() + other.z(),
+        this->w() + other.w()};
+    }
+
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator * (float val) const -> quat requires(IsNumeric<T>)
+    {
+      return quat
+      {
+        this->x() * val,
+        this->y() * val,
+        this->z() * val,
+        this->w() * val
+      };
+    }
+
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator * (const quat& other) const -> quat requires(IsNumeric<T>)
+    {
+      return quat
+      {
+        this->x() * other.w() + this->w() * other.x() + this->y() * other.z() - this->z() * other.y(),
+        this->y() * other.w() + this->w() * other.y() + this->z() * other.x() - this->x() * other.z(),
+        this->z() * other.w() + this->w() * other.z() + this->x() * other.y() - this->y() * other.x(),
+        this->w() * other.w() - this->x() * other.x() - this->y() * other.y() - this->z() * other.z()
+     };
+    }
 
     constexpr static auto size() -> size_t
     {

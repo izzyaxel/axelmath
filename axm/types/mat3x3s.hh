@@ -65,10 +65,67 @@ namespace axm
     USE_RESULT CANNOT_FAIL          auto col1() -> vec3<T>& {return this->data[1];}
     USE_RESULT CANNOT_FAIL          auto col2() -> vec3<T>& {return this->data[2];}
 
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator == (const mat3x3& other) const -> bool requires(HasEquivalenceOperator<T>);
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator [] (size_t index) const -> vec3<T>;
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator * (T val) const -> mat3x3 requires(HasMathOperators<T>);
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator * (const mat3x3& other) const -> mat3x3 requires(HasMathOperators<T>);
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator == (const mat3x3& other) const -> bool requires(HasEquivalenceOperator<T>)
+    {
+      return this->data[0] == other.data[0] && this->data[1] == other.data[1] && this->data[2] == other.data[2];
+    }
+
+    USE_RESULT CANNOT_FAIL
+    auto operator [] (size_t index) -> vec3<T>&
+    {
+      if(index > 2)
+      {
+        return {};
+      }
+
+      return this->data[index];
+    }
+
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator [] (size_t index) const -> vec3<T>
+    {
+      if(index > 2)
+      {
+        return {};
+      }
+
+      return this->data[index];
+    }
+
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator * (T val) const -> mat3x3 requires(HasMathOperators<T>)
+    {
+      return
+      {
+        {this->x1() * val, this->y1() * val, this->z1() * val},
+        {this->x2() * val, this->y2() * val, this->z2() * val},
+        {this->x3() * val, this->y3() * val, this->z3() * val}
+      };
+    }
+
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator * (const mat3x3& other) const -> mat3x3 requires(HasMathOperators<T>)
+    {
+      return
+      {
+        {
+          this->x1() * other.x1() + this->x2() * other.y1() + this->x3() * other.z1(), //0, 0
+          this->y1() * other.x1() + this->y2() * other.y1() + this->y3() * other.z1(), //0, 1
+          this->z1() * other.x1() + this->z2() * other.y1() + this->z3() * other.z1(), //0, 2
+        },
+        {
+          this->x1() * other.x2() + this->x2() * other.y2() + this->x3() * other.z2(), //1, 0
+          this->y1() * other.x2() + this->y2() * other.y2() + this->y3() * other.z2(), //1, 1
+          this->z1() * other.x2() + this->z2() * other.y2() + this->z3() * other.z2(), //1, 2
+        },
+        {
+          this->x1() * other.x3() + this->x2() * other.y3() + this->x3() * other.z3(), //2, 0
+          this->y1() * other.x3() + this->y2() * other.y3() + this->y3() * other.z3(), //2, 1
+          this->z1() * other.x3() + this->z2() * other.y3() + this->z3() * other.z3(), //2, 2
+        }
+      };
+    }
 
     auto print(const std::string& msg) const -> void requires(ConvertibleToString<T>)
     {

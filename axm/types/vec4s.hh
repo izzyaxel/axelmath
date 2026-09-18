@@ -89,54 +89,193 @@ namespace axm
     GNUCONST USE_RESULT CANNOT_FAIL auto rgb() -> vec3<T> {return vec3{this->red(), this->green(), this->blue()};}
     GNUCONST USE_RESULT CANNOT_FAIL auto bgr() -> vec3<T> {return vec3{this->blue(), this->green(), this->red()};}
 
-    CANNOT_FAIL                     auto operator = (const vec3<T>& other) -> vec4&;
-    USE_RESULT CANNOT_FAIL          auto operator [] (size_t index) -> T&;
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator [] (size_t index) const -> const T&;
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator == (const vec4& other) const -> bool requires(HasEquivalenceOperator<T>);
-    //TODO comparison operators
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator - () const -> vec4 requires(MathStorageType<T>);
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator + (const vec4& other) const -> vec4 requires(MathStorageType<T>);
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator - (const vec4& other) const -> vec4 requires(MathStorageType<T>);
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator * (const vec4& other) const -> vec4 requires(MathStorageType<T>);
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator / (const vec4& other) const -> vec4 requires(MathStorageType<T>);
-    CANNOT_FAIL                     auto operator += (const vec4& other) -> vec4& requires(MathStorageType<T>);
-    CANNOT_FAIL                     auto operator -= (const vec4& other) -> vec4& requires(MathStorageType<T>);
-    CANNOT_FAIL                     auto operator *= (const vec4& other) -> vec4& requires(MathStorageType<T>);
-    CANNOT_FAIL                     auto operator /= (const vec4& other) -> vec4& requires(MathStorageType<T>);
+    CANNOT_FAIL                     
+    auto operator = (const vec3<T>& other) -> vec4&
+    {
+      this->x() = other.x();
+      this->y() = other.y();
+      this->z() = other.z();
+      return *this;
+    }
+    
+    USE_RESULT CANNOT_FAIL          
+    auto operator [] (const size_t index) -> T&
+    {
+      size_t sanitized = index;
+      if(sanitized > MAX_INDEX)
+      {
+        sanitized = MAX_INDEX;
+      }
 
+      return this->data[sanitized];
+    }
+    
+    GNUCONST USE_RESULT CANNOT_FAIL 
+    auto operator [] (const size_t index) const -> const T&
+    {
+      size_t sanitized = index;
+      if(sanitized > MAX_INDEX)
+      {
+        sanitized = MAX_INDEX;
+      }
+
+      return this->data[sanitized];
+    }
+    
+    GNUCONST USE_RESULT CANNOT_FAIL 
+    auto operator == (const vec4& other) const -> bool requires(HasEquivalenceOperator<T>)
+    {
+      return this->x() == other.x() && this->y() == other.y() && this->z() == other.z() && this->w() == other.w();
+    }
+    
+    GNUCONST USE_RESULT CANNOT_FAIL 
+    auto operator - () const -> vec4 requires(MathStorageType<T>)
+    {
+      vec4 out;
+      out.x() = -this->x();
+      out.y() = -this->y();
+      out.z() = -this->z();
+      out.w() = -this->w();
+      return out;
+    }
+    
+    GNUCONST USE_RESULT CANNOT_FAIL 
+    auto operator + (const vec4& other) const -> vec4 requires(MathStorageType<T>)
+    {
+      return {this->x() + other.x(), this->y() + other.y(), this->z() + other.z(), this->w() + other.w()};
+    }
+    
+    GNUCONST USE_RESULT CANNOT_FAIL 
+    auto operator - (const vec4& other) const -> vec4 requires(MathStorageType<T>)
+    {
+      return {this->x() - other.x(), this->y() - other.y(), this->z() - other.z(), this->w() - other.w()};
+    }
+    
+    GNUCONST USE_RESULT CANNOT_FAIL 
+    auto operator * (const vec4& other) const -> vec4 requires(MathStorageType<T>)
+    {
+      return {this->x() * other.x(), this->y() * other.y(), this->z() * other.z(), this->w() * other.w()};
+    }
+    
+    GNUCONST USE_RESULT CANNOT_FAIL 
+    auto operator / (const vec4& other) const -> vec4 requires(MathStorageType<T>)
+    {
+      return {this->x() / other.x(), this->y() / other.y(), this->z() / other.z(), this->w() / other.w()};
+    }
+    
+    CANNOT_FAIL                     
+    auto operator += (const vec4& other) -> vec4& requires(MathStorageType<T>)
+    {
+      this->x() += other.x();
+      this->y() += other.y();
+      this->z() += other.z();
+      this->w() += other.w();
+      return *this;
+    }
+    
+    CANNOT_FAIL                     
+    auto operator -= (const vec4& other) -> vec4& requires(MathStorageType<T>)
+    {
+      this->x() -= other.x();
+      this->y() -= other.y();
+      this->z() -= other.z();
+      this->w() -= other.w();
+      return *this;
+    }
+    
+    CANNOT_FAIL                     
+    auto operator *= (const vec4& other) -> vec4& requires(MathStorageType<T>)
+    {
+      this->x() *= other.x();
+      this->y() *= other.y();
+      this->z() *= other.z();
+      this->w() *= other.w();
+      return *this;
+    }
+    
+    CANNOT_FAIL                     
+    auto operator /= (const vec4& other) -> vec4& requires(MathStorageType<T>)
+    {
+      this->x() /= other.x();
+      this->y() /= other.y();
+      this->z() /= other.z();
+      this->w() /= other.w();
+      return *this;
+    }
+    
     //Converting
 
     template <typename U>
     GNUCONST USE_RESULT CANNOT_FAIL
-    auto operator + (U other) const -> vec4 requires(MathStorageType<T>);
+    auto operator + (U other) const -> vec4 requires(MathStorageType<T>)
+    {
+      return {this->x() + (T)other), this->y() + (T)other), this->z() + (T)other), this->w() + (T)other)};
+    }
 
     template <typename U>
     GNUCONST USE_RESULT CANNOT_FAIL
-    auto operator - (U other) const -> vec4 requires(MathStorageType<T>);
+    auto operator - (U other) const -> vec4 requires(MathStorageType<T>)
+    {
+      return {this->x() - (T)other, this->y() - (T)other, this->z() - (T)other, this->w() - (T)other};
+    }
 
     template <typename U>
     GNUCONST USE_RESULT CANNOT_FAIL
-    auto operator * (U other) const -> vec4 requires(MathStorageType<T>);
+    auto operator * (U other) const -> vec4 requires(MathStorageType<T>)
+    {
+      return {this->x() * (T)other, this->y() * (T)other, this->z() * (T)other, this->w() * (T)other};
+    }
 
     template <typename U>
     GNUCONST USE_RESULT CANNOT_FAIL
-    auto operator / (U other) const -> vec4 requires(MathStorageType<T>);
+    auto operator / (U other) const -> vec4 requires(MathStorageType<T>)
+    {
+      return {this->x() / (T)other, this->y() / (T)other, this->z() / (T)other, this->w() / (T)other};
+    }
 
     template <typename U>
     CANNOT_FAIL
-    auto operator += (U other) -> vec4& requires(MathStorageType<T>);
+    auto operator += (U other) -> vec4& requires(MathStorageType<T>)
+    {
+      this->x() += (T)other;
+      this->y() += (T)other;
+      this->z() += (T)other;
+      this->w() += (T)other;
+      return *this;
+    }
 
     template <typename U>
     CANNOT_FAIL
-    auto operator -= (U other) -> vec4& requires(MathStorageType<T>);
+    auto operator -= (U other) -> vec4& requires(MathStorageType<T>)
+    {
+      this->x() -= (T)other;
+      this->y() -= (T)other;
+      this->z() -= (T)other;
+      this->w() -= (T)other;
+      return *this;
+    }
 
     template <typename U>
     CANNOT_FAIL
-    auto operator *= (U other) -> vec4& requires(MathStorageType<T>);
+    auto operator *= (U other) -> vec4& requires(MathStorageType<T>)
+    {
+      this->x() *= (T)other;
+      this->y() *= (T)other;
+      this->z() *= (T)other;
+      this->w() *= (T)other;
+      return *this;
+    }
 
     template <typename U>
     CANNOT_FAIL
-    auto operator /= (U other) -> vec4& requires(MathStorageType<T>);
+    auto operator /= (U other) -> vec4& requires(MathStorageType<T>)
+    {
+      this->x() /= (T)other;
+      this->y() /= (T)other;
+      this->z() /= (T)other;
+      this->w() /= (T)other;
+      return *this;
+    }
 
     GNUCONST USE_RESULT CANNOT_FAIL
     auto toString() const -> std::string requires(ConvertibleToString<T>)

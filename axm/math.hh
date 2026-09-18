@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <cmath>
 
+//TODO add mixed mat3x3 and mat4x4 operations that auto convert up to mat4x4
 //TODO mat3x3 math to optimize RAM usage when when mat4x4 isnt required?
 namespace axm
 {
@@ -250,10 +251,10 @@ namespace axm
   {
     const quat<T> q = normalize(rotation);
     const vec3<T> u = {q.x(), q.y(), q.z()};
-    const vec3<T> uv = cross(u, *vector);
+    const vec3<T> uv = cross(u, vector);
     const vec3<T> uuv = cross(u, uv);
     const T dW = q.w() * (T)2;
-    return *vector + vec3{dW} * uv + vec3{(T)2} * uuv;
+    return vector + vec3{dW} * uv + vec3{(T)2} * uuv;
   }
 
   ///

@@ -10,7 +10,6 @@ set(SRC
     axm/conversion.hh
     axm/interpolation.hh
     axm/math.hh
-    axm/operators.hh
     
     axm/types/aabb2ds.hh
     axm/types/aabb3ds.hh

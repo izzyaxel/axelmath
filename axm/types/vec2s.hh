@@ -3,16 +3,11 @@
 #include "../aliases.hh"
 #include "../concepts.hh"
 
-#include <algorithm>
-#include <cmath>
 #include <string>
 #include <array>
 
 namespace axm
 {
-
-  //TODO make this immutable
-  //TODO mark all math functions with requires(MathStorageType)
 
   /// A 2-component vector
   /// @tparam T Any type
@@ -65,56 +60,178 @@ namespace axm
     USE_RESULT CANNOT_FAIL          auto min() -> T& {return this->data[0];}
     USE_RESULT CANNOT_FAIL          auto max() -> T& {return this->data[1];}
 
-    USE_RESULT CANNOT_FAIL          auto operator [] (size_t index) -> T&;
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator [] (size_t index) const -> const T&;
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator == (const vec2& other) const -> bool requires(HasEquivalenceOperator<T>);
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator < (const vec2& other) const -> bool requires(HasComparisonOperators<T>);
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator > (const vec2& other) const -> bool requires(HasComparisonOperators<T>);
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator <= (const vec2& other) const -> bool requires(HasComparisonOperators<T>);
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator >= (const vec2& other) const -> bool requires(HasComparisonOperators<T>);
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator - () const -> vec2 requires(IsNumeric<T>);
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator + (const vec2& other) const -> vec2 requires(IsNumeric<T>);
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator - (const vec2& other) const -> vec2 requires(IsNumeric<T>);
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator * (const vec2& other) const -> vec2 requires(IsNumeric<T>);
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator / (const vec2& other) const -> vec2 requires(IsNumeric<T>);
-    CANNOT_FAIL                     auto operator += (const vec2& other) -> vec2 requires(IsNumeric<T>);
-    CANNOT_FAIL                     auto operator -= (const vec2& other) -> vec2 requires(IsNumeric<T>);
-    CANNOT_FAIL                     auto operator *= (const vec2& other) -> vec2 requires(IsNumeric<T>);
-    CANNOT_FAIL                     auto operator /= (const vec2& other) -> vec2 requires(IsNumeric<T>);
+    USE_RESULT CANNOT_FAIL
+    auto operator [] (const size_t index) -> T&
+    {
+      size_t sanitized = index;
+      if(sanitized > vec2::MAX_INDEX)
+      {
+        sanitized = MAX_INDEX;
+      }
+      return this->data[sanitized];
+    }
+
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator [] (const size_t index) const -> const T&
+    {
+      size_t sanitized = index;
+      if(sanitized > MAX_INDEX)
+      {
+        sanitized = MAX_INDEX;
+      }
+      return this->data[sanitized];
+    }
+
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator == (const vec2& other) const -> bool requires(HasEquivalenceOperator<T>)
+    {
+      return this->x() == other.x() && this->y() == other.y();
+    }
+
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator < (const vec2& other) const -> bool requires(HasComparisonOperators<T>)
+    {
+      return this->x() < other.x() && this->y() < other.y();
+    }
+
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator > (const vec2& other) const -> bool requires(HasComparisonOperators<T>)
+    {
+      return this->x() > other.x() && this->y() > other.y();
+    }
+
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator <= (const vec2& other) const -> bool requires(HasComparisonOperators<T>)
+    {
+      return this->x() <= other.x() && this->y() <= other.y();
+    }
+
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator >= (const vec2& other) const -> bool requires(HasComparisonOperators<T>)
+    {
+      return this->x() >= other.x() && this->y() >= other.y();
+    }
+
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator - () const -> vec2 requires(IsNumeric<T>)
+    {
+      vec2 out{-this->x(), -this->y()};
+      return out;
+    }
+
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator + (const vec2& other) const -> vec2 requires(IsNumeric<T>)
+    {
+      return {this->x() + other.x(), this->y() + other.y()};
+    }
+
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator - (const vec2& other) const -> vec2 requires(IsNumeric<T>)
+    {
+      return {this->x() - other.x(), this->y() - other.y()};
+    }
+
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator * (const vec2& other) const -> vec2 requires(IsNumeric<T>)
+    {
+      return {this->x() * other.x(), this->y() * other.y()};
+    }
+
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator / (const vec2& other) const -> vec2 requires(IsNumeric<T>)
+    {
+      return {this->x() / other.x(), this->y() / other.y()};
+    }
+
+    CANNOT_FAIL
+    auto operator += (const vec2& other) -> vec2 requires(IsNumeric<T>)
+    {
+      return {this->x() + other.x(), this->y() + other.y()};
+    }
+
+    CANNOT_FAIL
+    auto operator -= (const vec2& other) -> vec2 requires(IsNumeric<T>)
+    {
+      return {this->x() - other.x(), this->y() - other.y()};
+    }
+
+    CANNOT_FAIL
+    auto operator *= (const vec2& other) -> vec2 requires(IsNumeric<T>)
+    {
+      return {this->x() * other.x(), this->y() * other.y()};
+    }
+
+    CANNOT_FAIL
+    auto operator /= (const vec2& other) -> vec2 requires(IsNumeric<T>)
+    {
+      return {this->x() / other.x(), this->y() / other.y()};
+    }
 
     //Converting
 
     template <typename U>
     GNUCONST USE_RESULT CANNOT_FAIL
-    auto operator + (U other) const -> vec2;
+    auto operator + (U other) const -> vec2
+    {
+      return {this->x() + (T)other, this->y() + (T)other};
+    }
 
     template <typename U>
     GNUCONST USE_RESULT CANNOT_FAIL
-    auto operator - (U other) const -> vec2;
+    auto operator - (U other) const -> vec2
+    {
+      return {this->x() - (T)other, this->y() - (T)other};
+    }
 
     template <typename U>
     GNUCONST USE_RESULT CANNOT_FAIL
-    auto operator * (U other) const -> vec2;
+    auto operator * (U other) const -> vec2
+    {
+      return {this->x() * (T)other, this->y() * (T)other};
+    }
 
     template <typename U>
     GNUCONST USE_RESULT CANNOT_FAIL
-    auto operator / (U other) const -> vec2;
+    auto operator / (U other) const -> vec2
+    {
+      return {this->x() / (T)other, this->y() / (T)other};
+    }
 
     template <typename U>
     CANNOT_FAIL
-    auto operator += (U other) -> vec2;
+    auto operator += (U other) -> vec2
+    {
+      this->x() += (T)other;
+      this->y() += (T)other;
+      return *this;
+    }
 
     template <typename U>
     CANNOT_FAIL
-    auto operator -= (U other) -> vec2;
+    auto operator -= (U other) -> vec2
+    {
+      this->x() -= (T)other;
+      this->y() -= (T)other;
+      return *this;
+    }
 
     template <typename U>
     CANNOT_FAIL
-    auto operator *= (U other) -> vec2;
+    auto operator *= (U other) -> vec2
+    {
+      this->x() *= (T)other;
+      this->y() *= (T)other;
+      return *this;
+    }
 
     template <typename U>
     CANNOT_FAIL
-    auto operator /= (U other) -> vec2;
+    auto operator /= (U other) -> vec2
+    {
+      this->x() /= (T)other;
+      this->y() /= (T)other;
+      return *this;
+    }
 
     GNUCONST USE_RESULT CANNOT_FAIL
     auto toString() const -> std::string requires(ConvertibleToString<T>)

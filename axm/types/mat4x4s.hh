@@ -87,12 +87,89 @@ namespace axm
     USE_RESULT CANNOT_FAIL          auto col2() -> vec4<T>& {return this->data[2];}
     USE_RESULT CANNOT_FAIL          auto col3() -> vec4<T>& {return this->data[3];}
 
-    //TODO other operators?
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator == (const mat4x4& other) const -> bool;
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator [] (size_t index) const -> vec4<T>;
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator * (T val) const -> mat4x4 requires(MathStorageType<T>);
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator * (const mat4x4& other) const -> mat4x4 requires(MathStorageType<T>);
-    GNUCONST USE_RESULT CANNOT_FAIL auto operator * (const vec4<T>& vec) const -> vec4<T> requires(MathStorageType<T>);
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator == (const mat4x4& other) const -> bool
+    {
+      return this->data[0] == other.data[0] && this->data[1] == other.data[1] && this->data[2] == other.data[2] && this->data[3] == other.data[3];
+    }
+
+    USE_RESULT CANNOT_FAIL
+    auto operator [] (size_t index) -> vec4<T>&
+    {
+      if(index > 3)
+      {
+        return {};
+      }
+
+      return this->data[index];
+    }
+
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator [] (size_t index) const -> vec4<T>
+    {
+      if(index > 3)
+      {
+        return {};
+      }
+
+      return this->data[index];
+    }
+
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator * (T val) const -> mat4x4 requires(MathStorageType<T>)
+    {
+      return
+      {
+        {this->x1() * val, this->y1() * val, this->z1() * val, this->w1() * val},
+        {this->x2() * val, this->y2() * val, this->z2() * val, this->w2() * val},
+        {this->x3() * val, this->y3() * val, this->z3() * val, this->w3() * val},
+        {this->x4() * val, this->y4() * val, this->z4() * val, this->w4() * val}
+      };
+    }
+
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator * (const mat4x4& other) const -> mat4x4 requires(MathStorageType<T>)
+    {
+      return
+      {
+        {
+          this->x1() * other.x1() + this->x2() * other.y1() + this->x3() * other.z1() + this->x4() * other.w1(), //0, 0
+          this->y1() * other.x1() + this->y2() * other.y1() + this->y3() * other.z1() + this->y4() * other.w1(), //0, 1
+          this->z1() * other.x1() + this->z2() * other.y1() + this->z3() * other.z1() + this->z4() * other.w1(), //0, 2
+          this->w1() * other.x1() + this->w2() * other.y1() + this->w3() * other.z1() + this->w4() * other.w1(), //0, 3
+        },
+        {
+          this->x1() * other.x2() + this->x2() * other.y2() + this->x3() * other.z2() + this->x4() * other.w2(), //1, 0
+          this->y1() * other.x2() + this->y2() * other.y2() + this->y3() * other.z2() + this->y4() * other.w2(), //1, 1
+          this->z1() * other.x2() + this->z2() * other.y2() + this->z3() * other.z2() + this->z4() * other.w2(), //1, 2
+          this->w1() * other.x2() + this->w2() * other.y2() + this->w3() * other.z2() + this->w4() * other.w2(), //1, 3
+        },
+        {
+          this->x1() * other.x3() + this->x2() * other.y3() + this->x3() * other.z3() + this->x4() * other.w3(), //2, 0
+          this->y1() * other.x3() + this->y2() * other.y3() + this->y3() * other.z3() + this->y4() * other.w3(), //2, 1
+          this->z1() * other.x3() + this->z2() * other.y3() + this->z3() * other.z3() + this->z4() * other.w3(), //2, 2
+          this->w1() * other.x3() + this->w2() * other.y3() + this->w3() * other.z3() + this->w4() * other.w3(), //2, 3
+        },
+        {
+          this->x1() * other.x4() + this->x2() * other.y4() + this->x3() * other.z4() + this->x4() * other.w4(), //3, 0
+          this->y1() * other.x4() + this->y2() * other.y4() + this->y3() * other.z4() + this->y4() * other.w4(), //3, 1
+          this->z1() * other.x4() + this->z2() * other.y4() + this->z3() * other.z4() + this->z4() * other.w4(), //3, 2
+          this->w1() * other.x4() + this->w2() * other.y4() + this->w3() * other.z4() + this->w4() * other.w4(), //3, 3
+        }
+      };
+    }
+
+    GNUCONST USE_RESULT CANNOT_FAIL
+    auto operator * (const vec4<T>& vec) const -> vec4<T> requires(MathStorageType<T>)
+    {
+      return
+      {
+        vec.x() * this->x1() + vec.y() * this->y1() + vec.z() * this->z1() + vec.w() * this->w1(),
+        vec.x() * this->x2() + vec.y() * this->y2() + vec.z() * this->z2() + vec.w() * this->w2(),
+        vec.x() * this->x3() + vec.y() * this->y3() + vec.z() * this->z3() + vec.w() * this->w3(),
+        vec.x() * this->x4() + vec.y() * this->y4() + vec.z() * this->z4() + vec.w() * this->w4(),
+      };
+    }
 
     auto print(const std::string& msg) const -> void requires(ConvertibleToString<T>)
     {
