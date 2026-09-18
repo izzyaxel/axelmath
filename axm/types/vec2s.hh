@@ -47,25 +47,10 @@ namespace axm
       this->data = {val, val};
     }
 
-    vec2(const vec2& other)
-    {
-      if(this == &other)
-      {
-        return;
-      }
-
-      this->data = other.data;
-    }
-
-    vec2(vec2&& other) noexcept
-    {
-      if(this == &other)
-      {
-        return;
-      }
-
-      this->data = std::move(other.data);
-    }
+    vec2(const vec2& other) = default;
+    vec2(vec2&& other) noexcept = default;
+    auto operator = (const vec2& other) -> vec2& = default;
+    auto operator = (vec2&& other) noexcept -> vec2& = default;
 
     GNUCONST USE_RESULT CANNOT_FAIL auto x() const -> const T& {return this->data[0];}
     GNUCONST USE_RESULT CANNOT_FAIL auto y() const -> const T& {return this->data[1];}
@@ -80,8 +65,6 @@ namespace axm
     USE_RESULT CANNOT_FAIL          auto min() -> T& {return this->data[0];}
     USE_RESULT CANNOT_FAIL          auto max() -> T& {return this->data[1];}
 
-    CANNOT_FAIL                     auto operator = (const vec2& other) -> vec2& = default;
-    CANNOT_FAIL                     auto operator = (vec2&& other) noexcept -> vec2& = default;
     USE_RESULT CANNOT_FAIL          auto operator [] (size_t index) -> T&;
     GNUCONST USE_RESULT CANNOT_FAIL auto operator [] (size_t index) const -> const T&;
     GNUCONST USE_RESULT CANNOT_FAIL auto operator == (const vec2& other) const -> bool requires(HasEquivalenceOperator<T>);

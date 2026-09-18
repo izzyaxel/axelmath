@@ -37,6 +37,11 @@ namespace axm
                {x4, y4, z4, w4}) {}
 
     mat4x4(const vec4<T>& column0, const vec4<T>& column1, const vec4<T>& column2, const vec4<T>& column3) : data(column0, column1, column2, column3) {}
+    
+    mat4x4(mat4x4&& other) noexcept = default;
+    mat4x4(const mat4x4& other) = default;
+    auto operator = (const mat4x4& other) -> mat4x4& = default;
+    auto operator = (mat4x4&& other) noexcept -> mat4x4& = default;
 
     //Value access
     GNUCONST USE_RESULT CANNOT_FAIL auto x1() const -> T {return this->data[0][0];}

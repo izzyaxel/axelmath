@@ -36,26 +36,10 @@ namespace axm
       this->y() = other.y();
     }
 
-    vec3(const vec3& other)
-    {
-      if(this == &other)
-      {
-        return;
-      }
-
-      this->data = other.data;
-    }
-
-    vec3(vec3&& other) noexcept
-    {
-      if(this == &other)
-      {
-        return;
-      }
-
-      this->data = other.data;
-      other.data = {};
-    }
+    vec3(const vec3& other) = default;
+    vec3(vec3&& other) noexcept = default;
+    auto operator = (const vec3& other) -> vec3& = default;
+    auto operator = (vec3&& other) noexcept -> vec3& = default;
 
     GNUCONST USE_RESULT CANNOT_FAIL auto x() const -> const T& {return this->data.at(0);}
     GNUCONST USE_RESULT CANNOT_FAIL auto y() const -> const T& {return this->data.at(1);}

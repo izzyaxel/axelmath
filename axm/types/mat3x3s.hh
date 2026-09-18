@@ -32,6 +32,11 @@ namespace axm
 
     mat3x3(const vec3<T>& column0, const vec3<T>& column1, const vec3<T>& column2) : data(column0, column1, column2) {}
 
+    mat3x3(mat3x3&& other) noexcept = default;
+    mat3x3(const mat3x3& other) = default;
+    auto operator = (const mat3x3& other) -> mat3x3& = default;
+    auto operator = (mat3x3&& other) noexcept -> mat3x3& = default;
+
     //Value Access
     GNUCONST USE_RESULT CANNOT_FAIL auto x1() const -> T {return this->data[0][0];}
     GNUCONST USE_RESULT CANNOT_FAIL auto y1() const -> T {return this->data[0][1];}

@@ -31,22 +31,10 @@ namespace axm
 
     constexpr quat(const T xIn, const T yIn, const T zIn, const T wIn) : data{xIn, yIn, zIn, wIn} {}
 
-    quat(quat&& other) noexcept
-    {
-      if(this != &other)
-      {
-        this->data = other.data;
-        other.data = {};
-      }
-    }
-
-    quat(const quat& other)
-    {
-      if(this != &other)
-      {
-        this->data = other.data;
-      }
-    }
+    quat(quat&& other) noexcept = default;
+    quat(const quat& other) = default;
+    auto operator = (const quat& other) -> quat& = default;
+    auto operator = (quat&& other) noexcept -> quat& = default;
 
     GNUCONST USE_RESULT CANNOT_FAIL auto x() const -> T {return this->data[0];}
     GNUCONST USE_RESULT CANNOT_FAIL auto y() const -> T {return this->data[1];}

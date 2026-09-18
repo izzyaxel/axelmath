@@ -39,25 +39,10 @@ namespace axm
       this->w() = b;
     }
 
-    vec4(const vec4& other)
-    {
-      if(this == &other)
-      {
-        return;
-      }
-
-      this->data = other.data;
-    }
-
-    vec4(vec4&& other) noexcept
-    {
-      if(this == &other)
-      {
-        return;
-      }
-
-      this->data = std::move(other.data);
-    }
+    vec4(const vec4& other) = default;
+    vec4(vec4&& other) noexcept = default;
+    auto operator = (const vec4& other) -> vec4& = default;
+    auto operator = (vec4&& other) noexcept -> vec4& = default;
 
     GNUCONST USE_RESULT CANNOT_FAIL auto x() const ->  const T& {return this->data.at(0);}
     GNUCONST USE_RESULT CANNOT_FAIL auto y() const ->  const T& {return this->data.at(1);}
