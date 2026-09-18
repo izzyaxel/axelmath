@@ -92,8 +92,8 @@ namespace axm
     GNUCONST USE_RESULT CANNOT_FAIL auto xy() const -> vec2<T> {return {this->x(), this->y()};}
     GNUCONST USE_RESULT CANNOT_FAIL auto bgr() const -> vec3 {return {this->blue(), this->green(), this->red()};}
 
-    CANNOT_FAIL          auto operator = (const vec3& other) -> vec3&;
-    CANNOT_FAIL          auto operator = (vec3&& other) noexcept -> vec3&;
+    CANNOT_FAIL                     auto operator = (const vec3& other) -> vec3&;
+    CANNOT_FAIL                     auto operator = (vec3&& other) noexcept -> vec3&;
     USE_RESULT CANNOT_FAIL          auto operator [] (size_t index) -> T&;
     GNUCONST USE_RESULT CANNOT_FAIL auto operator [] (size_t index) const -> const T&;
     GNUCONST USE_RESULT CANNOT_FAIL auto operator == (const vec3& other) const -> bool requires(HasEquivalenceOperator<T>);

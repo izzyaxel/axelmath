@@ -13,7 +13,7 @@ namespace axm
   //==Vec2==============================================================================================================
 
   template <typename T>
-  auto vec2<T>::operator = (const vec2& other) -> vec2&
+  auto vec2<T>::operator = (const vec2<T>& other) -> vec2<T>&
   {
     if(other != *this)
     {
@@ -24,7 +24,7 @@ namespace axm
   }
 
   template <typename T>
-  auto vec2<T>::operator = (vec2&& other) noexcept -> vec2&
+  auto vec2<T>::operator = (vec2<T>&& other) noexcept -> vec2<T>&
   {
     if(other != *this)
     {
@@ -58,142 +58,142 @@ namespace axm
   }
 
   template <typename T>
-  auto vec2<T>::operator - () const -> vec2 requires(IsNumeric<T>)
+  auto vec2<T>::operator - () const -> vec2<T> requires(IsNumeric<T>)
   {
     vec2 out{-this->x(), -this->y()};
     return out;
   }
 
   template <typename T>
-  auto vec2<T>::operator + (const vec2& other) const -> vec2 requires(IsNumeric<T>)
+  auto vec2<T>::operator + (const vec2<T>& other) const -> vec2<T> requires(IsNumeric<T>)
   {
     return {this->x() + other.x(), this->y() + other.y()};
   }
 
   template <typename T>
-  auto vec2<T>::operator - (const vec2& other) const -> vec2 requires(IsNumeric<T>)
+  auto vec2<T>::operator - (const vec2<T>& other) const -> vec2<T> requires(IsNumeric<T>)
   {
     return {this->x() - other.x(), this->y() - other.y()};
   }
 
   template <typename T>
-  auto vec2<T>::operator * (const vec2& other) const -> vec2 requires(IsNumeric<T>)
+  auto vec2<T>::operator * (const vec2<T>& other) const -> vec2<T> requires(IsNumeric<T>)
   {
     return {this->x() * other.x(), this->y() * other.y()};
   }
 
   template <typename T>
-  auto vec2<T>::operator / (const vec2& other) const -> vec2 requires(IsNumeric<T>)
+  auto vec2<T>::operator / (const vec2<T>& other) const -> vec2<T> requires(IsNumeric<T>)
   {
     return {this->x() / other.x(), this->y() / other.y()};
   }
 
   template <typename T>
-  auto vec2<T>::operator += (const vec2& other) -> vec2 requires(IsNumeric<T>)
+  auto vec2<T>::operator += (const vec2<T>& other) -> vec2<T> requires(IsNumeric<T>)
   {
     return {this->x() + other.x(), this->y() + other.y()};
   }
 
   template <typename T>
-  auto vec2<T>::operator -= (const vec2& other) -> vec2 requires(IsNumeric<T>)
+  auto vec2<T>::operator -= (const vec2<T>& other) -> vec2<T> requires(IsNumeric<T>)
   {
     return {this->x() - other.x(), this->y() - other.y()};
   }
 
   template <typename T>
-  auto vec2<T>::operator *= (const vec2& other) -> vec2 requires(IsNumeric<T>)
+  auto vec2<T>::operator *= (const vec2<T>& other) -> vec2<T> requires(IsNumeric<T>)
   {
     return {this->x() * other.x(), this->y() * other.y()};
   }
 
   template <typename T>
-  auto vec2<T>::operator /= (const vec2& other) -> vec2 requires(IsNumeric<T>)
+  auto vec2<T>::operator /= (const vec2<T>& other) -> vec2<T> requires(IsNumeric<T>)
   {
     return {this->x() / other.x(), this->y() / other.y()};
   }
 
   template <typename T>
   template <typename U>
-  auto vec2<T>::operator + (const U other) const -> vec2
+  auto vec2<T>::operator + (const U other) const -> vec2<T>
   {
     return {(T)((float)this->x() + (float)other), (T)((float)this->y() + (float)other)};
   }
 
   template <typename T>
   template <typename U>
-  auto vec2<T>::operator - (const U other) const -> vec2
+  auto vec2<T>::operator - (const U other) const -> vec2<T>
   {
     return {(T)((float)this->x() - (float)other), (T)((float)this->y() - (float)other)};
   }
 
   template <typename T>
   template <typename U>
-  auto vec2<T>::operator * (const U other) const -> vec2
+  auto vec2<T>::operator * (const U other) const -> vec2<T>
   {
     return {(T)((float)this->x() * (float)other), (T)((float)this->y() * (float)other)};
   }
 
   template <typename T>
   template <typename U>
-  auto vec2<T>::operator / (const U other) const -> vec2
+  auto vec2<T>::operator / (const U other) const -> vec2<T>
   {
     return {(T)((float)this->x() / (float)other), (T)((float)this->y() / (float)other)};
   }
 
   template <typename T>
   template <typename U>
-  auto vec2<T>::operator += (const U other) -> vec2
+  auto vec2<T>::operator += (const U other) -> vec2<T>
   {
     return {this->x() + (T)other.x(), this->y() + (T)other.y()};
   }
 
   template <typename T>
   template <typename U>
-  auto vec2<T>::operator -= (const U other) -> vec2
+  auto vec2<T>::operator -= (const U other) -> vec2<T>
   {
     return {this->x() - (T)other.x(), this->y() - (T)other.y()};
   }
 
   template <typename T>
   template <typename U>
-  auto vec2<T>::operator *= (const U other) -> vec2
+  auto vec2<T>::operator *= (const U other) -> vec2<T>
   {
     return {this->x() * (T)other.x(), this->y() * (T)other.y()};
   }
 
   template <typename T>
   template <typename U>
-  auto vec2<T>::operator /= (const U other) -> vec2
+  auto vec2<T>::operator /= (const U other) -> vec2<T>
   {
     return {this->x() / (T)other.x(), this->y() / (T)other.y()};
   }
 
   template <typename T>
-  auto vec2<T>::operator == (const vec2& other) const -> bool requires(HasEquivalenceOperator<T>)
+  auto vec2<T>::operator == (const vec2<T>& other) const -> bool requires(HasEquivalenceOperator<T>)
   {
     return this->x() == other.x() && this->y() == other.y();
   }
 
   template <typename T>
-  auto vec2<T>::operator < (const vec2& other) const -> bool requires(HasComparisonOperators<T>)
+  auto vec2<T>::operator < (const vec2<T>& other) const -> bool requires(HasComparisonOperators<T>)
   {
     return this->x() < other.x() && this->y() < other.y();
   }
 
   template <typename T>
-  auto vec2<T>::operator > (const vec2& other) const -> bool requires(HasComparisonOperators<T>)
+  auto vec2<T>::operator > (const vec2<T>& other) const -> bool requires(HasComparisonOperators<T>)
   {
     return this->x() > other.x() && this->y() > other.y();
   }
 
   template <typename T>
-  auto vec2<T>::operator <= (const vec2& other) const -> bool requires(HasComparisonOperators<T>)
+  auto vec2<T>::operator <= (const vec2<T>& other) const -> bool requires(HasComparisonOperators<T>)
   {
     return this->x() <= other.x() && this->y() <= other.y();
   }
 
   template <typename T>
-  auto vec2<T>::operator >= (const vec2& other) const -> bool requires(HasComparisonOperators<T>)
+  auto vec2<T>::operator >= (const vec2<T>& other) const -> bool requires(HasComparisonOperators<T>)
   {
     return this->x() >= other.x() && this->y() >= other.y();
   }
@@ -201,7 +201,7 @@ namespace axm
   //==Vec3==============================================================================================================
 
   template <typename T>
-  auto vec3<T>::operator = (const vec3& other) -> vec3&
+  auto vec3<T>::operator = (const vec3<T>& other) -> vec3<T>&
   {
     if(this != &other)
     {
@@ -212,7 +212,7 @@ namespace axm
   }
 
   template <typename T>
-  auto vec3<T>::operator - () const -> vec3 requires(IsNumeric<T>)
+  auto vec3<T>::operator - () const -> vec3<T> requires(IsNumeric<T>)
   {
     vec3 out;
     out.x() = -this->x();
@@ -222,7 +222,7 @@ namespace axm
   }
 
   template <typename T>
-  auto vec3<T>::operator = (vec3&& other) noexcept -> vec3&
+  auto vec3<T>::operator = (vec3<T>&& other) noexcept -> vec3<T>&
   {
     if(this != &other)
     {
@@ -256,65 +256,65 @@ namespace axm
   }
 
   template <typename T>
-  auto vec3<T>::operator == (const vec3& other) const -> bool requires(HasEquivalenceOperator<T>)
+  auto vec3<T>::operator == (const vec3<T>& other) const -> bool requires(HasEquivalenceOperator<T>)
   {
     return this->x() == other.x() && this->y() == other.y() && this->z() == other.z();
   }
 
   template <typename T>
-  auto vec3<T>::operator + (const vec3<T>& other) const -> vec3 requires(IsNumeric<T>)
+  auto vec3<T>::operator + (const vec3<T>& other) const -> vec3<T> requires(IsNumeric<T>)
   {
     return vec3{this->x() + other.x(), this->y() + other.y(), this->z() + other.z()};
   }
 
   template <typename T>
-  auto vec3<T>::operator - (const vec3<T>& other) const -> vec3 requires(IsNumeric<T>)
+  auto vec3<T>::operator - (const vec3<T>& other) const -> vec3<T> requires(IsNumeric<T>)
   {
     return vec3{this->x() - other.x(), this->y() - other.y(), this->z() - other.z()};
   }
 
   template <typename T>
-  auto vec3<T>::operator * (const vec3<T>& other) const -> vec3 requires(IsNumeric<T>)
+  auto vec3<T>::operator * (const vec3<T>& other) const -> vec3<T> requires(IsNumeric<T>)
   {
     return vec3{this->x() * other.x(), this->y() * other.y(), this->z() * other.z()};
   }
 
   template <typename T>
-  auto vec3<T>::operator / (const vec3<T>& other) const -> vec3 requires(IsNumeric<T>)
+  auto vec3<T>::operator / (const vec3<T>& other) const -> vec3<T> requires(IsNumeric<T>)
   {
     return vec3{this->x() / other.x(), this->y() / other.y(), this->z() / other.z()};
   }
 
   template <typename T>
   template <typename U>
-  auto vec3<T>::operator + (const U other) const -> vec3 requires(IsNumeric<T>)
+  auto vec3<T>::operator + (const U other) const -> vec3<T> requires(IsNumeric<T>)
   {
     return vec3{(T)((float)this->x() + (float)other), (T)((float)this->y() + (float)other), (T)((float)this->z() + (float)other)};
   }
 
   template <typename T>
   template <typename U>
-  auto vec3<T>::operator - (const U other) const -> vec3 requires(IsNumeric<T>)
+  auto vec3<T>::operator - (const U other) const -> vec3<T> requires(IsNumeric<T>)
   {
     return vec3{(T)((float)this->x() - (float)other), (T)((float)this->y() - (float)other), (T)((float)this->z() - (float)other)};
   }
 
   template <typename T>
   template <typename U>
-  auto vec3<T>::operator * (const U other) const -> vec3 requires(IsNumeric<T>)
+  auto vec3<T>::operator * (const U other) const -> vec3<T> requires(IsNumeric<T>)
   {
     return vec3{(T)((float)this->x() * (float)other), (T)((float)this->y() * (float)other), (T)((float)this->z() * (float)other)};
   }
 
   template <typename T>
   template <typename U>
-  auto vec3<T>::operator / (const U other) const -> vec3 requires(IsNumeric<T>)
+  auto vec3<T>::operator / (const U other) const -> vec3<T> requires(IsNumeric<T>)
   {
     return vec3{(T)((float)this->x() / (float)other), (T)((float)this->y() / (float)other), (T)((float)this->z() / (float)other)};
   }
 
   template <typename T>
-  auto vec3<T>::operator += (const vec3& other) -> vec3& requires(IsNumeric<T>)
+  auto vec3<T>::operator += (const vec3<T>& other) -> vec3<T>& requires(IsNumeric<T>)
   {
     this->x() += other.x();
     this->y() += other.y();
@@ -323,7 +323,7 @@ namespace axm
   }
 
   template <typename T>
-  auto vec3<T>::operator -= (const vec3& other) -> vec3& requires(IsNumeric<T>)
+  auto vec3<T>::operator -= (const vec3<T>& other) -> vec3<T>& requires(IsNumeric<T>)
   {
     this->x() -= other.x();
     this->y() -= other.y();
@@ -332,7 +332,7 @@ namespace axm
   }
 
   template <typename T>
-  auto vec3<T>::operator *= (const vec3& other) -> vec3& requires(IsNumeric<T>)
+  auto vec3<T>::operator *= (const vec3<T>& other) -> vec3<T>& requires(IsNumeric<T>)
   {
     this->x() *= other.x();
     this->y() *= other.y();
@@ -341,7 +341,7 @@ namespace axm
   }
 
   template <typename T>
-  auto vec3<T>::operator /= (const vec3& other) -> vec3& requires(IsNumeric<T>)
+  auto vec3<T>::operator /= (const vec3<T>& other) -> vec3<T>& requires(IsNumeric<T>)
   {
     this->x() /= other.x();
     this->y() /= other.y();
@@ -351,7 +351,7 @@ namespace axm
 
   template <typename T>
   template <typename U>
-  auto vec3<T>::operator += (const U other) -> vec3& requires(IsNumeric<T>)
+  auto vec3<T>::operator += (const U other) -> vec3<T>& requires(IsNumeric<T>)
   {
     this->x() = (T)((float)this->x() + (float)other);
     this->y() = (T)((float)this->y() + (float)other);
@@ -361,7 +361,7 @@ namespace axm
 
   template <typename T>
   template <typename U>
-  auto vec3<T>::operator -= (const U other) -> vec3& requires(IsNumeric<T>)
+  auto vec3<T>::operator -= (const U other) -> vec3<T>& requires(IsNumeric<T>)
   {
     this->x() = (T)((float)this->x() - (float)other);
     this->y() = (T)((float)this->y() - (float)other);
@@ -371,7 +371,7 @@ namespace axm
 
   template <typename T>
   template <typename U>
-  auto vec3<T>::operator *= (const U other) -> vec3& requires(IsNumeric<T>)
+  auto vec3<T>::operator *= (const U other) -> vec3<T>& requires(IsNumeric<T>)
   {
     this->x() = (T)((float)this->x() * (float)other);
     this->y() = (T)((float)this->y() * (float)other);
@@ -381,7 +381,7 @@ namespace axm
 
   template <typename T>
   template <typename U>
-  auto vec3<T>::operator /= (const U other) -> vec3& requires(IsNumeric<T>)
+  auto vec3<T>::operator /= (const U other) -> vec3<T>& requires(IsNumeric<T>)
   {
     this->x() = (T)((float)this->x() / (float)other);
     this->y() = (T)((float)this->y() / (float)other);
@@ -392,7 +392,7 @@ namespace axm
   //==Vec4==============================================================================================================
 
   template <typename T>
-  auto vec4<T>::operator = (const vec4& other) -> vec4&
+  auto vec4<T>::operator = (const vec4<T>& other) -> vec4<T>&
   {
     if(other != *this)
     {
@@ -403,7 +403,7 @@ namespace axm
   }
 
   template <typename T>
-  auto vec4<T>::operator = (vec4&& other) noexcept -> vec4&
+  auto vec4<T>::operator = (vec4<T>&& other) noexcept -> vec4<T>&
   {
     if(other != *this)
     {
@@ -415,7 +415,7 @@ namespace axm
   }
 
   template <typename T>
-  auto vec4<T>::operator - () const -> vec4 requires(MathStorageType<T>)
+  auto vec4<T>::operator - () const -> vec4<T> requires(MathStorageType<T>)
   {
     vec4 out;
     out.x() = -this->x();
@@ -426,7 +426,7 @@ namespace axm
   }
 
   template <typename T>
-  auto vec4<T>::operator = (const vec3<T>& other) -> vec4&
+  auto vec4<T>::operator = (const vec3<T>& other) -> vec4<T>&
   {
     this->x() = other.x();
     this->y() = other.y();
@@ -459,59 +459,59 @@ namespace axm
   }
 
   template <typename T>
-  auto vec4<T>::operator + (const vec4& other) const -> vec4 requires(MathStorageType<T>)
+  auto vec4<T>::operator + (const vec4<T>& other) const -> vec4<T> requires(MathStorageType<T>)
   {
     return {this->x() + other.x(), this->y() + other.y(), this->z() + other.z(), this->w() + other.w()};
   }
 
   template <typename T>
-  auto vec4<T>::operator - (const vec4& other) const -> vec4 requires(MathStorageType<T>)
+  auto vec4<T>::operator - (const vec4<T>& other) const -> vec4<T> requires(MathStorageType<T>)
   {
     return {this->x() - other.x(), this->y() - other.y(), this->z() - other.z(), this->w() - other.w()};
   }
 
   template <typename T>
-  auto vec4<T>::operator * (const vec4& other) const -> vec4 requires(MathStorageType<T>)
+  auto vec4<T>::operator * (const vec4<T>& other) const -> vec4<T> requires(MathStorageType<T>)
   {
     return {this->x() * other.x(), this->y() * other.y(), this->z() * other.z(), this->w() * other.w()};
   }
 
   template <typename T>
-  auto vec4<T>::operator / (const vec4& other) const -> vec4 requires(MathStorageType<T>)
+  auto vec4<T>::operator / (const vec4<T>& other) const -> vec4<T> requires(MathStorageType<T>)
   {
     return {this->x() / other.x(), this->y() / other.y(), this->z() / other.z(), this->w() / other.w()};
   }
 
   template <typename T>
   template <typename U>
-  auto vec4<T>::operator + (const U other) const -> vec4 requires(MathStorageType<T>)
+  auto vec4<T>::operator + (const U other) const -> vec4<T> requires(MathStorageType<T>)
   {
     return {(T)((float)this->x() + (float)other), (T)((float)this->y() + (float)other), (T)((float)this->z() + (float)other), (T)((float)this->w() + (float)other)};
   }
 
   template <typename T>
   template <typename U>
-  auto vec4<T>::operator - (const U other) const -> vec4 requires(MathStorageType<T>)
+  auto vec4<T>::operator - (const U other) const -> vec4<T> requires(MathStorageType<T>)
   {
     return {(T)((float)this->x() - (float)other), (T)((float)this->y() - (float)other), (T)((float)this->z() - (float)other), (T)((float)this->w() - (float)other)};
   }
 
   template <typename T>
   template <typename U>
-  auto vec4<T>::operator * (const U other) const -> vec4 requires(MathStorageType<T>)
+  auto vec4<T>::operator * (const U other) const -> vec4<T> requires(MathStorageType<T>)
   {
     return {(T)((float)this->x() * (float)other), (T)((float)this->y() * (float)other), (T)((float)this->z() * (float)other), (T)((float)this->w() * (float)other)};
   }
 
   template <typename T>
   template <typename U>
-  auto vec4<T>::operator / (const U other) const -> vec4 requires(MathStorageType<T>)
+  auto vec4<T>::operator / (const U other) const -> vec4<T> requires(MathStorageType<T>)
   {
     return {(T)((float)this->x() / (float)other), (T)((float)this->y() / (float)other), (T)((float)this->z() / (float)other), (T)((float)this->w() / (float)other)};
   }
 
   template <typename T>
-  auto vec4<T>::operator += (const vec4& other) -> vec4& requires(MathStorageType<T>)
+  auto vec4<T>::operator += (const vec4<T>& other) -> vec4<T>& requires(MathStorageType<T>)
   {
     this->x() += other.x();
     this->y() += other.y();
@@ -521,7 +521,7 @@ namespace axm
   }
 
   template <typename T>
-  auto vec4<T>::operator -= (const vec4& other) -> vec4& requires(MathStorageType<T>)
+  auto vec4<T>::operator -= (const vec4<T>& other) -> vec4<T>& requires(MathStorageType<T>)
   {
     this->x() -= other.x();
     this->y() -= other.y();
@@ -531,7 +531,7 @@ namespace axm
   }
 
   template <typename T>
-  auto vec4<T>::operator *= (const vec4& other) -> vec4& requires(MathStorageType<T>)
+  auto vec4<T>::operator *= (const vec4<T>& other) -> vec4<T>& requires(MathStorageType<T>)
   {
     this->x() *= other.x();
     this->y() *= other.y();
@@ -541,7 +541,7 @@ namespace axm
   }
 
   template <typename T>
-  auto vec4<T>::operator /= (const vec4& other) -> vec4& requires(MathStorageType<T>)
+  auto vec4<T>::operator /= (const vec4<T>& other) -> vec4<T>& requires(MathStorageType<T>)
   {
     this->x() /= other.x();
     this->y() /= other.y();
@@ -552,7 +552,7 @@ namespace axm
 
   template <typename T>
   template <typename U>
-  auto vec4<T>::operator += (const U other) -> vec4& requires(MathStorageType<T>)
+  auto vec4<T>::operator += (const U other) -> vec4<T>& requires(MathStorageType<T>)
   {
     this->x() = (T)((float)this->x() + (float)other);
     this->y() = (T)((float)this->y() + (float)other);
@@ -563,7 +563,7 @@ namespace axm
 
   template <typename T>
   template <typename U>
-  auto vec4<T>::operator -= (const U other) -> vec4& requires(MathStorageType<T>)
+  auto vec4<T>::operator -= (const U other) -> vec4<T>& requires(MathStorageType<T>)
   {
     this->x() = (T)((float)this->x() - (float)other);
     this->y() = (T)((float)this->y() - (float)other);
@@ -574,7 +574,7 @@ namespace axm
 
   template <typename T>
   template <typename U>
-  auto vec4<T>::operator *= (const U other) -> vec4& requires(MathStorageType<T>)
+  auto vec4<T>::operator *= (const U other) -> vec4<T>& requires(MathStorageType<T>)
   {
     this->x() = (T)((float)this->x() * (float)other);
     this->y() = (T)((float)this->y() * (float)other);
@@ -585,7 +585,7 @@ namespace axm
 
   template <typename T>
   template <typename U>
-  auto vec4<T>::operator /= (const U other) -> vec4& requires(MathStorageType<T>)
+  auto vec4<T>::operator /= (const U other) -> vec4<T>& requires(MathStorageType<T>)
   {
     this->x() = (T)((float)this->x() / (float)other);
     this->y() = (T)((float)this->y() / (float)other);
@@ -595,7 +595,7 @@ namespace axm
   }
 
   template <typename T>
-  auto vec4<T>::operator == (const vec4& other) const -> bool requires(HasEquivalenceOperator<T>)
+  auto vec4<T>::operator == (const vec4<T>& other) const -> bool requires(HasEquivalenceOperator<T>)
   {
     return this->x() == other.x() && this->y() == other.y() && this->z() == other.z() && this->w() == other.w();
   }
@@ -603,7 +603,7 @@ namespace axm
   //==Quaternion========================================================================================================
 
   template <MathStorageType T>
-  auto quat<T>::operator = (const quat& other) -> quat&
+  auto quat<T>::operator = (const quat<T>& other) -> quat<T>&
   {
     if(this != &other)
     {
@@ -613,7 +613,7 @@ namespace axm
   }
 
   template <MathStorageType T>
-  auto quat<T>::operator = (quat&& other) noexcept -> quat&
+  auto quat<T>::operator = (quat<T>&& other) noexcept -> quat<T>&
   {
     if(this != &other)
     {
@@ -646,13 +646,13 @@ namespace axm
   }
 
   template <MathStorageType T>
-  auto quat<T>::operator == (const quat& other) const -> bool requires(HasEquivalenceOperator<T>)
+  auto quat<T>::operator == (const quat<T>& other) const -> bool requires(HasEquivalenceOperator<T>)
   {
     return this->x() == other.x() && this->y() == other.y() && this->z() == other.z() && this->w() == other.w();
   }
 
   template <MathStorageType T>
-  auto quat<T>::operator += (const quat& other) -> quat requires(IsNumeric<T>)
+  auto quat<T>::operator += (const quat<T>& other) -> quat<T> requires(IsNumeric<T>)
   {
     this->x() += other.x();
     this->y() += other.y();
@@ -662,7 +662,7 @@ namespace axm
   }
 
   template <MathStorageType T>
-  auto quat<T>::operator *= (const float val) -> quat requires(IsNumeric<T>)
+  auto quat<T>::operator *= (const float val) -> quat<T> requires(IsNumeric<T>)
   {
     this->x() *= val;
     this->y() *= val;
@@ -672,7 +672,7 @@ namespace axm
   }
 
   template <MathStorageType T>
-  auto quat<T>::operator *= (const quat& other) -> quat requires(IsNumeric<T>)
+  auto quat<T>::operator *= (const quat<T>& other) -> quat<T> requires(IsNumeric<T>)
   {
     this->x() = this->x() * other.w() + this->w() * other.x() + this->y() * other.z() - this->z() * other.y();
     this->y() = this->y() * other.w() + this->w() * other.y() + this->z() * other.x() - this->x() * other.z();
@@ -682,7 +682,7 @@ namespace axm
   }
 
   template <MathStorageType T>
-  auto quat<T>::operator + (const quat& other) const -> quat requires(IsNumeric<T>)
+  auto quat<T>::operator + (const quat<T>& other) const -> quat<T> requires(IsNumeric<T>)
   {
     return quat
     {
@@ -693,7 +693,7 @@ namespace axm
   }
 
   template <MathStorageType T>
-  auto quat<T>::operator * (const float val) const -> quat requires(IsNumeric<T>)
+  auto quat<T>::operator * (const float val) const -> quat<T> requires(IsNumeric<T>)
   {
     return quat
     {
@@ -705,7 +705,7 @@ namespace axm
   }
 
   template <MathStorageType T>
-  auto quat<T>::operator * (const quat& other) const -> quat requires(IsNumeric<T>)
+  auto quat<T>::operator * (const quat<T>& other) const -> quat<T> requires(IsNumeric<T>)
   {
     return quat
     {
@@ -730,7 +730,7 @@ namespace axm
   //==Mat3x3============================================================================================================
 
   template <MathStorageType T>
-  auto mat3x3<T>::operator == (const mat3x3& other) const -> bool requires(HasEquivalenceOperator<T>)
+  auto mat3x3<T>::operator == (const mat3x3<T>& other) const -> bool requires(HasEquivalenceOperator<T>)
   {
     return this->data[0] == other.data[0] && this->data[1] == other.data[1] && this->data[2] == other.data[2];
   }
@@ -747,7 +747,7 @@ namespace axm
   }
 
   template <MathStorageType T>
-  auto mat3x3<T>::operator * (const T val) const -> mat3x3 requires(HasMathOperators<T>)
+  auto mat3x3<T>::operator * (const T val) const -> mat3x3<T> requires(HasMathOperators<T>)
   {
     return
     {
@@ -758,7 +758,7 @@ namespace axm
   }
 
   template <MathStorageType T>
-  auto mat3x3<T>::operator * (const mat3x3& other) const -> mat3x3 requires(HasMathOperators<T>)
+  auto mat3x3<T>::operator * (const mat3x3<T>& other) const -> mat3x3<T> requires(HasMathOperators<T>)
   {
     return
     {
@@ -783,7 +783,7 @@ namespace axm
   //==Mat4x4============================================================================================================
 
   template <MathStorageType T>
-  auto mat4x4<T>::operator == (const mat4x4& other) const -> bool
+  auto mat4x4<T>::operator == (const mat4x4<T>& other) const -> bool
   {
     return this->data[0] == other.data[0] && this->data[1] == other.data[1] && this->data[2] == other.data[2] && this->data[3] == other.data[3];
   }
@@ -800,7 +800,7 @@ namespace axm
   }
 
   template <MathStorageType T>
-  auto mat4x4<T>::operator * (const T val) const -> mat4x4 requires(MathStorageType<T>)
+  auto mat4x4<T>::operator * (const T val) const -> mat4x4<T> requires(MathStorageType<T>)
   {
     return
     {
@@ -812,7 +812,7 @@ namespace axm
   }
 
   template <MathStorageType T>
-  auto mat4x4<T>::operator * (const mat4x4& other) const -> mat4x4 requires(MathStorageType<T>)
+  auto mat4x4<T>::operator * (const mat4x4<T>& other) const -> mat4x4<T> requires(MathStorageType<T>)
   {
     return
     {
