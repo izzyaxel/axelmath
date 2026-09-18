@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef AXM_CIRCLES_GUARD
+#define AXM_CIRCLES_GUARD
+
 #include "../aliases.hh"
 #include "../concepts.hh"
 
@@ -60,3 +63,5 @@ namespace axm
     vec2<T> position;
   };
 }
+
+#endif

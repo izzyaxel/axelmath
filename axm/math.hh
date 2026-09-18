@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef AXM_MATH_GUARD
+#define AXM_MATH_GUARD
+
 #include "types/vec4s.hh"
 #include "types/quaternions.hh"
 #include "types/mat3x3s.hh"
@@ -1104,3 +1107,5 @@ namespace axm
   }
   
 }
+
+#endif

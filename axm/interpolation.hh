@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef AXM_INTERPOLATION_GUARD
+#define AXM_INTERPOLATION_GUARD
+
 #include "math.hh"
 #include "types/quaternions.hh"
 #include "types/vec4s.hh"
@@ -253,3 +256,5 @@ namespace axm
     return a * scaleA + b * scaleB;
   }
 }
+
+#endif

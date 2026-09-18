@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef AXM_ALIASES_GUARD
+#define AXM_ALIASES_GUARD
+
 #include <cstdint>
 #include <limits>
 
@@ -37,3 +40,5 @@ namespace axm
 
   constexpr inline float EPSILON = std::numeric_limits<float>::epsilon();
 }
+
+#endif

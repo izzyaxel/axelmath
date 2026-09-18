@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef AXM_COLLISIONS_GUARD
+#define AXM_COLLISIONS_GUARD
+
 #include "math.hh"
 #include "types/aabb2ds.hh"
 #include "types/aabb3ds.hh"
@@ -80,3 +83,5 @@ namespace axm
       (a.minZ() <= b.z() && a.maxZ() >= b.z());
   }
 }
+
+#endif

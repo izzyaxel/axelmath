@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef AXM_VEC4S_GUARD
+#define AXM_VEC4S_GUARD
+
 #include "vec3s.hh"
 
 namespace axm
@@ -329,3 +332,5 @@ namespace axm
     }
   };
 }
+
+#endif

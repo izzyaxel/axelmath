@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef AXM_AABB2DS_GUARD
+#define AXM_AABB2DS_GUARD
+
 #include "../aliases.hh"
 #include "../concepts.hh"
 #include "../math.hh"
@@ -131,3 +134,5 @@ namespace axm
     vec2<T> lowerRight{};
   };
 }
+
+#endif

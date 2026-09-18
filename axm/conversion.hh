@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef AXM_CONVERSION_GUARD
+#define AXM_CONVERSION_GUARD
+
 #if __has_include("glm.hpp")
 #include "aliases.hh"
 
@@ -65,4 +68,6 @@ namespace axm
     };
   }
 }
+#endif
+
 #endif
