@@ -80,8 +80,8 @@ namespace axm
     USE_RESULT CANNOT_FAIL          auto min() -> T& {return this->data[0];}
     USE_RESULT CANNOT_FAIL          auto max() -> T& {return this->data[1];}
 
-    CANNOT_FAIL          auto operator = (const vec2& other) -> vec2&;
-    CANNOT_FAIL          auto operator = (vec2&& other) noexcept -> vec2&;
+    CANNOT_FAIL                     auto operator = (const vec2& other) -> vec2& = default;
+    CANNOT_FAIL                     auto operator = (vec2&& other) noexcept -> vec2& = default;
     USE_RESULT CANNOT_FAIL          auto operator [] (size_t index) -> T&;
     GNUCONST USE_RESULT CANNOT_FAIL auto operator [] (size_t index) const -> const T&;
     GNUCONST USE_RESULT CANNOT_FAIL auto operator == (const vec2& other) const -> bool requires(HasEquivalenceOperator<T>);

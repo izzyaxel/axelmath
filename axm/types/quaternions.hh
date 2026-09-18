@@ -57,15 +57,13 @@ namespace axm
     USE_RESULT CANNOT_FAIL          auto z() -> T& {return this->data[2];}
     USE_RESULT CANNOT_FAIL          auto w() -> T& {return this->data[3];}
 
-    CANNOT_FAIL auto operator = (const quat& other) -> quat&;
-    CANNOT_FAIL auto operator = (quat&& other) noexcept -> quat&;
-    USE_RESULT CANNOT_FAIL auto operator [] (size_t index) -> T&;
+    USE_RESULT CANNOT_FAIL          auto operator [] (size_t index) -> T&;
     GNUCONST USE_RESULT CANNOT_FAIL auto operator [] (size_t index) const -> T;
-    GNUCONST USE_RESULT CANNOT_FAIL bool operator == (const quat& other) const requires(HasEquivalenceOperator<T>);
-    CANNOT_FAIL auto operator += (const quat& other) -> quat requires(IsNumeric<T>);
-    CANNOT_FAIL auto operator *= (float val) -> quat requires(IsNumeric<T>);
-    CANNOT_FAIL auto operator *= (const quat& other) -> quat requires(IsNumeric<T>);
-    GNUCONST USE_RESULT CANNOT_FAIL quat operator + (const quat& other) const requires(IsNumeric<T>);
+    GNUCONST USE_RESULT CANNOT_FAIL auto operator == (const quat& other) const -> bool requires(HasEquivalenceOperator<T>);
+    CANNOT_FAIL                     auto operator += (const quat& other) -> quat requires(IsNumeric<T>);
+    CANNOT_FAIL                     auto operator *= (float val) -> quat requires(IsNumeric<T>);
+    CANNOT_FAIL                     auto operator *= (const quat& other) -> quat requires(IsNumeric<T>);
+    GNUCONST USE_RESULT CANNOT_FAIL auto operator + (const quat& other) const -> quat requires(IsNumeric<T>);
     GNUCONST USE_RESULT CANNOT_FAIL auto operator * (float val) const -> quat requires(IsNumeric<T>);
     GNUCONST USE_RESULT CANNOT_FAIL auto operator * (const quat& other) const -> quat requires(IsNumeric<T>);
     GNUCONST USE_RESULT CANNOT_FAIL auto operator * (const vec3<T>& other) const -> vec3<T> requires(IsNumeric<T>);

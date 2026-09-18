@@ -13,29 +13,6 @@ namespace axm
   //==Vec2==============================================================================================================
 
   template <typename T>
-  auto vec2<T>::operator = (const vec2<T>& other) -> vec2<T>&
-  {
-    if(other != *this)
-    {
-      this->data = other.data;
-    }
-
-    return *this;
-  }
-
-  template <typename T>
-  auto vec2<T>::operator = (vec2<T>&& other) noexcept -> vec2<T>&
-  {
-    if(other != *this)
-    {
-      this->data = other.data;
-      other.data = {};
-    }
-
-    return *this;
-  }
-
-  template <typename T>
   auto vec2<T>::operator [] (const size_t index) -> T&
   {
     size_t sanitized = index;
@@ -201,17 +178,6 @@ namespace axm
   //==Vec3==============================================================================================================
 
   template <typename T>
-  auto vec3<T>::operator = (const vec3<T>& other) -> vec3<T>&
-  {
-    if(this != &other)
-    {
-      this->data = other.data;
-    }
-
-    return *this;
-  }
-
-  template <typename T>
   auto vec3<T>::operator - () const -> vec3<T> requires(IsNumeric<T>)
   {
     vec3 out;
@@ -219,18 +185,6 @@ namespace axm
     out.y() = -this->y();
     out.z() = -this->z();
     return out;
-  }
-
-  template <typename T>
-  auto vec3<T>::operator = (vec3<T>&& other) noexcept -> vec3<T>&
-  {
-    if(this != &other)
-    {
-      this->data = other.data;
-      other.data = {};
-    }
-
-    return *this;
   }
 
   template <typename T>
@@ -390,29 +344,6 @@ namespace axm
   }
 
   //==Vec4==============================================================================================================
-
-  template <typename T>
-  auto vec4<T>::operator = (const vec4<T>& other) -> vec4<T>&
-  {
-    if(other != *this)
-    {
-      this->data = other.data;
-    }
-
-    return *this;
-  }
-
-  template <typename T>
-  auto vec4<T>::operator = (vec4<T>&& other) noexcept -> vec4<T>&
-  {
-    if(other != *this)
-    {
-      this->data = other.data;
-      other.data = {};
-    }
-
-    return *this;
-  }
 
   template <typename T>
   auto vec4<T>::operator - () const -> vec4<T> requires(MathStorageType<T>)
@@ -601,27 +532,6 @@ namespace axm
   }
 
   //==Quaternion========================================================================================================
-
-  template <MathStorageType T>
-  auto quat<T>::operator = (const quat<T>& other) -> quat<T>&
-  {
-    if(this != &other)
-    {
-      this->data = other.data;
-    }
-    return *this;
-  }
-
-  template <MathStorageType T>
-  auto quat<T>::operator = (quat<T>&& other) noexcept -> quat<T>&
-  {
-    if(this != &other)
-    {
-      this->data = other.data;
-      other.data = {};
-    }
-    return *this;
-  }
 
   template <MathStorageType T>
   auto quat<T>::operator [] (size_t index) -> T&
