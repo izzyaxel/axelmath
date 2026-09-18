@@ -30,9 +30,16 @@ namespace axm
 
   template <IsNumeric T>
   GNUCONST USE_RESULT CANNOT_FAIL
-  auto degToRad(const T degree) -> T
+  auto degToRad(const T degrees) -> T
   {
-    return degree * (std::numbers::pi / (T)180);
+    return (T)((double)degrees * (std::numbers::pi / 180.0));
+  }
+
+  template <IsNumeric T>
+  GNUCONST USE_RESULT CANNOT_FAIL
+  auto radToDeg(const T radians) -> T
+  {
+    return (T)((double)radians * (180.0 / std::numbers::pi));
   }
 
   template <IsNumeric T>
@@ -106,6 +113,8 @@ namespace axm
 
     return out;
   }
+
+  //TODO cross
 
   //==Vec3==============================================================================================================
 
@@ -471,7 +480,7 @@ namespace axm
   /// Convert euler angles ({roll, pitch, yaw} in radians) to a quaternion rotation
   template <MathStorageType T>
   GNUCONST USE_RESULT CANNOT_FAIL
-  static auto fromEulerRotation(const vec3<T>& euler) -> quat<T>
+  auto fromEulerRotation(const vec3<T>& euler) -> quat<T>
   {
     constexpr float half = 0.5f;
     const T cYaw = std::cos(euler[2] * half);
@@ -598,7 +607,7 @@ namespace axm
   /// A cumulative SLERP version of lookAt, changes the quaternion over time
   template <MathStorageType T>
   GNUCONST USE_RESULT CANNOT_FAIL
-  auto lookAt(
+  auto lookAtSLERP(
     const vec3<T> originPos,
     const vec3<T> targetPos,
     const quat<T>& currentRotation,
@@ -915,7 +924,7 @@ namespace axm
   /// @return A mat4x4 containing the result
   template <MathStorageType T>
   GNUCONST USE_RESULT CANNOT_FAIL
-  auto transposed(const mat4x4<T>& in) -> mat4x4<T>
+  auto transpose(const mat4x4<T>& in) -> mat4x4<T>
   {
     return
     {

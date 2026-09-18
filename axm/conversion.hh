@@ -3,14 +3,14 @@
 #ifndef AXM_CONVERSION_GUARD
 #define AXM_CONVERSION_GUARD
 
-#if __has_include("glm.hpp")
+#if __has_include("glm/glm.hpp")
 #include "aliases.hh"
 
-#include "vec2.hpp"
-#include "vec3.hpp"
-#include "vec4.hpp"
-#include "mat4x4.hpp"
-#include "gtc/quaternion.hpp"
+#include "glm/vec2.hpp"
+#include "glm/vec3.hpp"
+#include "glm/vec4.hpp"
+#include "glm/mat4x4.hpp"
+#include "glm/gtc/quaternion.hpp"
 
 #include "types/vec2s.hh"
 #include "types/vec3s.hh"
@@ -28,36 +28,36 @@ namespace axm
   template <typename T> concept IsMat4x4 = std::same_as<T, mat4x4<float>> || std::same_as<T, glm::mat4x4>;
 
   template <IsVec2 T1, IsVec2 T2>
-  CONST USE_RESULT CANNOT_FAIL
-  auto convertVec2(const T1& in) -> T2 requires(!std::same_as<T1, T2>)
+  GNUCONST USE_RESULT CANNOT_FAIL
+  auto convert(const T1& in) -> T2 requires(!std::same_as<T1, T2>)
   {
     return {in[0], in[1]};
   }
 
   template <IsVec3 T1, IsVec3 T2>
-  CONST USE_RESULT CANNOT_FAIL
-  auto convertVec3(const T1& in) -> T2 requires(!std::same_as<T1, T2>)
+  GNUCONST USE_RESULT CANNOT_FAIL
+  auto convert(const T1& in) -> T2 requires(!std::same_as<T1, T2>)
   {
     return {in[0], in[1], in[2]};
   }
 
   template <IsVec4 T1, IsVec4 T2>
-  CONST USE_RESULT CANNOT_FAIL
-  auto convertVec3(const T1& in) -> T2 requires(!std::same_as<T1, T2>)
+  GNUCONST USE_RESULT CANNOT_FAIL
+  auto convert(const T1& in) -> T2 requires(!std::same_as<T1, T2>)
   {
     return {in[0], in[1], in[2], in[3]};
   }
 
   template <IsQuat T1, IsQuat T2>
-  CONST USE_RESULT CANNOT_FAIL
-  auto convertVec3(const T1& in) -> T2 requires(!std::same_as<T1, T2>)
+  GNUCONST USE_RESULT CANNOT_FAIL
+  auto convert(const T1& in) -> T2 requires(!std::same_as<T1, T2>)
   {
     return {in[0], in[1], in[2], in[3]};
   }
 
-  template <IsVec4 T1, IsVec4 T2>
-  CONST USE_RESULT CANNOT_FAIL
-  auto convertMat4x4(const T1& in) -> T2 requires(!std::same_as<T1, T2>)
+  template <IsMat4x4 T1, IsMat4x4 T2>
+  GNUCONST USE_RESULT CANNOT_FAIL
+  auto convert(const T1& in) -> T2 requires(!std::same_as<T1, T2>)
   {
     return
     {

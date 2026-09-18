@@ -1,6 +1,4 @@
 #include "math.hh"
-#include "matrixMath.hh"
-#include "quatMath.hh"
 #include "types/mat4x4s.hh"
 #include "types/quaternions.hh"
 

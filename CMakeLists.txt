@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 4.3)
 project(axelmath)
 project(tests)
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(SRC
     axm/aliases.hh
@@ -23,10 +24,30 @@ set(SRC
     axm/types/vec4s.hh
 )
 
+set(MODULES
+  axm/modules/Collisions.ixx
+  axm/modules/Conversion.ixx
+  axm/modules/Interpolation.ixx
+  axm/modules/Math.ixx
+  
+  axm/modules/types/AABB2ds.ixx
+  axm/modules/types/AABB3ds.ixx
+  axm/modules/types/Circles.ixx
+  axm/modules/types/Mat3x3s.ixx
+  axm/modules/types/Mat4x4s.ixx
+  axm/modules/types/Quaternions.ixx
+  axm/modules/types/Spheres.ixx
+  axm/modules/types/Vec2s.ixx
+  axm/modules/types/Vec3s.ixx
+  axm/modules/types/Vec4s.ixx
+)
+
 set(TESTS_SRC
     tests/main.cc)
 
-add_library(axelmath INTERFACE ${SRC})
+add_library(axelmath OBJECT ${SRC})
+
+target_sources(axelmath PUBLIC FILE_SET CXX_MODULES TYPE CXX_MODULES FILES ${MODULES})
 
 add_executable(tests ${TESTS_SRC})
 
