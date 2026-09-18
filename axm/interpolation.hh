@@ -243,7 +243,7 @@ namespace axm
 
     if(dotProd > 0.9995f)
     {
-      return normalize(lerpQuat(a, qB, t));
+      return normalize(lerp(a, qB, t));
     }
 
     float theta = std::acos(dotProd);
