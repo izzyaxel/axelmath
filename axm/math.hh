@@ -87,7 +87,7 @@ namespace axm
   GNUCONST USE_RESULT CANNOT_FAIL
   auto mag(const vec2<T>& in) -> T
   {
-    return std::sqrt(in.x() * in.x() + in.y * in.y());
+    return std::sqrt(in.x() * in.x() + in.y() * in.y());
   }
 
   template <typename T>
