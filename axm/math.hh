@@ -684,7 +684,7 @@ namespace axm
   {
 
     //FIXME something about this is wrong
-    const vec3 rotatedUpVec = in * up;
+    const vec3 rotatedUpVec = rotateVec3(in, up);
     const quat deltaRotation = deltaRotationBetweenVectors(rotatedUpVec, up);
     return deltaRotation;
 
