@@ -627,7 +627,7 @@ namespace axm
     const T lerp = (T)1) -> quat<T>
   {
     const vec3 upQ = normalize(-up * conjugate(in));
-    const T dotProd = dot(vec3{(T)0, (T)1, (T)0}, upQ);
+    T dotProd = dot(vec3{(T)0, (T)1, (T)0}, upQ);
 
     if(dotProd >= 1)
     {
