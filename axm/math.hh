@@ -626,7 +626,7 @@ namespace axm
     const T angleLimit,
     const T lerp = (T)1) -> quat<T>
   {
-    const vec3 upQ = normalize(-up * in.conjugated());
+    const vec3 upQ = normalize(-up * conjugate(in));
     const T dot = dot(vec3{(T)0, (T)1, (T)0}, upQ);
 
     if(dot >= 1)
