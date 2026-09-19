@@ -627,19 +627,19 @@ namespace axm
     const T lerp = (T)1) -> quat<T>
   {
     const vec3 upQ = normalize(-up * conjugate(in));
-    const T dot = dot(vec3{(T)0, (T)1, (T)0}, upQ);
+    const T dotProd = dot(vec3{(T)0, (T)1, (T)0}, upQ);
 
-    if(dot >= 1)
+    if(dotProd >= 1)
     {
       return {};
     }
 
-    if(dot < -1)
+    if(dotProd < -1)
     {
-      dot = -1;
+      dotProd = -1;
     }
 
-    T radians = std::acos(dot);
+    T radians = std::acos(dotProd);
     if(radians > angleLimit)
     {
       return {};
