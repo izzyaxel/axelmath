@@ -623,10 +623,10 @@ namespace axm
   auto limitRotationRange(
     const quat<T> in,
     const vec3<T> up,
-    const T angleLimit,
+    const T degreeLimit,
     const T lerp = (T)1) -> quat<T>
   {
-    const vec3 upQ = normalize(-up * conjugate(in));
+    const vec3 upQ = normalize(rotateVec3(conjugate(in), -up));
     T dotProd = dot(vec3{(T)0, (T)1, (T)0}, upQ);
 
     if(dotProd >= 1)
@@ -640,13 +640,13 @@ namespace axm
     }
 
     T radians = std::acos(dotProd);
-    if(radians > angleLimit)
+    if(radians > degreeLimit)
     {
       return {};
     }
 
     const vec3 rotAxis = normalize(cross(vec3{(T)0, (T)1, (T)0}, upQ));
-    return fromAxialRotation(rotAxis.x(), rotAxis.y(), rotAxis.z(), (angleLimit - radians) * lerp);
+    return fromAxialRotation(rotAxis.x(), rotAxis.y(), rotAxis.z(), (degreeLimit - radians) * lerp);
   }
 
   /// Find a quaternion rotation that will rotate the start vector to the end vector along the shortest path
