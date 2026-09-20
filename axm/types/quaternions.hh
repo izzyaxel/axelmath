@@ -124,7 +124,7 @@ namespace axm
     {
       return quat
       {
-        this->w() * other.x() + this->x() * other.w() + this->y() & other.z() - this->z() * other.y(),
+        this->w() * other.x() + this->x() * other.w() + this->y() * other.z() - this->z() * other.y(),
         this->w() * other.y() - this->x() * other.z() + this->y() * other.w() + this->z() * other.x(),
         this->w() * other.z() + this->x() * other.y() - this->y() * other.x() + this->z() * other.w(),
         this->w() * other.w() - this->x() * other.x() - this->y() * other.y() - this->z() * other.z()
@@ -134,7 +134,7 @@ namespace axm
     CANNOT_FAIL
     auto operator *= (const quat& other) -> quat requires(IsNumeric<T>)
     {
-      this->x() = this->w() * other.x() + this->x() * other.w() + this->y() & other.z() - this->z() * other.y();
+      this->x() = this->w() * other.x() + this->x() * other.w() + this->y() * other.z() - this->z() * other.y();
       this->y() = this->w() * other.y() - this->x() * other.z() + this->y() * other.w() + this->z() * other.x();
       this->z() = this->w() * other.z() + this->x() * other.y() - this->y() * other.x() + this->z() * other.w();
       this->w() = this->w() * other.w() - this->x() * other.x() - this->y() * other.y() - this->z() * other.z();
