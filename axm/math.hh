@@ -662,54 +662,42 @@ namespace axm
   {
     const vec3 startNorm = normalize(start);
     const vec3 endNorm = normalize(end);
-    const float cosTheta = dot(startNorm, endNorm);
-    vec3<T> axis;
 
-    if(cosTheta < -1.0f + 0.001f)
+    const T cosTheta = dot(startNorm, endNorm);
+
+    if((float)cosTheta < -0.999f)
     {
-      axis = cross(vec3{0.0f, 0.0f, 1.0f}, startNorm);
-      if(mag(axis) < 0.01f)
+      vec3 axis = cross(vec3{T(0), T(0), T(1)}, startNorm);
+      const T length = mag(axis);
+      if(length < T(0.0001f))
       {
-        axis = cross(vec3{1.0f, 0.0f, 0.0f}, startNorm);
+        axis = cross(vec3{T(1), T(0), T(0)}, startNorm);
       }
-      normalize(axis);
-      return fromAxialRotation(axis, degToRad(180.0f));
+      return fromAxialRotation(normalize(axis), degToRad(T(180)));
     }
 
-    axis = cross(startNorm, endNorm);
-    const float root = std::sqrt((1.0f + cosTheta) * 2.0f);
-    float invRoot = 1.0f / root;
-    return {root * 0.5f, axis.x() * invRoot, axis.y() * invRoot, axis.z() * invRoot};
+    vec3 axis = cross(startNorm, endNorm);
+    const T root = std::sqrt((T(1) + cosTheta) * T(2));
+    T invRoot = T(1) / root;
+    return {axis.x() * invRoot, axis.y() * invRoot, axis.z() * invRoot, root / (T)2};
   }
 
-  /// Reorient a quaternion using an up vector
+  /// Reorient a quaternion using an targetVec vector
   /// A common use case for this is to prevent a camera from rolling when moving the mouse in circles
   /// This creates a relative rotation quat, it needs to be multiplied by an orientation quat to change the orientation
-  /// @param in The quaternion to orient
-  /// @param up The up vector to orient the quaternion to
-  /// @return The quaternion that will reorient the input rotation
+  /// @param in The orientation quaternion to reorient
+  /// @param targetVec The up vector to orient the quaternion to
+  /// @param defaultUp The local up vector for the input quaternion
+  /// @return A reoriented orientation quaternion
   template <MathStorageType T>
   GNUCONST USE_RESULT CANNOT_FAIL
   auto correctOrientation(
     const quat<T>& in,
-    const vec3<T>& up) -> quat<T>
+    const vec3<T>& targetVec,
+    const vec3<T>& defaultUp = {T(0), T(1), T(0)}) -> quat<T>
   {
-
-    //FIXME something about this is wrong
-    const vec3 rotatedUpVec = rotateVec3(in, up);
-    const quat deltaRotation = deltaRotationBetweenVectors(rotatedUpVec, up);
-    return deltaRotation;
-
-    /*const vec3 upQ = (up * in.conjugated()).normalized();
-    vec3 side = (vec3{(T)0, (T)0, (T)1}.cross(-upQ)).normalized();
-
-    if(dot(vec3{(T)0, (T)1, (T)0}, upQ) <= 0)
-    {
-      side = -side;
-    }
-
-    vec3 upFixed = vec3{(T)0, (T)0, (T)1}.cross(side).normalized();
-    return deltaRotationBetweenVectors({(T)0, (T)1, (T)0}, upFixed);*/
+    const vec3 rotatedUpVec = rotateVec3(in, defaultUp);
+    return deltaRotationBetweenVectors(rotatedUpVec, targetVec) * in;
   }
   
   //==Mat3x3============================================================================================================
