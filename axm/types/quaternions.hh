@@ -96,16 +96,6 @@ namespace axm
       return *this;
     }
 
-    CANNOT_FAIL
-    auto operator *= (const quat& other) -> quat requires(IsNumeric<T>)
-    {
-      this->x() = this->x() * other.w() + this->w() * other.x() + this->y() * other.z() - this->z() * other.y();
-      this->y() = this->y() * other.w() + this->w() * other.y() + this->z() * other.x() - this->x() * other.z();
-      this->z() = this->z() * other.w() + this->w() * other.z() + this->x() * other.y() - this->y() * other.x();
-      this->w() = this->w() * other.w() - this->x() * other.x() - this->y() * other.y() - this->z() * other.z();
-      return *this;
-    }
-
     GNUCONST USE_RESULT CANNOT_FAIL
     auto operator + (const quat& other) const -> quat requires(IsNumeric<T>)
     {
@@ -134,11 +124,21 @@ namespace axm
     {
       return quat
       {
-        this->x() * other.w() + this->w() * other.x() + this->y() * other.z() - this->z() * other.y(),
-        this->y() * other.w() + this->w() * other.y() + this->z() * other.x() - this->x() * other.z(),
-        this->z() * other.w() + this->w() * other.z() + this->x() * other.y() - this->y() * other.x(),
+        this->w() * other.x() + this->x() * other.w() + this->y() & other.z() - this->z() * other.y(),
+        this->w() * other.y() - this->x() * other.z() + this->y() * other.w() + this->z() * other.x(),
+        this->w() * other.z() + this->x() * other.y() - this->y() * other.x() + this->z() * other.w(),
         this->w() * other.w() - this->x() * other.x() - this->y() * other.y() - this->z() * other.z()
-     };
+      };
+    }
+
+    CANNOT_FAIL
+    auto operator *= (const quat& other) -> quat requires(IsNumeric<T>)
+    {
+      this->x() = this->w() * other.x() + this->x() * other.w() + this->y() & other.z() - this->z() * other.y();
+      this->y() = this->w() * other.y() - this->x() * other.z() + this->y() * other.w() + this->z() * other.x();
+      this->z() = this->w() * other.z() + this->x() * other.y() - this->y() * other.x() + this->z() * other.w();
+      this->w() = this->w() * other.w() - this->x() * other.x() - this->y() * other.y() - this->z() * other.z();
+      return *this;
     }
 
     constexpr static auto size() -> size_t
