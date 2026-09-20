@@ -35,7 +35,7 @@ export namespace axm
   using axm::lookAtSLERP;
   using axm::limitRotationRange;
   using axm::deltaRotationBetweenVectors;
-  using axm::correctOrientation;
+  using axm::orientTo;
   using axm::transpose;
   using axm::mat3x3ToMat4x4;
   using axm::mat4x4ToMat3x3;

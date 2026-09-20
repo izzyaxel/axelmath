@@ -650,10 +650,9 @@ namespace axm
   }
 
   /// Find a quaternion rotation that will rotate the start vector to the end vector along the shortest path
-  /// This creates a relative rotation quat, it needs to be multiplied by an orientation quat to change the orientation
   /// @param start Typically a camera's current facing direction (converted from its current quat rotation), or its up vector
   /// @param end Typically where you want a camera to point to, or the corrected up vector, ie the world's up direction
-  /// @return A rotation quaternion that will make an orientation quat pointing at start rotate to point to end
+  /// @return A relative rotation quaternion
   template <MathStorageType T>
   GNUCONST USE_RESULT CANNOT_FAIL
   auto deltaRotationBetweenVectors(
@@ -682,16 +681,14 @@ namespace axm
     return {axis.x() * invRoot, axis.y() * invRoot, axis.z() * invRoot, root / (T)2};
   }
 
-  /// Reorient a quaternion using an targetVec vector
-  /// A common use case for this is to prevent a camera from rolling when moving the mouse in circles
-  /// This creates a relative rotation quat, it needs to be multiplied by an orientation quat to change the orientation
+  /// Reorient a quaternion to a target vector
   /// @param in The orientation quaternion to reorient
   /// @param targetVec The up vector to orient the quaternion to
   /// @param defaultUp The local up vector for the input quaternion
-  /// @return A reoriented orientation quaternion
+  /// @return The reoriented quaternion
   template <MathStorageType T>
   GNUCONST USE_RESULT CANNOT_FAIL
-  auto correctOrientation(
+  auto orientTo(
     const quat<T>& in,
     const vec3<T>& targetVec,
     const vec3<T>& defaultUp = {T(0), T(1), T(0)}) -> quat<T>
