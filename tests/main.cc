@@ -248,7 +248,7 @@ auto viewMatrixTest() -> bool
 
 auto orthoProjMatTest() -> bool
 {
-  const axm::mat4x4<float> axmProj = axm::orthoProjectionMatrix<float>(0, 1000, 0, 1000, 0.1f, 1.0f);
+  const axm::mat4x4<float> axmProj = axm::orthoProjectionMatrixRH<float>(0, 1000, 0, 1000, 0.1f, 1.0f);
   glm::mat4x4 glmProj = glm::ortho<float>(0, 1000, 1000, 0, 0.1f, 1.0f);
 
   for(size_t y = 0; y < 4; y++)

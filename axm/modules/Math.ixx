@@ -48,6 +48,6 @@ export namespace axm
   using axm::modelMatrix;
   using axm::viewMatrix;
   using axm::perspectiveProjectionMatrix;
-  using axm::orthoProjectionMatrix;
+  using axm::orthoProjectionMatrixRH;
   using axm::modelViewProjectionMatrix;
 }

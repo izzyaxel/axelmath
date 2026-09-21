@@ -50,28 +50,28 @@ namespace axm
   GNUCONST USE_RESULT CANNOT_FAIL
   auto dist(const vec2<T>& a, const vec2<T>& b) -> T
   {
-    return std::sqrtf(std::powf(b.x() - a.x(), (T)2) + std::powf(b.y() - a.y(), (T)2));
+    return std::sqrtf(std::powf(b.x() - a.x(), T(2)) + std::powf(b.y() - a.y(), T(2)));
   }
 
   template <IsNumeric T>
   GNUCONST USE_RESULT CANNOT_FAIL
   auto distSqr(const vec2<T>& a, const vec2<T>& b) -> T
   {
-    return std::powf(b.x() - a.x(), (T)2) + std::powf(b.y() - a.y(), (T)2);
+    return std::powf(b.x() - a.x(), T(2)) + std::powf(b.y() - a.y(), T(2));
   }
 
   template <IsNumeric T>
   GNUCONST USE_RESULT CANNOT_FAIL
   auto dist(const vec3<T>& a, const vec3<T>& b) -> T
   {
-    return std::sqrtf(std::powf(b.x() - a.x(), (T)2) + std::powf(b.y() - a.y(), (T)2) + std::powf(b.z() - a.z(), (T)2));
+    return std::sqrtf(std::powf(b.x() - a.x(), T(2)) + std::powf(b.y() - a.y(), T(2)) + std::powf(b.z() - a.z(), T(2)));
   }
 
   template <IsNumeric T>
   GNUCONST USE_RESULT CANNOT_FAIL
   auto distSqr(const vec3<T>& a, const vec3<T>& b) -> T
   {
-    return std::powf(b.x() - a.x(), (T)2) + std::powf(b.y() - a.y(), (T)2) + std::powf(b.z() - a.z(), (T)2);
+    return std::powf(b.x() - a.x(), T(2)) + std::powf(b.y() - a.y(), T(2)) + std::powf(b.z() - a.z(), T(2));
   }
 
   template <IsNumeric T>
@@ -103,7 +103,7 @@ namespace axm
   {
     vec2<T> out = in;
     const T length = mag(in);
-    if(length > (T)0)
+    if(length > T(0))
     {
       out /= length;
     }
@@ -223,7 +223,7 @@ namespace axm
   {
     vec3<T> out = in;
     const T length = mag(in);
-    if(length > (T)0)
+    if(length > T(0))
     {
       out /= length;
     }
@@ -246,7 +246,7 @@ namespace axm
   {
     vec4<T> out = in;
     const T length = mag(in);
-    if(length > (T)0)
+    if(length > T(0))
     {
       out /= length;
     }
@@ -262,8 +262,8 @@ namespace axm
     const vec3<T> u = {q.x(), q.y(), q.z()};
     const vec3<T> uv = cross(u, vector);
     const vec3<T> uuv = cross(u, uv);
-    const T dW = q.w() * (T)2;
-    return vector + vec3{dW} * uv + vec3{(T)2} * uuv;
+    const T dW = q.w() * T(2);
+    return vector + vec3{dW} * uv + vec3{T(2)} * uuv;
   }
 
   ///
@@ -290,7 +290,7 @@ namespace axm
     T length = mag(in);
     if(closeEnough(length, 0.0f))
     {
-      return {(T)0, (T)0, (T)0, (T)0};
+      return {T(0), T(0), T(0), T(0)};
     }
 
     return quat{in.x() / length, in.y() / length, in.z() / length, in.w() / length};
@@ -321,8 +321,8 @@ namespace axm
   GNUCONST USE_RESULT CANNOT_FAIL
   auto toEulerRotation(const quat<T>& in) -> vec3<T>
   {
-    constexpr T one = (T)1;
-    constexpr T two = (T)2;
+    constexpr T one = T(1);
+    constexpr T two = T(2);
     const T sinr = two * (in.w() * in.x() + in.y() * in.z());
     const T cosr = one - (two * (in.x() * in.x() + in.y() * in.y()));
     const T roll = std::atan2(sinr, cosr);
@@ -345,7 +345,7 @@ namespace axm
   GNUCONST USE_RESULT CANNOT_FAIL
   auto toAxial(const quat<T>& in) -> vec4<T>
   {
-    const float angle = (T)2 * std::acos(in.w());
+    const float angle = T(2) * std::acos(in.w());
     const float divisor = std::sqrt(1 - (in.w() * in.w()));
 
     if((float)divisor < 0.001f)
@@ -363,22 +363,22 @@ namespace axm
     const T trace = in[0][0] + in[1][1] + in[2][2];
     if(trace > 0)
     {
-      const T root = (T)2 * std::sqrt(trace + (T)1);
+      const T root = T(2) * std::sqrt(trace + T(1));
       return
       {
         (in[2][1] - in[1][2]) / root,
         (in[0][2] - in[2][0]) / root,
         (in[1][0] - in[0][1]) / root,
-        root / (T)4
+        root / T(4)
       };
     }
 
     if(in[0][0] > in[1][1] && in[0][0] > in[2][2])
     {
-      const T root = (T)2 * std::sqrt((T)1 + in[0][0] - in[1][1] - in[2][2]);
+      const T root = T(2) * std::sqrt(T(1) + in[0][0] - in[1][1] - in[2][2]);
       return
       {
-        root / (T)4,
+        root / T(4),
         (in[0][1] + in[1][0]) / root,
         (in[0][2] + in[2][0]) / root,
         (in[2][1] - in[1][2]) / root
@@ -387,22 +387,22 @@ namespace axm
 
     if(in[1][1] > in[2][2])
     {
-      const T root = (T)2 * std::sqrt((T)1 + in[1][1] - in[0][0] - in[2][2]);
+      const T root = T(2) * std::sqrt(T(1) + in[1][1] - in[0][0] - in[2][2]);
       return
       {
         (in[0][1] + in[1][0]) / root,
-        root / (T)4,
+        root / T(4),
         (in[1][2] + in[2][1]) / root,
         (in[0][2] - in[2][0]) / root
       };
     }
 
-    const T root = (T)2 * std::sqrt((T)1 + in[2][2] - in[0][0] - in[1][1]);
+    const T root = T(2) * std::sqrt(T(1) + in[2][2] - in[0][0] - in[1][1]);
     return
     {
       (in[0][2] + in[2][0]) / root,
       (in[1][2] + in[2][1]) / root,
-      root / (T)4,
+      root / T(4),
       (in[1][0] - in[0][1]) / root
     };
   }
@@ -416,22 +416,22 @@ namespace axm
 
     if(trace > 0.0f)
     {
-      const T root = std::sqrt(trace + (T)1) * (T)2;
+      const T root = std::sqrt(trace + T(1)) * T(2);
       return
       {
         (in[2][1] - in[1][2]) / root,
         (in[0][2] - in[2][0]) / root,
         (in[1][0] - in[0][1]) / root,
-        root / (T)4
+        root / T(4)
       };
     }
 
     if(in[0][0] > in[1][1] && in[0][0] > in[2][2])
     {
-      const T root = (T)2 * std::sqrt((T)1 + in[0][0] - in[1][1] - in[2][2]);
+      const T root = T(2) * std::sqrt(T(1) + in[0][0] - in[1][1] - in[2][2]);
       return
       {
-        root / (T)4,
+        root / T(4),
         (in[0][1] + in[1][0]) / root,
         (in[0][2] + in[2][0]) / root,
         (in[2][1] - in[1][2]) / root
@@ -440,22 +440,22 @@ namespace axm
 
     if(in[1][1] > in[2][2])
     {
-      const T root = (T)2 * std::sqrt((T)1 + in[1][1] - in[0][0] - in[2][2]);
+      const T root = T(2) * std::sqrt(T(1) + in[1][1] - in[0][0] - in[2][2]);
       return
       {
         (in[0][1] + in[1][0]) / root,
-        root / (T)4,
+        root / T(4),
         (in[1][2] + in[2][1]) / root,
         (in[0][2] - in[2][0]) / root
       };
     }
 
-    const T root = (T)2 * std::sqrt((T)1 + in[2][2] - in[0][0] - in[1][1]);
+    const T root = T(2) * std::sqrt(T(1) + in[2][2] - in[0][0] - in[1][1]);
     return
     {
       (in[0][2] + in[2][0]) / root,
       (in[1][2] + in[2][1]) / root,
-      root / (T)4,
+      root / T(4),
       (in[1][0] - in[0][1]) / root
     };
   }
@@ -500,7 +500,7 @@ namespace axm
   GNUCONST USE_RESULT CANNOT_FAIL
   auto fromAxialRotation(const vec4<T>& in) -> quat<T>
   {
-    const float a = in[3] / (T)2;
+    const float a = in[3] / T(2);
     const float s = std::sin(a);
 
     return normalize(quat
@@ -520,7 +520,7 @@ namespace axm
     const T& zIn,
     const T& angle) -> quat<T>
   {
-    const float a = angle / (T)2;
+    const float a = angle / T(2);
     const float s = std::sin(a);
 
     return normalize(quat
@@ -538,7 +538,7 @@ namespace axm
     const vec3<T>& xyzIn,
     const T& angle) -> quat<T>
   {
-    const float a = angle / (T)2;
+    const float a = angle / T(2);
     const float s = std::sin(a);
 
     return normalize(quat
@@ -565,16 +565,16 @@ namespace axm
     vec3 forward = originPos - targetPos;
     const T length = mag(forward);
 
-    if(closeEnough(length, (T)0))
+    if(closeEnough(length, T(0)))
     {
       return {};
     }
 
     normalize(forward);
     vec3 right = normalize(cross(upVec, forward));
-    if(closeEnough(dot(right, right), (T)0))
+    if(closeEnough(dot(right, right), T(0)))
     {
-      right = cross(vec3{(T)1, (T)0, (T)0}, forward);
+      right = cross(vec3{T(1), T(0), T(0)}, forward);
     }
 
     normalize(right);
@@ -608,10 +608,10 @@ namespace axm
     const vec3<T> originPos,
     const vec3<T> targetPos,
     const quat<T>& currentRotation,
-    const T lerp = (T)1) -> quat<T>
+    const T lerp = T(1)) -> quat<T>
   {
     vec3 frontTo = normalize(targetPos - originPos) * conjugate(currentRotation);
-    return deltaBetweenVectorsAsRotation({(T)0, (T)0, (T)1}, frontTo, lerp);
+    return deltaBetweenVectorsAsRotation({T(0), T(0), T(1)}, frontTo, lerp);
   }
 
   /// Prevent a quaternion rotation from exceeding a certain angle like you could do with euler angles
@@ -621,10 +621,10 @@ namespace axm
     const quat<T> in,
     const vec3<T> up,
     const T degreeLimit,
-    const T lerp = (T)1) -> quat<T>
+    const T lerp = T(1)) -> quat<T>
   {
     const vec3 upQ = normalize(rotateVec3(conjugate(in), -up));
-    T dotProd = dot(vec3{(T)0, (T)1, (T)0}, upQ);
+    T dotProd = dot(vec3{T(0), T(1), T(0)}, upQ);
 
     if(dotProd >= 1)
     {
@@ -642,7 +642,7 @@ namespace axm
       return {};
     }
 
-    const vec3 rotAxis = normalize(cross(vec3{(T)0, (T)1, (T)0}, upQ));
+    const vec3 rotAxis = normalize(cross(vec3{T(0), T(1), T(0)}, upQ));
     return fromAxialRotation(rotAxis.x(), rotAxis.y(), rotAxis.z(), (degreeLimit - radians) * lerp);
   }
 
@@ -675,7 +675,7 @@ namespace axm
     vec3 axis = cross(startNorm, endNorm);
     const T root = std::sqrt((T(1) + cosTheta) * T(2));
     T invRoot = T(1) / root;
-    return {axis.x() * invRoot, axis.y() * invRoot, axis.z() * invRoot, root / (T)2};
+    return {axis.x() * invRoot, axis.y() * invRoot, axis.z() * invRoot, root / T(2)};
   }
 
   /// Reorient a quaternion to a target vector
@@ -725,7 +725,7 @@ namespace axm
             - in.y1() * (in.x2() * a - in.z2() * d + in.w2() * e)
             + in.z1() * (in.x2() * b - in.y2() * d + in.w2() * f)
             - in.w1() * (in.x2() * c - in.y2() * e + in.z2() * f);
-    det = (T)1 / det;
+    det = T(1) / det;
 
     return
     {
@@ -775,10 +775,10 @@ namespace axm
   {
     return
     {
-      {in.x1(), in.y1(), in.z1(), (T)0},
-      {in.x2(), in.y2(), in.z2(), (T)0},
-      {in.x3(), in.y3(), in.z3(), (T)0},
-      {(T)0,     (T)0,     (T)0,     (T)0}
+      {in.x1(), in.y1(), in.z1(), T(0)},
+      {in.x2(), in.y2(), in.z2(), T(0)},
+      {in.x3(), in.y3(), in.z3(), T(0)},
+      {T(0),    T(0),    T(0),    T(0)}
     };
   }
 
@@ -799,9 +799,9 @@ namespace axm
 
     return
     {
-      {sqx - sqy - sqz + sqw, (T)2 * (t1 + t2),       (T)2 * (t3 - t4)},
-      {(T)2 * (t1 - t2),      -sqx + sqy - sqz + sqw, (T)2 * (t5 + t6)},
-      {(T)2 * (t3 + t4),      (T)2 * (t5 - t6),       -sqx - sqy + sqz + sqw},
+      {sqx - sqy - sqz + sqw, T(2) * (t1 + t2),       T(2) * (t3 - t4)},
+      {T(2) * (t1 - t2),      -sqx + sqy - sqz + sqw, T(2) * (t5 + t6)},
+      {T(2) * (t3 + t4),      T(2) * (t5 - t6),       -sqx - sqy + sqz + sqw},
     };
   }
 
@@ -869,7 +869,7 @@ namespace axm
             - in.y1() * (in.x2() * a - in.z2() * d + in.w2() * e)
             + in.z1() * (in.x2() * b - in.y2() * d + in.w2() * f)
             - in.w1() * (in.x2() * c - in.y2() * e + in.z2() * f);
-    det = (T)1 / det;
+    det = T(1) / det;
 
     return
     {
@@ -947,10 +947,10 @@ namespace axm
 
     return
     {
-      {sqx - sqy - sqz + sqw, (T)2 * (t1 + t2),       (T)2 * (t3 - t4),       (T)0},
-      {(T)2 * (t1 - t2),      -sqx + sqy - sqz + sqw, (T)2 * (t5 + t6),       (T)0},
-      {(T)2 * (t3 + t4),      (T)2 * (t5 - t6),       -sqx - sqy + sqz + sqw, (T)0},
-      {(T)0,                  (T)0,                   (T)0,                   (T)1}
+      {sqx - sqy - sqz + sqw, T(2) * (t1 + t2),       T(2) * (t3 - t4),       T(0)},
+      {T(2) * (t1 - t2),      -sqx + sqy - sqz + sqw, T(2) * (t5 + t6),       T(0)},
+      {T(2) * (t3 + t4),      T(2) * (t5 - t6),       -sqx - sqy + sqz + sqw, T(0)},
+      {T(0),                  T(0),                   T(0),                   T(1)}
     };
   }
 
@@ -961,10 +961,10 @@ namespace axm
   {
     return
     {
-      {(T)1,          (T)0,          (T)0,          (T)0},
-      {(T)0,          (T)1,          (T)0,          (T)0},
-      {(T)0,          (T)0,          (T)1,          (T)0},
-      {translate.x(), translate.y(), translate.z(), (T)1}
+      {T(1),          T(0),          T(0),          T(0)},
+      {T(0),          T(1),          T(0),          T(0)},
+      {T(0),          T(0),          T(1),          T(0)},
+      {translate.x(), translate.y(), translate.z(), T(1)}
     };
   }
 
@@ -983,24 +983,24 @@ namespace axm
   {
     return
     {
-      {scale.x(), (T)0,      (T)0,      (T)0},
-      {(T)0,      scale.y(), (T)0,      (T)0},
-      {(T)0,      (T)0,      scale.z(), (T)0},
-      {(T)0,      (T)0,      (T)0,      (T)1}
+      {scale.x(), T(0),      T(0),      T(0)},
+      {T(0),      scale.y(), T(0),      T(0)},
+      {T(0),      T(0),      scale.z(), T(0)},
+      {T(0),      T(0),      T(0),      T(1)}
     };
   }
 
   /// Create a scale matrix using 1 scale value
-  template <IsNumeric T>
+  template <IsNumeric  T>
   GNUCONST USE_RESULT CANNOT_FAIL
   auto scaleMat(const T scalar) -> mat4x4<T>
   {
     return
     {
-      {scalar,  (T)0,   (T)0,    (T)0},
-      {(T)0,    scalar, (T)0,    (T)0},
-      {(T)0,    (T)0,    scalar, (T)0},
-      {(T)0,    (T)0,    (T)0,   (T)1}
+      {scalar, T(0),   T(0),   T(0)},
+      {T(0),   scalar, T(0),   T(0)},
+      {T(0),   T(0),   scalar, T(0)},
+      {T(0),   T(0),   T(0),   T(1)}
     };
   }
 
@@ -1027,11 +1027,13 @@ namespace axm
     const quat<T>& rotation,
     const vec3<T>& scale) -> mat4x4<T>
   {
-    const mat4x4<T> tOffset = translateMat(origin);
-    const mat4x4<T> t = translateMat(position);
-    const mat4x4<T> r = rotateMat(rotation);
-    const mat4x4<T> s = scaleMat(scale);
-    return t * r * s * tOffset;
+    const mat4x4<T> posMat = translateMat(position);
+    const mat4x4<T> toOriginMat = translateMat(origin);
+    const mat4x4<T> toOffsetMat = translateMat(-origin);
+    const mat4x4<T> rotationMat = rotateMat(rotation);
+    const mat4x4<T> scalingMat = scaleMat(scale);
+
+    return posMat * toOriginMat * rotationMat * scalingMat * toOffsetMat;
   }
 
   /// Create a view matrix
@@ -1043,7 +1045,7 @@ namespace axm
   {
     const mat4x4<T> rotation = quatToMat4x4(invert(cameraRotation));
     const mat4x4<T> translation = translateMat(invert(cameraPosition));
-    return translation * rotation;
+    return rotation * translation;
   }
 
   /// Create a projection matrix that transforms positions according to perspective
@@ -1056,20 +1058,20 @@ namespace axm
     const u32 width,
     const u32 height) -> mat4x4<T>
   {
-    const T a = width / height;
+    const T aspect = T(width) / T(height);
     return
     {
-      {(T)1 / (a * std::tan(fov / (T)2)),    (T)0,                          (T)0,                                                      (T)0},
-      {(T)0,                                 (T)1 / (std::tan(fov / (T)2)), (T)0,                                                      (T)0},
-      {(T)0,                                 (T)0,                          -((farPlane + nearPlane) / (farPlane - nearPlane)),        (T)-1},
-      {(T)0,                                 (T)0,                          -(((T)2 * farPlane * nearPlane) / (farPlane - nearPlane)), (T)0},
+      {T(1) / (aspect * std::tan(fov / T(2))), T(0),                          T(0),                                                      T(0)},
+      {T(0),                                   T(1) / (std::tan(fov / T(2))), T(0),                                                      T(0)},
+      {T(0),                                   T(0),                          -((farPlane + nearPlane) / (farPlane - nearPlane)),        T(-1)},
+      {T(0),                                   T(0),                          -((T(2) * farPlane * nearPlane) / (farPlane - nearPlane)), T(0)},
     };
   }
 
   /// Create a projection matrix that transforms positions with no perspective
   template <IsNumeric T>
   GNUCONST USE_RESULT CANNOT_FAIL
-  auto orthoProjectionMatrix(
+  auto orthoProjectionMatrixRH(
     const T left,
     const T right,
     const T top,
@@ -1079,12 +1081,14 @@ namespace axm
   {
     return
     {
-      {(T)2 / (right - left),              (T)0,                               (T)0,                               (T)0},
-      {(T)0,                               (T)2 / (top - bottom),              (T)0,                               (T)0},
-      {(T)0,                               (T)0,                               -((T)2 / (zFar - zNear)),           (T)0},
-      {-((right + left) / (right - left)), -((top + bottom) / (top - bottom)), -((zFar + zNear) / (zFar - zNear)), (T)1},
+      {T(2) / (right - left),              T(0),                               T(0),                               T(0)},
+      {T(0),                               T(2) / (top - bottom),              T(0),                               T(0)},
+      {T(0),                               T(0),                               -(T(2) / (zFar - zNear)),           T(0)},
+      {-((right + left) / (right - left)), -((top + bottom) / (top - bottom)), -((zFar + zNear) / (zFar - zNear)), T(1)},
     };
   }
+
+  //TODO left handed ortho
 
   /// Create a model-view-projection matrix to transform local coordinates to world coordinates
   template <IsNumeric T>
