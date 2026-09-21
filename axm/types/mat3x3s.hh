@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef AXM_MAT3X3S_GUARD
-#define AXM_MAT3X3S_GUARD
-
 #include "vec3s.hh"
 
 #include <string>
@@ -139,5 +136,3 @@ namespace axm
     }
   };
 }
-
-#endif

@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef AXM_MAT4X4S_GUARD
-#define AXM_MAT4X4S_GUARD
-
 #include "vec4s.hh"
 
 #include <string>
@@ -184,5 +181,3 @@ namespace axm
     }
   };
 }
-
-#endif

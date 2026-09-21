@@ -45,7 +45,7 @@ set(MODULES
 set(TESTS_SRC
     tests/main.cc)
 
-add_library(axelmath STATIC ${SRC})
+add_library(axelmath OBJECT ${SRC})
 
 target_sources(axelmath PUBLIC FILE_SET CXX_MODULES TYPE CXX_MODULES FILES ${MODULES})
 

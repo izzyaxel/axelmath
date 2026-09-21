@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef AXM_AABB3DS_GUARD
-#define AXM_AABB3DS_GUARD
-
 #include "../concepts.hh"
 #include "vec3s.hh"
 
@@ -195,5 +192,3 @@ namespace axm
     vec3<T> botLL{};
   };
 }
-
-#endif

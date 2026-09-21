@@ -1,10 +1,5 @@
 #pragma once
 
-#ifndef AXM_QUATERNIONS_GUARD
-#define AXM_QUATERNIONS_GUARD
-
-#include "vec4s.hh"
-
 #include "../aliases.hh"
 #include "../concepts.hh"
 
@@ -183,5 +178,3 @@ namespace axm
     }
   };
 }
-
-#endif

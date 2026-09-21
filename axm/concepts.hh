@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef AXM_CONCEPTS_GUARD
-#define AXM_CONCEPTS_GUARD
-
 #include <concepts>
 #include <string>
 
@@ -48,5 +45,3 @@ namespace axm
     {std::to_string(a)} -> std::convertible_to<std::string>;
   };
 }
-
-#endif

@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef AXM_SPHERES_GUARD
-#define AXM_SPHERES_GUARD
-
 #include "../concepts.hh"
 
 #include "vec3s.hh"
@@ -61,5 +58,3 @@ namespace axm
     vec3<T> position{};
   };
 }
-
-#endif
