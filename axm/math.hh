@@ -790,12 +790,19 @@ namespace axm
     const T sqy = rotation.y() * rotation.y();
     const T sqz = rotation.z() * rotation.z();
     const T sqw = rotation.w() * rotation.w();
-    const T t1 = rotation.data[0] * rotation.y();
-    const T t2 = rotation.data[2] * rotation.w();
-    const T t3 = rotation.data[0] * rotation.z();
-    const T t4 = rotation.data[1] * rotation.w();
-    const T t5 = rotation.data[1] * rotation.z();
-    const T t6 = rotation.data[0] * rotation.w();
+    const T t1 = rotation.x() * rotation.y();
+    const T t2 = rotation.z() * rotation.w();
+    const T t3 = rotation.x() * rotation.z();
+    const T t4 = rotation.y() * rotation.w();
+    const T t5 = rotation.y() * rotation.z();
+    const T t6 = rotation.x() * rotation.w();
+
+    return
+    {
+      {sqx - sqy - sqz + sqw, T(2) * (t1 - t2),       T(2) * (t3 + t4)},
+      {T(2) * (t1 + t2),      -sqx + sqy - sqz + sqw, T(2) * (t5 - t6)},
+      {T(2) * (t3 - t4),      T(2) * (t5 + t6),       -sqx - sqy + sqz + sqw}
+    };
 
     return
     {
@@ -944,6 +951,14 @@ namespace axm
     const T t4 = rotation.y() * rotation.w();
     const T t5 = rotation.y() * rotation.z();
     const T t6 = rotation.x() * rotation.w();
+
+    return
+    {
+      {sqx - sqy - sqz + sqw, T(2) * (t1 - t2),       T(2) * (t3 + t4),       T(0)},
+      {T(2) * (t1 + t2),      -sqx + sqy - sqz + sqw, T(2) * (t5 - t6),       T(0)},
+      {T(2) * (t3 - t4),      T(2) * (t5 + t6),       -sqx - sqy + sqz + sqw, T(0)},
+      {T(0),                  T(0),                   T(0),                   T(1)}
+    };
 
     return
     {
