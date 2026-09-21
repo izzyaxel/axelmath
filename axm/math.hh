@@ -570,14 +570,14 @@ namespace axm
       return {};
     }
 
-    normalize(forward);
+    forward = normalize(forward);
     vec3 right = normalize(cross(upVec, forward));
     if(closeEnough(dot(right, right), T(0)))
     {
       right = cross(vec3{T(1), T(0), T(0)}, forward);
     }
 
-    normalize(right);
+    right = normalize(right);
     const vec3 orthogonalUp = normalize(cross(forward, right));
     return matToQuat(mat3x3{right, orthogonalUp, forward});
   }
