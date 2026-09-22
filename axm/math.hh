@@ -29,14 +29,14 @@ namespace axm
   GNUCONST USE_RESULT CANNOT_FAIL
   auto degToRad(const T degrees) -> T
   {
-    return (T)((double)degrees * (std::numbers::pi / 180.0));
+    return T(((double)degrees * (std::numbers::pi / 180.0)));
   }
 
   template <IsNumeric T>
   GNUCONST USE_RESULT CANNOT_FAIL
   auto radToDeg(const T radians) -> T
   {
-    return (T)((double)radians * (180.0 / std::numbers::pi));
+    return T(((double)radians * (180.0 / std::numbers::pi)));
   }
 
   template <IsNumeric T>
@@ -120,9 +120,9 @@ namespace axm
   auto sqrt(const vec3<T>& in) -> vec3<T>
   {
     vec3<T> out{};
-    out.x() = (T)std::sqrt(in.x());
-    out.y() = (T)std::sqrt(in.y());
-    out.z() = (T)std::sqrt(in.z());
+    out.x() = T(std::sqrt(in.x()));
+    out.y() = T(std::sqrt(in.y()));
+    out.z() = T(std::sqrt(in.z()));
     return out;
   }
 
@@ -131,9 +131,9 @@ namespace axm
   auto pow(const vec3<T>& in, const T val) -> vec3<T>
   {
     vec3<T> out{};
-    out.x() = (T)std::pow(in.x(), val);
-    out.y() = (T)std::pow(in.y(), val);
-    out.z() = (T)std::pow(in.z(), val);
+    out.x() = T(std::pow(in.x(), val));
+    out.y() = T(std::pow(in.y(), val));
+    out.z() = T(std::pow(in.z(), val));
     return out;
   }
 
@@ -142,9 +142,9 @@ namespace axm
   auto pow(const vec3<T>& in, const vec3<T>& other) -> vec3<T>
   {
     vec3<T> out{};
-    out.x() = (T)std::pow(in.x(), other.x());
-    out.y() = (T)std::pow(in.y(), other.y());
-    out.z() = (T)std::pow(in.z(), other.z());
+    out.x() = T(std::pow(in.x(), other.x()));
+    out.y() = T(std::pow(in.y(), other.y()));
+    out.z() = T(std::pow(in.z(), other.z()));
     return out;
   }
 
@@ -153,9 +153,9 @@ namespace axm
   auto floor(const vec3<T>& in) -> vec3<T>
   {
     vec3<T> out{};
-    out->x() = (T)std::floor(in.x());
-    out->y() = (T)std::floor(in.y());
-    out->z() = (T)std::floor(in.z());
+    out->x() = T(std::floor(in.x()));
+    out->y() = T(std::floor(in.y()));
+    out->z() = T(std::floor(in.z()));
     return out;
   }
 
@@ -164,9 +164,9 @@ namespace axm
   auto ceil(const vec3<T>& in) -> vec3<T>
   {
     vec3<T> out{};
-    out.x() = (T)std::ceil(in.x());
-    out.y() = (T)std::ceil(in.y());
-    out.z() = (T)std::ceil(in.z());
+    out.x() = T(std::ceil(in.x()));
+    out.y() = T(std::ceil(in.y()));
+    out.z() = T(std::ceil(in.z()));
     return out;
   }
 
@@ -175,9 +175,9 @@ namespace axm
   auto round(const vec3<T>& in) -> vec3<T>
   {
     vec3<T> out{};
-    out.x() = (T)std::round(in.x());
-    out.y() = (T)std::round(in.y());
-    out.z() = (T)std::round(in.z());
+    out.x() = T(std::round(in.x()));
+    out.y() = T(std::round(in.y()));
+    out.z() = T(std::round(in.z()));
     return out;
   }
 
@@ -803,13 +803,6 @@ namespace axm
       {T(2) * (t1 + t2),      -sqx + sqy - sqz + sqw, T(2) * (t5 - t6)},
       {T(2) * (t3 - t4),      T(2) * (t5 + t6),       -sqx - sqy + sqz + sqw}
     };
-
-    return
-    {
-      {sqx - sqy - sqz + sqw, T(2) * (t1 + t2),       T(2) * (t3 - t4)},
-      {T(2) * (t1 - t2),      -sqx + sqy - sqz + sqw, T(2) * (t5 + t6)},
-      {T(2) * (t3 + t4),      T(2) * (t5 - t6),       -sqx - sqy + sqz + sqw},
-    };
   }
 
   //==Mat4x4============================================================================================================
@@ -957,14 +950,6 @@ namespace axm
       {sqx - sqy - sqz + sqw, T(2) * (t1 - t2),       T(2) * (t3 + t4),       T(0)},
       {T(2) * (t1 + t2),      -sqx + sqy - sqz + sqw, T(2) * (t5 - t6),       T(0)},
       {T(2) * (t3 - t4),      T(2) * (t5 + t6),       -sqx - sqy + sqz + sqw, T(0)},
-      {T(0),                  T(0),                   T(0),                   T(1)}
-    };
-
-    return
-    {
-      {sqx - sqy - sqz + sqw, T(2) * (t1 + t2),       T(2) * (t3 - t4),       T(0)},
-      {T(2) * (t1 - t2),      -sqx + sqy - sqz + sqw, T(2) * (t5 + t6),       T(0)},
-      {T(2) * (t3 + t4),      T(2) * (t5 - t6),       -sqx - sqy + sqz + sqw, T(0)},
       {T(0),                  T(0),                   T(0),                   T(1)}
     };
   }

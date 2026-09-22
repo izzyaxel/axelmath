@@ -180,37 +180,37 @@ namespace axm
     GNUCONST USE_RESULT CANNOT_FAIL
     auto operator + (U other) const -> vec3 requires(IsNumeric<T>)
     {
-      return vec3{this->x() + (T)other, this->y() + (T)other, this->z() + (T)other};
+      return vec3{this->x() + T(other), this->y() + T(other), this->z() + T(other)};
     }
 
     template <typename U>
     GNUCONST USE_RESULT CANNOT_FAIL
     auto operator - (U other) const -> vec3 requires(IsNumeric<T>)
     {
-      return vec3{this->x() - (T)other, this->y() - (T)other, this->z() - (T)other};
+      return vec3{this->x() - T(other), this->y() - T(other), this->z() - T(other)};
     }
 
     template <typename U>
     GNUCONST USE_RESULT CANNOT_FAIL
     auto operator * (U other) const -> vec3 requires(IsNumeric<T>)
     {
-      return vec3{this->x() * (T)other, this->y() * (T)other, this->z() * (T)other};
+      return vec3{this->x() * T(other), this->y() * T(other), this->z() * T(other)};
     }
 
     template <typename U>
     GNUCONST USE_RESULT CANNOT_FAIL
     auto operator / (U other) const -> vec3 requires(IsNumeric<T>)
     {
-      return vec3{this->x() / (T)other, this->y() / (T)other, this->z() / (T)other};
+      return vec3{this->x() / T(other), this->y() / T(other), this->z() / T(other)};
     }
 
     template <typename U>
     CANNOT_FAIL
     auto operator += (U other) -> vec3& requires(IsNumeric<T>)
     {
-      this->x() = this->x() + (T)other;
-      this->y() = this->y() + (T)other;
-      this->z() = this->z() + (T)other;
+      this->x() = this->x() + T(other);
+      this->y() = this->y() + T(other);
+      this->z() = this->z() + T(other);
       return *this;
     }
 
@@ -218,9 +218,9 @@ namespace axm
     CANNOT_FAIL
     auto operator -= (U other) -> vec3& requires(IsNumeric<T>)
     {
-      this->x() = this->x() - (T)other;
-      this->y() = this->y() - (T)other;
-      this->z() = this->z() - (T)other;
+      this->x() = this->x() - T(other);
+      this->y() = this->y() - T(other);
+      this->z() = this->z() - T(other);
       return *this;
     }
 
@@ -228,9 +228,9 @@ namespace axm
     CANNOT_FAIL
     auto operator *= (U other) -> vec3& requires(IsNumeric<T>)
     {
-      this->x() = this->x() * (T)other;
-      this->y() = this->y() * (T)other;
-      this->z() = this->z() * (T)other;
+      this->x() = this->x() * T(other);
+      this->y() = this->y() * T(other);
+      this->z() = this->z() * T(other);
       return *this;
     }
 
@@ -238,9 +238,9 @@ namespace axm
     CANNOT_FAIL
     auto operator /= (U other) -> vec3& requires(IsNumeric<T>)
     {
-      this->x() = this->x() / (T)other;
-      this->y() = this->y() / (T)other;
-      this->z() = this->z() / (T)other;
+      this->x() = this->x() / T(other);
+      this->y() = this->y() / T(other);
+      this->z() = this->z() / T(other);
       return *this;
     }
 

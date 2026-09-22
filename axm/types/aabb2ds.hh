@@ -25,14 +25,14 @@ namespace axm
       this->upperLeft = upperLeft;
       this->lowerRight = lowerRight;
       vec2<T> distance = lowerRight - upperLeft;
-      this->center = lowerRight - distance / (T)2;
+      this->center = lowerRight - distance / T(2);
     }
 
     aabb2d(const vec2<T>& center, const T width, const T height)
     {
       this->center = center;
-      T halfW = width / (T)2;
-      T halfH = height / (T)2;
+      T halfW = width / T(2);
+      T halfH = height / T(2);
 
       this->upperLeft = {center.x() - halfW, center.y() + halfH};
       this->lowerRight = {center.x() + halfW, center.y() - halfH};

@@ -27,14 +27,14 @@ namespace axm
     template <typename U>
     constexpr vec2(const U x, const U y)
     {
-      this->data = {(T)x, (T)y};
+      this->data = {T(x), T(y)};
     }
 
     template <typename U>
     explicit constexpr vec2(const vec2<U>& other)
     {
-      this->x() = (T)other.x();
-      this->y() = (T)other.y();
+      this->x() = T(other.x());
+      this->y() = T(other.y());
     }
 
     constexpr explicit vec2(const T val)
@@ -173,36 +173,36 @@ namespace axm
     GNUCONST USE_RESULT CANNOT_FAIL
     auto operator + (U other) const -> vec2
     {
-      return {this->x() + (T)other, this->y() + (T)other};
+      return {this->x() + T(other), this->y() + T(other)};
     }
 
     template <typename U>
     GNUCONST USE_RESULT CANNOT_FAIL
     auto operator - (U other) const -> vec2
     {
-      return {this->x() - (T)other, this->y() - (T)other};
+      return {this->x() - T(other), this->y() - T(other)};
     }
 
     template <typename U>
     GNUCONST USE_RESULT CANNOT_FAIL
     auto operator * (U other) const -> vec2
     {
-      return {this->x() * (T)other, this->y() * (T)other};
+      return {this->x() * T(other), this->y() * T(other)};
     }
 
     template <typename U>
     GNUCONST USE_RESULT CANNOT_FAIL
     auto operator / (U other) const -> vec2
     {
-      return {this->x() / (T)other, this->y() / (T)other};
+      return {this->x() / T(other), this->y() / T(other)};
     }
 
     template <typename U>
     CANNOT_FAIL
     auto operator += (U other) -> vec2
     {
-      this->x() += (T)other;
-      this->y() += (T)other;
+      this->x() += T(other);
+      this->y() += T(other);
       return *this;
     }
 
@@ -210,8 +210,8 @@ namespace axm
     CANNOT_FAIL
     auto operator -= (U other) -> vec2
     {
-      this->x() -= (T)other;
-      this->y() -= (T)other;
+      this->x() -= T(other);
+      this->y() -= T(other);
       return *this;
     }
 
@@ -219,8 +219,8 @@ namespace axm
     CANNOT_FAIL
     auto operator *= (U other) -> vec2
     {
-      this->x() *= (T)other;
-      this->y() *= (T)other;
+      this->x() *= T(other);
+      this->y() *= T(other);
       return *this;
     }
 
@@ -228,8 +228,8 @@ namespace axm
     CANNOT_FAIL
     auto operator /= (U other) -> vec2
     {
-      this->x() /= (T)other;
-      this->y() /= (T)other;
+      this->x() /= T(other);
+      this->y() /= T(other);
       return *this;
     }
 

@@ -21,10 +21,10 @@ namespace axm
     mat4x4() requires(!IsNumeric<T>) = default;
 
     /// When using a mat4x4 with numeric values, we want to set the matrix to identity
-    mat4x4() requires(IsNumeric<T>) : data({(T)1, (T)0, (T)0, (T)0},
-                                           {(T)0, (T)1, (T)0, (T)0},
-                                           {(T)0, (T)0, (T)1, (T)0},
-                                           {(T)0, (T)0, (T)0, (T)1}) {}
+    mat4x4() requires(IsNumeric<T>) : data({T(1), T(0), T(0), T(0)},
+                                           {T(0), T(1), T(0), T(0)},
+                                           {T(0), T(0), T(1), T(0)},
+                                           {T(0), T(0), T(0), T(1)}) {}
 
     mat4x4(
       const T x1, const T y1, const T z1, const T w1,

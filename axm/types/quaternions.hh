@@ -21,10 +21,10 @@ namespace axm
     template <typename U>
     constexpr explicit quat(const quat<U>& other)
     {
-      this->x() = (T)other.x();
-      this->y() = (T)other.y();
-      this->z() = (T)other.z();
-      this->w() = (T)other.w();
+      this->x() = T(other.x());
+      this->y() = T(other.y());
+      this->z() = T(other.z());
+      this->w() = T(other.w());
     }
 
     constexpr quat(const T xIn, const T yIn, const T zIn, const T wIn) : data{xIn, yIn, zIn, wIn} {}

@@ -44,7 +44,7 @@ namespace axm
     GNUCONST USE_RESULT CANNOT_FAIL
     auto getDiameter() const -> T
     {
-      return this->radius * (T)2;
+      return this->radius * T(2);
     }
 
     GNUCONST USE_RESULT CANNOT_FAIL

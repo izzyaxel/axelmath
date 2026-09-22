@@ -4,6 +4,8 @@
 
 #include <string>
 
+//TODO Conversion operators, constructors, etc
+
 namespace axm
 {
 

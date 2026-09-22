@@ -29,9 +29,9 @@ namespace axm
 
       vec3 offset
       {
-        (std::max(botLL.x(), topUR.x()) - std::min(botLL.x(), topUR.x())) / (T)2,
-        (std::max(botLL.y(), topUR.y()) - std::min(botLL.y(), topUR.y())) / (T)2,
-        (std::max(botLL.z(), topUR.z()) - std::min(botLL.z(), topUR.z())) / (T)2
+        (std::max(botLL.x(), topUR.x()) - std::min(botLL.x(), topUR.x())) / T(2),
+        (std::max(botLL.y(), topUR.y()) - std::min(botLL.y(), topUR.y())) / T(2),
+        (std::max(botLL.z(), topUR.z()) - std::min(botLL.z(), topUR.z())) / T(2)
       };
     }
 
@@ -40,7 +40,7 @@ namespace axm
     /// @param dimensions The dimensions of the aabb, evenly distributed around the center
     aabb3d(const vec3<T>& center, const vec3<T> dimensions)
     {
-      vec3 half{dimensions.width() / (T)2, dimensions.height() / (T)2, dimensions.depth() / (T)2};
+      vec3 half{dimensions.width() / T(2), dimensions.height() / T(2), dimensions.depth() / T(2)};
       this->botLL = center + half;
       this->topUR = center - half;
     }
@@ -74,7 +74,7 @@ namespace axm
     GNUCONST USE_RESULT CANNOT_FAIL
     auto halfExtents() const -> vec3<T>
     {
-      return this->extents() / (T)2;
+      return this->extents() / T(2);
     }
 
     GNUCONST USE_RESULT CANNOT_FAIL

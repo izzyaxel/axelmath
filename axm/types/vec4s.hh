@@ -209,38 +209,38 @@ namespace axm
     GNUCONST USE_RESULT CANNOT_FAIL
     auto operator + (U other) const -> vec4 requires(MathStorageType<T>)
     {
-      return {this->x() + (T)other, this->y() + (T)other, this->z() + (T)other, this->w() + (T)other};
+      return {this->x() + T(other), this->y() + T(other), this->z() + T(other), this->w() + T(other)};
     }
 
     template <typename U>
     GNUCONST USE_RESULT CANNOT_FAIL
     auto operator - (U other) const -> vec4 requires(MathStorageType<T>)
     {
-      return {this->x() - (T)other, this->y() - (T)other, this->z() - (T)other, this->w() - (T)other};
+      return {this->x() - T(other), this->y() - T(other), this->z() - T(other), this->w() - T(other)};
     }
 
     template <typename U>
     GNUCONST USE_RESULT CANNOT_FAIL
     auto operator * (U other) const -> vec4 requires(MathStorageType<T>)
     {
-      return {this->x() * (T)other, this->y() * (T)other, this->z() * (T)other, this->w() * (T)other};
+      return {this->x() * T(other), this->y() * T(other), this->z() * T(other), this->w() * T(other)};
     }
 
     template <typename U>
     GNUCONST USE_RESULT CANNOT_FAIL
     auto operator / (U other) const -> vec4 requires(MathStorageType<T>)
     {
-      return {this->x() / (T)other, this->y() / (T)other, this->z() / (T)other, this->w() / (T)other};
+      return {this->x() / T(other), this->y() / T(other), this->z() / T(other), this->w() / T(other)};
     }
 
     template <typename U>
     CANNOT_FAIL
     auto operator += (U other) -> vec4& requires(MathStorageType<T>)
     {
-      this->x() += (T)other;
-      this->y() += (T)other;
-      this->z() += (T)other;
-      this->w() += (T)other;
+      this->x() += T(other);
+      this->y() += T(other);
+      this->z() += T(other);
+      this->w() += T(other);
       return *this;
     }
 
@@ -248,10 +248,10 @@ namespace axm
     CANNOT_FAIL
     auto operator -= (U other) -> vec4& requires(MathStorageType<T>)
     {
-      this->x() -= (T)other;
-      this->y() -= (T)other;
-      this->z() -= (T)other;
-      this->w() -= (T)other;
+      this->x() -= T(other);
+      this->y() -= T(other);
+      this->z() -= T(other);
+      this->w() -= T(other);
       return *this;
     }
 
@@ -259,10 +259,10 @@ namespace axm
     CANNOT_FAIL
     auto operator *= (U other) -> vec4& requires(MathStorageType<T>)
     {
-      this->x() *= (T)other;
-      this->y() *= (T)other;
-      this->z() *= (T)other;
-      this->w() *= (T)other;
+      this->x() *= T(other);
+      this->y() *= T(other);
+      this->z() *= T(other);
+      this->w() *= T(other);
       return *this;
     }
 
@@ -270,10 +270,10 @@ namespace axm
     CANNOT_FAIL
     auto operator /= (U other) -> vec4& requires(MathStorageType<T>)
     {
-      this->x() /= (T)other;
-      this->y() /= (T)other;
-      this->z() /= (T)other;
-      this->w() /= (T)other;
+      this->x() /= T(other);
+      this->y() /= T(other);
+      this->z() /= T(other);
+      this->w() /= T(other);
       return *this;
     }
 

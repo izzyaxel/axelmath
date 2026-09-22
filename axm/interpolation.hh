@@ -18,8 +18,8 @@ namespace axm
   [[nodiscard]] T alerp(const T a, const T b, const T progress, const T curve)
   {
     T expProg = std::pow(progress, curve);
-    T lerp = expProg / (expProg + std::pow((T)1 - progress, curve));
-    return ((T)1 - lerp) * a + lerp * b;
+    T lerp = expProg / (expProg + std::pow(T(1) - progress, curve));
+    return (T(1) - lerp) * a + lerp * b;
   }
 
   /// Logarithmic lerp, return value approaches b logarithmically faster as progress approaches 1
@@ -68,39 +68,39 @@ namespace axm
   template <typename T>
   [[nodiscard]] vec2<T> eoerp(const vec2<T>& src, const vec2<T>& dest, const float progress)
   {
-    return lerp(src, dest, (float)(std::sin(progress * std::numbers::pi * (T)0.5)));
+    return lerp(src, dest, (float)(std::sin(progress * std::numbers::pi * T(0.5))));
   }
 
   /// Ease in lerp: slow in fast out
   template <typename T>
   [[nodiscard]] vec2<T> eierp(const vec2<T>& src, const vec2<T>& dest, const float progress)
   {
-    return lerp(src, dest, (float)((T)1.0 - std::cos(progress * std::numbers::pi * (T)0.5)));
+    return lerp(src, dest, (float)(T(1) - std::cos(progress * std::numbers::pi * T(0.5))));
   }
 
   /// Exponential ease out lerp: fast in slower out
   template <typename T>
   [[nodiscard]] vec2<T> exeoerp(const vec2<T>& src, const vec2<T>& dest, float progress)
   {
-    return lerp(src, dest, (float)(std::sin((progress * progress) * std::numbers::pi * (T)0.5)));
+    return lerp(src, dest, (float)(std::sin((progress * progress) * std::numbers::pi * T(0.5))));
   }
 
   /// Exponential ease in lerp: slower in fast out
   template <typename T> [[nodiscard]] vec2<T> exeierp(const vec2<T>& src, const vec2<T>& dest, const float progress)
   {
-    return lerp(src, dest, (float)((T)1.0 - std::cos((progress * progress) * std::numbers::pi * (T)0.5)));
+    return lerp(src, dest, (float)(T(1) - std::cos((progress * progress) * std::numbers::pi * T(0.5))));
   }
 
   /// Smoothstep lerp: slow in slow out
   template <typename T> [[nodiscard]] vec2<T> serp(const vec2<T>& src, const vec2<T>& dest, const float progress)
   {
-    return lerp(src, dest, (float)((progress * progress) * ((T)3.0 - ((T)2.0 * progress))));
+    return lerp(src, dest, (float)((progress * progress) * (T(3) - (T(2) * progress))));
   }
 
   /// Smootherstep lerp: slower in slower out
   template <typename T> [[nodiscard]] vec2<T> sserp(const vec2<T>& src, const vec2<T>& dest, const float progress)
   {
-    return lerp(src, dest, (float)(std::pow(progress, 3) * (progress * ((T)6.0 * progress - (T)15.0) + (T)10.0)));
+    return lerp(src, dest, (float)(std::pow(progress, 3) * (progress * (T(6) * progress - T(15)) + T(10))));
   }
 
 
@@ -110,9 +110,9 @@ namespace axm
   [[nodiscard]] vec3<T> lerp(const vec3<T>& src, const vec3<T>& dest, const float progress)
   {
     vec3<T> out;
-    out[0] = progress * dest[0] + ((T)1.0 - progress) * src[0];
-    out[1] = progress * dest[1] + ((T)1.0 - progress) * src[1];
-    out[2] = progress * dest[2] + ((T)1.0 - progress) * src[2];
+    out[0] = progress * dest[0] + (T(1) - progress) * src[0];
+    out[1] = progress * dest[1] + (T(1) - progress) * src[1];
+    out[2] = progress * dest[2] + (T(1) - progress) * src[2];
     return out;
   }
 
@@ -120,42 +120,42 @@ namespace axm
   template <typename T>
   [[nodiscard]] vec3<T> eoerp(const vec3<T>& src, const vec3<T>& dest, const float progress)
   {
-    return lerp(src, dest, (float)(std::sin(progress * std::numbers::pi * (T)0.5)));
+    return lerp(src, dest, (float)(std::sin(progress * std::numbers::pi * T(0.5))));
   }
 
   /// Ease in lerp: slow in fast out
   template <typename T>
   [[nodiscard]] vec3<T> eierp(const vec3<T>& src, const vec3<T>& dest, const float progress)
   {
-    return lerp(src, dest, (float)((T)1.0 - std::cos(progress * std::numbers::pi * (T)0.5)));
+    return lerp(src, dest, (float)(T(1) - std::cos(progress * std::numbers::pi * T(0.5))));
   }
 
   /// Exponential ease out lerp: fast in slower out
   template <typename T>
   [[nodiscard]] vec3<T> exeoerp(const vec3<T>& src, const vec3<T>& dest, const float progress)
   {
-    return lerp(src, dest, (float)(std::sin((progress * progress) * std::numbers::pi * (T)0.5)));
+    return lerp(src, dest, (float)(std::sin((progress * progress) * std::numbers::pi * T(0.5))));
   }
 
   /// Exponential ease in lerp slower in fast out
   template <typename T>
   [[nodiscard]] vec3<T> exeierp(const vec3<T>& src, const vec3<T>& dest, const float progress)
   {
-    return lerp(src, dest, (float)((T)1.0 - std::cos((progress * progress) * std::numbers::pi * (T)0.5)));
+    return lerp(src, dest, (float)(T(1) - std::cos((progress * progress) * std::numbers::pi * T(0.5))));
   }
 
   /// Smoothstep lerp: slow in slow out
   template <typename T>
   [[nodiscard]] vec3<T> serp(const vec3<T>& src, const vec3<T>& dest, const float progress)
   {
-    return lerp(src, dest, (float)((progress * progress) * ((T)3.0 - ((T)2.0 * progress))));
+    return lerp(src, dest, (float)((progress * progress) * (T(3) - (T(2) * progress))));
   }
 
   /// Smootherstep lerp: slower in slower out
   template <typename T>
   [[nodiscard]] vec3<T> sserp(const vec3<T>& src, const vec3<T>& dest, const float progress)
   {
-    return lerp(src, dest, (float)(std::pow(progress, 3) * (progress * ((T)6.0 * progress - (T)15.0) + (T)10.0)));
+    return lerp(src, dest, (float)(std::pow(progress, 3) * (progress * (T(6) * progress - T(15)) + T(10))));
   }
 
   /// Lerp between 2 4-dimensional vectors
@@ -174,42 +174,42 @@ namespace axm
   template <typename T>
   [[nodiscard]] vec4<T> eoerp(const vec4<T>& src, const vec4<T>& dest, const float progress)
   {
-    return lerp(src, dest, (float)(std::sin(progress * std::numbers::pi * (T)0.5)));
+    return lerp(src, dest, (float)(std::sin(progress * std::numbers::pi * T(0.5))));
   }
 
   /// Ease in lerp: slow in fast out
   template <typename T>
   [[nodiscard]] vec4<T> eierp(const vec4<T>& src, const vec4<T>& dest, const float progress)
   {
-    return lerp(src, dest, (float)((T)1.0 - std::cos(progress * std::numbers::pi * (T)0.5)));
+    return lerp(src, dest, (float)(T(1) - std::cos(progress * std::numbers::pi * T(0.5))));
   }
 
   /// Exponential ease out lerp: fast in slower out
   template <typename T>
   [[nodiscard]] vec4<T> exeoerp(const vec4<T>& src, const vec4<T>& dest, const float progress)
   {
-    return lerp(src, dest, (float)(std::sin((progress * progress) * std::numbers::pi * (T)0.5)));
+    return lerp(src, dest, (float)(std::sin((progress * progress) * std::numbers::pi * T(0.5))));
   }
 
   /// Exponential ease in lerp: slower in fast out
   template <typename T>
   [[nodiscard]] vec4<T> exeierp(const vec4<T>& src, const vec4<T>& dest, const float progress)
   {
-    return lerp(src, dest, (float)((T)1.0 - std::cos((progress * progress) * std::numbers::pi * (T)0.5)));
+    return lerp(src, dest, (float)(T(1) - std::cos((progress * progress) * std::numbers::pi * T(0.5))));
   }
 
   /// Smoothstep lerp: slow in slow out
   template <typename T>
   [[nodiscard]] vec4<T> serp(const vec4<T>& src, const vec4<T>& dest, const float progress)
   {
-    return lerp(src, dest, (float)((progress * progress) * ((T)3.0 - ((T)2.0 * progress))));
+    return lerp(src, dest, (float)((progress * progress) * (T(3) - (T(2) * progress))));
   }
 
   /// Smootherstep lerp: slower in slower out
   template <typename T>
   [[nodiscard]] vec4<T> sserp(const vec4<T>& src, const vec4<T>& dest, const float progress)
   {
-    return lerp(src, dest, (float)(std::pow(progress, 3) * (progress * ((T)6.0 * progress - (T)15.0) + (T)10.0)));
+    return lerp(src, dest, (float)(std::pow(progress, 3) * (progress * (T(6) * progress - T(15)) + T(10))));
   }
 
   template <typename T>
