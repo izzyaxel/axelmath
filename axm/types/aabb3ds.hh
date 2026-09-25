@@ -45,14 +45,14 @@ namespace axm
       this->topUR = center - half;
     }
 
-    CANNOT_FAIL
+    CannotFail
     auto move(const vec3<T>& amount) -> void
     {
       this->topUR += amount;
       this->botLL += amount;
     }
 
-    CANNOT_FAIL
+    CannotFail
     auto setPosition(const vec3<T>& newCenterPosition) -> void
     {
       vec3 offset = this->halfExtents();
@@ -60,7 +60,7 @@ namespace axm
       this->botLL = newCenterPosition - offset;
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto extents() const -> vec3<T>
     {
       return
@@ -71,13 +71,13 @@ namespace axm
       };
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto halfExtents() const -> vec3<T>
     {
       return this->extents() / T(2);
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto getCenter() const -> vec3<T>
     {
       vec3 offset = halfExtents();
@@ -85,103 +85,103 @@ namespace axm
     }
 
     //Corner getters
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto getTopUL() const -> vec3<T>
     {
       return vec2{this->botLL.x(), this->topUR.y(), this->topUR.z()};
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto getTopUR() const -> vec3<T>
     {
       return this->topUR;
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto getTopLR() const -> vec3<T>
     {
       return vec2{this->topUR.x(), this->topUR.y(), this->botLL.z()};
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto getTopLL() const -> vec3<T>
     {
       return vec2{this->botLL.x(), this->topUR.y(), this->botLL.z()};
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto getBotUL() const -> vec3<T>
     {
       return vec2{this->botLL.x(), this->botLL.y(), this->topUR.z()};
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto getBotUR() const -> vec3<T>
     {
       return vec2{this->topUR.x(), this->botLL.y(), this->topUR.z()};
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto getBotLR() const -> vec3<T>
     {
       return vec2{this->topUR.x(), this->botLL.y(), this->botLL.z()};
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto getBotLL() const -> vec3<T>
     {
       return this->botLL;
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto getWidth() const -> T
     {
       return dist(this->topUR.x(), this->botLL.x());
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto getHeight() const -> T
     {
       return dist(this->topUR.y(), this->botLL.y());
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto getDepth() const -> T
     {
       return dist(this->topUR.z(), this->botLL.z());
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto minX() const -> T
     {
       return std::min(this->topUR.x(), this->botLL.x());
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto maxX() const -> T
     {
       return std::max(this->topUR.x(), this->botLL.x());
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto minY() const -> T
     {
       return std::min(this->topUR.y(), this->botLL.y());
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto maxY() const -> T
     {
       return std::max(this->topUR.y(), this->botLL.y());
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto minZ() const -> T
     {
       return std::min(this->topUR.z(), this->botLL.z());
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto maxZ() const -> T
     {
       return std::max(this->topUR.z(), this->botLL.z());

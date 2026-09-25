@@ -213,7 +213,7 @@ namespace axm
   }
 
   template <typename T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto lerp(const quat<T>& a, const quat<T>& b, const T t) -> quat<T>
   {
     return quat<T>{a * (1.0f - t) + b * t};
@@ -221,7 +221,7 @@ namespace axm
 
   /// Quaternion spherical linear interpolation
   template <MathStorageType T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto slerp(const quat<T>& a, const quat<T>& b, const T t) -> quat<T>
   {
     quat<T> aNorm = normalize(a);

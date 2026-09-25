@@ -25,35 +25,35 @@ namespace axm
   template <typename T> concept IsMat4x4 = std::same_as<T, mat4x4<float>> || std::same_as<T, glm::mat4x4>;
 
   template <IsVec2 T1, IsVec2 T2>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto convert(const T1& in) -> T2 requires(!std::same_as<T1, T2>)
   {
     return {in[0], in[1]};
   }
 
   template <IsVec3 T1, IsVec3 T2>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto convert(const T1& in) -> T2 requires(!std::same_as<T1, T2>)
   {
     return {in[0], in[1], in[2]};
   }
 
   template <IsVec4 T1, IsVec4 T2>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto convert(const T1& in) -> T2 requires(!std::same_as<T1, T2>)
   {
     return {in[0], in[1], in[2], in[3]};
   }
 
   template <IsQuat T1, IsQuat T2>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto convert(const T1& in) -> T2 requires(!std::same_as<T1, T2>)
   {
     return {in[0], in[1], in[2], in[3]};
   }
 
   template <IsMat4x4 T1, IsMat4x4 T2>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto convert(const T1& in) -> T2 requires(!std::same_as<T1, T2>)
   {
     return

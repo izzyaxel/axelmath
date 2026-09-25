@@ -8,7 +8,7 @@
 namespace axm
 {
   template <IsNumeric T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto isColliding(const circle<T>& a, const circle<T>& b) -> bool
   {
     const T distanceSquared = distSqr(a.getPosition(), b.getPosition());
@@ -17,7 +17,7 @@ namespace axm
   }
 
   template <IsNumeric T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto isColliding(const circle<T>& circle, const aabb2d<T>& aabb) -> bool
   {
     const vec2 circlePos = circle.getPosition();
@@ -33,7 +33,7 @@ namespace axm
   }
 
   template <IsNumeric T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto isColliding(const aabb2d<T>& a, const aabb2d<T>& b) -> bool
   {
     if(a.maxX() < b.minX() || a.minX() > b.maxX())
@@ -50,7 +50,7 @@ namespace axm
   }
 
   template <IsNumeric T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto isColliding(const aabb3d<T>& a, const aabb3d<T>& b) -> bool
   {
     return
@@ -61,7 +61,7 @@ namespace axm
 
   /// 2D AABB vs point
   template <IsNumeric T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto isColliding(const aabb2d<T>& a, const vec2<T>& b) -> bool
   {
     return
@@ -71,7 +71,7 @@ namespace axm
 
   /// 3D AABB vs point
   template <IsNumeric T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto isColliding(const aabb3d<T>& a, const vec3<T>& b) -> bool
   {
     return

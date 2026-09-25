@@ -40,6 +40,17 @@ namespace axm
     {
       if(index > MAX_INDEX)
       {
+        if(LOGGER)
+        {
+          LOGGER("[Warning] | axm/types/quaternions.hh:39 | operator [] -> T& | With T of " +
+            getTypeName<T>() +
+            " | Index " +
+            std::to_string(index) +
+            " was out of bounds, max index is " +
+            std::to_string(MAX_INDEX) +
+            ".  Any values written to the return of this call will have been discarded!", USER_DATA);
+        }
+
         return this->getSentinel();
       }
       return this->data[index];
@@ -54,22 +65,22 @@ namespace axm
       return this->data[index];
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL auto x() const -> T {return this->data[0];}
-    GNUCONST USE_RESULT CANNOT_FAIL auto y() const -> T {return this->data[1];}
-    GNUCONST USE_RESULT CANNOT_FAIL auto z() const -> T {return this->data[2];}
-    GNUCONST USE_RESULT CANNOT_FAIL auto w() const -> T {return this->data[3];}
-    USE_RESULT CANNOT_FAIL          auto x() -> T& {return this->data[0];}
-    USE_RESULT CANNOT_FAIL          auto y() -> T& {return this->data[1];}
-    USE_RESULT CANNOT_FAIL          auto z() -> T& {return this->data[2];}
-    USE_RESULT CANNOT_FAIL          auto w() -> T& {return this->data[3];}
+    Const UseResult CannotFail auto x() const -> T {return this->data[0];}
+    Const UseResult CannotFail auto y() const -> T {return this->data[1];}
+    Const UseResult CannotFail auto z() const -> T {return this->data[2];}
+    Const UseResult CannotFail auto w() const -> T {return this->data[3];}
+    UseResult CannotFail          auto x() -> T& {return this->data[0];}
+    UseResult CannotFail          auto y() -> T& {return this->data[1];}
+    UseResult CannotFail          auto z() -> T& {return this->data[2];}
+    UseResult CannotFail          auto w() -> T& {return this->data[3];}
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator == (const quat& other) const -> bool requires(HasEquivalenceOperator<T>)
     {
       return this->x() == other.x() && this->y() == other.y() && this->z() == other.z() && this->w() == other.w();
     }
 
-    CANNOT_FAIL
+    CannotFail
     auto operator += (const quat& other) -> quat requires(IsNumeric<T>)
     {
       this->x() += other.x();
@@ -79,7 +90,7 @@ namespace axm
       return *this;
     }
 
-    CANNOT_FAIL
+    CannotFail
     auto operator *= (float val) -> quat requires(IsNumeric<T>)
     {
       this->x() *= val;
@@ -89,7 +100,7 @@ namespace axm
       return *this;
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator + (const quat& other) const -> quat requires(IsNumeric<T>)
     {
       return quat
@@ -100,7 +111,7 @@ namespace axm
         this->w() + other.w()};
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator * (float val) const -> quat requires(IsNumeric<T>)
     {
       return quat
@@ -112,7 +123,7 @@ namespace axm
       };
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator * (const quat& other) const -> quat requires(IsNumeric<T>)
     {
       return quat
@@ -124,7 +135,7 @@ namespace axm
       };
     }
 
-    CANNOT_FAIL
+    CannotFail
     auto operator *= (const quat& other) -> quat requires(IsNumeric<T>)
     {
       this->x() = this->w() * other.x() + this->x() * other.w() + this->y() * other.z() - this->z() * other.y();
@@ -140,7 +151,7 @@ namespace axm
     }
 
     /// Get a formatted string of the contents of this quaternion
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto toString() const -> std::string requires(ConvertibleToString<T>)
     {
       std::string out = "(quat)\n[";

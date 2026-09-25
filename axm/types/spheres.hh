@@ -17,37 +17,37 @@ namespace axm
       this->position = position;
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator == (const sphere& other) const -> bool
     {
       return this->radius == other.radius && this->position == other.position;
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto move(const vec3<T>& offset) const -> sphere
     {
       return {this->radius, this->position + offset};
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto setPosition(const vec3<T>& pos) const -> sphere
     {
       return {this->radius, pos};
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto getRadius() const -> T
     {
       return this->radius;
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto getDiameter() const -> T
     {
       return this->radius * T(2);
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto getPosition() const -> vec3<T>
     {
       return this->position;

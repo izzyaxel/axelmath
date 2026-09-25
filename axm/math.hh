@@ -14,7 +14,7 @@
 namespace axm
 {
 
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   inline auto closeEnough(const float val, const float target) -> bool
   {
     if(std::abs(val - target) <= 1e-6)
@@ -26,56 +26,56 @@ namespace axm
   }
 
   template <IsNumeric T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto degToRad(const T degrees) -> T
   {
     return T(((double)degrees * (std::numbers::pi / 180.0)));
   }
 
   template <IsNumeric T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto radToDeg(const T radians) -> T
   {
     return T(((double)radians * (180.0 / std::numbers::pi)));
   }
 
   template <IsNumeric T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto dist(const T a, const T b) -> T
   {
     return std::abs(a - b);
   }
 
   template <IsNumeric T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto dist(const vec2<T>& a, const vec2<T>& b) -> T
   {
     return std::sqrtf(std::powf(b.x() - a.x(), T(2)) + std::powf(b.y() - a.y(), T(2)));
   }
 
   template <IsNumeric T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto distSqr(const vec2<T>& a, const vec2<T>& b) -> T
   {
     return std::powf(b.x() - a.x(), T(2)) + std::powf(b.y() - a.y(), T(2));
   }
 
   template <IsNumeric T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto dist(const vec3<T>& a, const vec3<T>& b) -> T
   {
     return std::sqrtf(std::powf(b.x() - a.x(), T(2)) + std::powf(b.y() - a.y(), T(2)) + std::powf(b.z() - a.z(), T(2)));
   }
 
   template <IsNumeric T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto distSqr(const vec3<T>& a, const vec3<T>& b) -> T
   {
     return std::powf(b.x() - a.x(), T(2)) + std::powf(b.y() - a.y(), T(2)) + std::powf(b.z() - a.z(), T(2));
   }
 
   template <IsNumeric T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto sign(const T& val) -> i8
   {
     return val < 0 ? -1 : (val == 0 ? 0 : 1);
@@ -84,21 +84,21 @@ namespace axm
   //==Vec2==============================================================================================================
 
   template <typename T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto dot(const vec2<T>& in, const vec2<T>& other) -> T
   {
     return in.x() * other.x() + in.y() * other.y();
   }
 
   template <typename T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto mag(const vec2<T>& in) -> T
   {
     return std::sqrt(in.x() * in.x() + in.y() * in.y());
   }
 
   template <typename T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto normalize(const vec2<T>& in) -> vec2<T>
   {
     vec2<T> out = in;
@@ -116,7 +116,7 @@ namespace axm
   //==Vec3==============================================================================================================
 
   template <typename T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto sqrt(const vec3<T>& in) -> vec3<T>
   {
     vec3<T> out{};
@@ -127,7 +127,7 @@ namespace axm
   }
 
   template <typename T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto pow(const vec3<T>& in, const T exponent) -> vec3<T>
   {
     vec3<T> out{};
@@ -138,7 +138,7 @@ namespace axm
   }
 
   template <typename T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto pow(const vec3<T>& in, const vec3<T>& exponents) -> vec3<T>
   {
     vec3<T> out{};
@@ -149,7 +149,7 @@ namespace axm
   }
 
   template <typename T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto floor(const vec3<T>& in) -> vec3<T>
   {
     vec3<T> out{};
@@ -160,7 +160,7 @@ namespace axm
   }
 
   template <typename T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto ceil(const vec3<T>& in) -> vec3<T>
   {
     vec3<T> out{};
@@ -171,7 +171,7 @@ namespace axm
   }
 
   template <typename T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto round(const vec3<T>& in) -> vec3<T>
   {
     vec3<T> out{};
@@ -182,7 +182,7 @@ namespace axm
   }
 
   template <typename T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto invert(const vec3<T>& in) -> vec3<T>
   {
     vec3<T> out{};
@@ -193,21 +193,21 @@ namespace axm
   }
 
   template <typename T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto mag(const vec3<T>& in) -> T
   {
     return std::sqrt(in.x() * in.x() + in.y() * in.y() + in.z() * in.z());
   }
 
   template <typename T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto dot(const vec3<T>& in, const vec3<T>& other) -> T
   {
     return in.x() * other.x() + in.y() * other.y() + in.z() * other.z();
   }
 
   template <typename T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto cross(const vec3<T>& in, const vec3<T>& other) -> vec3<T>
   {
     vec3<T> out{};
@@ -218,7 +218,7 @@ namespace axm
   }
 
   template <typename T>
-  CANNOT_FAIL
+  CannotFail
   auto normalize(const vec3<T>& in) -> vec3<T>
   {
     vec3<T> out = in;
@@ -234,14 +234,14 @@ namespace axm
   //==Vec4==============================================================================================================
 
   template <IsNumeric T>
-  USE_RESULT CANNOT_FAIL
+  UseResult CannotFail
   auto mag(const vec4<T>& in) -> T
   {
     return std::sqrt(in.x() * in.x() + in.y() * in.y() + in.z() * in.z() * in.w() * in.w());
   }
 
   template <IsNumeric T>
-  USE_RESULT CANNOT_FAIL
+  UseResult CannotFail
   auto normalize(const vec4<T>& in) -> vec4<T>
   {
     vec4<T> out = in;
@@ -268,7 +268,7 @@ namespace axm
 
   ///
   template <typename T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto conjugate(const quat<T>& in) -> quat<T>
   {
     return quat{-in.x(), -in.y(), -in.z(), in.w()};
@@ -276,7 +276,7 @@ namespace axm
 
   /// Get the magnitude(length) of a quaternion
   template <typename T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto mag(const quat<T>& in) -> T
   {
     return std::sqrt(in.x() * in.x() + in.y() * in.y() + in.z() * in.z() + in.w() * in.w());
@@ -284,7 +284,7 @@ namespace axm
 
   /// Make a unit length version of a quaternion
   template <typename T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto normalize(const quat<T>& in) -> quat<T>
   {
     T length = mag(in);
@@ -298,7 +298,7 @@ namespace axm
 
   /// Find the dot product of a quaternion
   template <typename T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto dot(const quat<T>& in, const quat<T>& other) -> T
   {
     return in.w() * other.w() + in.x() * other.x() + in.y() * other.y() + in.z() * other.z();
@@ -306,7 +306,7 @@ namespace axm
 
   /// Get the inverse of a quaternion
   template <typename T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto invert(const quat<T>& in) -> quat<T>
   {
     quat out{in.x(), in.y(), in.z(), in.w()};
@@ -318,7 +318,7 @@ namespace axm
   /// Convert a quaternion into euler angles
   /// @return {roll pitch yaw} in radians
   template <typename T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto toEulerRotation(const quat<T>& in) -> vec3<T>
   {
     constexpr T one = T(1);
@@ -342,7 +342,7 @@ namespace axm
   /// Convert a quaternion to an axis + angle rotation
   /// @return {x, y, z, radians}
   template <typename T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto toAxial(const quat<T>& in) -> vec4<T>
   {
     const float angle = T(2) * std::acos(in.w());
@@ -357,7 +357,7 @@ namespace axm
   }
 
   template <MathStorageType T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto matToQuat(const mat4x4<T>& in) -> quat<T>
   {
     const T trace = in[0][0] + in[1][1] + in[2][2];
@@ -408,7 +408,7 @@ namespace axm
   }
 
   template <MathStorageType T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto matToQuat(const mat3x3<T>& in) -> quat<T>
   {
     quat<T> out{};
@@ -462,7 +462,7 @@ namespace axm
 
   /// Create a rotation quaternion to multiply an orientation quaternion by, using relative mouse movement values
   template <MathStorageType T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto rotationFromMouseMovement(
     const vec2<T> rel,
     const T lookSensitivity) -> quat<T>
@@ -476,7 +476,7 @@ namespace axm
 
   /// Convert euler angles ({roll, pitch, yaw} in radians) to a quaternion rotation
   template <MathStorageType T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto fromEulerRotation(const vec3<T>& euler) -> quat<T>
   {
     constexpr float half = 0.5f;
@@ -497,7 +497,7 @@ namespace axm
   }
 
   template <MathStorageType T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto fromAxialRotation(const vec4<T>& in) -> quat<T>
   {
     const float a = in[3] / T(2);
@@ -513,7 +513,7 @@ namespace axm
   }
 
   template <MathStorageType T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto fromAxialRotation(
     const T& xIn,
     const T& yIn,
@@ -533,7 +533,7 @@ namespace axm
   }
 
   template <MathStorageType T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto fromAxialRotation(
     const vec3<T>& xyzIn,
     const T& angle) -> quat<T>
@@ -556,7 +556,7 @@ namespace axm
   /// \param targetPos The point in the world to aim at
   /// \param upVec A normalized direction vector specifying what direction up is to be considered
   template <IsNumeric T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto lookAtRH(
     const vec3<T>& originPos,
     const vec3<T>& targetPos,
@@ -588,7 +588,7 @@ namespace axm
   /// \param upVec A normalized direction vector specifying what direction up is to be considered
   /// @return An orientation quaternion pointing at the target
   template <IsNumeric T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto lookAtLH(
     const vec3<T>& originPos,
     const vec3<T>& targetPos,
@@ -603,7 +603,7 @@ namespace axm
 
   /// A cumulative SLERP version of lookAt, changes the quaternion over time
   template <MathStorageType T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto lookAtSLERP(
     const vec3<T> originPos,
     const vec3<T> targetPos,
@@ -616,7 +616,7 @@ namespace axm
 
   /// Prevent a quaternion rotation from exceeding a certain angle like you could do with euler angles
   template <MathStorageType T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto limitRotationRange(
     const quat<T> in,
     const vec3<T> up,
@@ -651,7 +651,7 @@ namespace axm
   /// @param end Typically where you want a camera to point to, or the corrected up vector, ie the world's up direction
   /// @return A relative rotation quaternion
   template <MathStorageType T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto deltaRotationBetweenVectors(
     const vec3<T>& start,
     const vec3<T>& end) -> quat<T>
@@ -684,7 +684,7 @@ namespace axm
   /// @param defaultUp The local up vector for the input quaternion
   /// @return The reoriented quaternion
   template <MathStorageType T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto orientTo(
     const quat<T>& in,
     const vec3<T>& targetVec,
@@ -693,13 +693,13 @@ namespace axm
     const vec3 rotatedUpVec = rotateVec3(in, defaultUp);
     return deltaRotationBetweenVectors(rotatedUpVec, targetVec) * in;
   }
-  
+
   //==Mat3x3============================================================================================================
 
   //TODO how to invert a 3x3?
   /*
   template <MathStorageType T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto invert(const mat3x3<T>& in) -> mat3x3<T>
   {
     const T a = in.z3() * in.w4() - in.w3() * in.z4();
@@ -758,7 +758,7 @@ namespace axm
 
 
   template <MathStorageType T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto transpose(const mat3x3<T>& in) -> mat3x3<T>
   {
     return
@@ -770,7 +770,7 @@ namespace axm
   }
 
   template <IsNumeric T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto mat3x3ToMat4x4(const mat3x3<T>& in) -> mat4x4<T>
   {
     return
@@ -783,7 +783,7 @@ namespace axm
   }
 
   template <IsNumeric T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto quatToMat3x3(const quat<T>& rotation) -> mat3x3<T>
   {
     const T sqx = rotation.x() * rotation.x();
@@ -810,7 +810,7 @@ namespace axm
   /// Calculate the determinant of this mat4x4
   /// @return The determinant value, in the storage type of this mat4x4
   template <MathStorageType T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto determinant(const mat4x4<T>& in) -> T
   {
     return
@@ -843,7 +843,7 @@ namespace axm
   /// Calculate the inverse of this mat4x4
   /// @return A mat4x4 containing the result
   template <MathStorageType T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto invert(const mat4x4<T>& in) -> mat4x4<T> requires(IsNumeric<T>)
   {
     const T a = in.z3() * in.w4() - in.w3() * in.z4();
@@ -905,7 +905,7 @@ namespace axm
   /// Be careful with this, keep track of which way each matrix is!
   /// @return A mat4x4 containing the result
   template <MathStorageType T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto transpose(const mat4x4<T>& in) -> mat4x4<T>
   {
     return
@@ -918,7 +918,7 @@ namespace axm
   }
 
   template <IsNumeric T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto mat4x4ToMat3x3(const mat4x4<T>& in) -> mat3x3<T>
   {
     return
@@ -931,7 +931,7 @@ namespace axm
 
   /// Convert a quaternion to a 4x4 matrix
   template <IsNumeric T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto quatToMat4x4(const quat<T>& rotation) -> mat4x4<T>
   {
     const T sqx = rotation.x() * rotation.x();
@@ -956,7 +956,7 @@ namespace axm
 
   /// Create a translation matrix
   template <IsNumeric T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto translateMat(const vec3<T>& translate) -> mat4x4<T>
   {
     return
@@ -970,7 +970,7 @@ namespace axm
 
   /// Create a rotation matrix
   template <IsNumeric T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto rotateMat(const quat<T>& in) -> mat4x4<T>
   {
     return quatToMat4x4(in);
@@ -978,7 +978,7 @@ namespace axm
 
   /// Create a scale matrix
   template <IsNumeric T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto scaleMat(const vec3<T>& scale) -> mat4x4<T>
   {
     return
@@ -992,7 +992,7 @@ namespace axm
 
   /// Create a scale matrix using 1 scale value
   template <IsNumeric  T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto scaleMat(const T scalar) -> mat4x4<T>
   {
     return
@@ -1006,7 +1006,7 @@ namespace axm
 
   /// Create a model matrix
   template <IsNumeric T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto modelMatrix(
     const vec3<T>& position,
     const quat<T>& rotation,
@@ -1020,7 +1020,7 @@ namespace axm
 
   /// Create a model matrix with an offset
   template <IsNumeric T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto modelMatrix(
     const vec3<T>& position,
     const vec3<T>& origin,
@@ -1038,7 +1038,7 @@ namespace axm
 
   /// Create a view matrix
   template <IsNumeric T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto viewMatrix(
     const quat<T>& cameraRotation,
     const vec3<T>& cameraPosition) -> mat4x4<T>
@@ -1050,7 +1050,7 @@ namespace axm
 
   /// Create a projection matrix that transforms positions according to perspective
   template <IsNumeric T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto perspectiveProjectionMatrix(
     const T fov,
     const T nearPlane,
@@ -1070,7 +1070,7 @@ namespace axm
 
   /// Create a projection matrix that transforms positions with no perspective
   template <IsNumeric T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto orthoProjectionMatrixRH(
     const T left,
     const T right,
@@ -1092,7 +1092,7 @@ namespace axm
 
   /// Create a model-view-projection matrix to transform local coordinates to world coordinates
   template <IsNumeric T>
-  GNUCONST USE_RESULT CANNOT_FAIL
+  Const UseResult CannotFail
   auto modelViewProjectionMatrix(
     const mat4x4<T>& model,
     const mat4x4<T>& view,

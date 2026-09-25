@@ -43,6 +43,17 @@ namespace axm
     {
       if(index > MAX_INDEX)
       {
+        if(LOGGER)
+        {
+          LOGGER("[Warning] | axm/types/vec3s.hh:42 | operator [] -> T& | With T of " +
+            getTypeName<T>() +
+            " | Index " +
+            std::to_string(index) +
+            " was out of bounds, max index is " +
+            std::to_string(MAX_INDEX) +
+            ".  Any values written to the return of this call will have been discarded!", USER_DATA);
+        }
+
         return this->getSentinel();
       }
       return this->data[index];
@@ -57,48 +68,48 @@ namespace axm
       return this->data[index];
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL auto x() const -> const T& {return this->data.at(0);}
-    GNUCONST USE_RESULT CANNOT_FAIL auto y() const -> const T& {return this->data.at(1);}
-    GNUCONST USE_RESULT CANNOT_FAIL auto z() const -> const T& {return this->data.at(2);}
-    USE_RESULT CANNOT_FAIL          auto x() -> T& {return this->data.at(0);}
-    USE_RESULT CANNOT_FAIL          auto y() -> T& {return this->data.at(1);}
-    USE_RESULT CANNOT_FAIL          auto z() -> T& {return this->data.at(2);}
-    GNUCONST USE_RESULT CANNOT_FAIL auto width() const -> const T& {return this->data.at(0);}
-    GNUCONST USE_RESULT CANNOT_FAIL auto height() const -> const T& {return this->data.at(1);}
-    GNUCONST USE_RESULT CANNOT_FAIL auto depth() const -> const T& {return this->data.at(2);}
-    USE_RESULT CANNOT_FAIL          auto width() -> T& {return this->data.at(0);}
-    USE_RESULT CANNOT_FAIL          auto height() -> T& {return this->data.at(1);}
-    USE_RESULT CANNOT_FAIL          auto depth() -> T& {return this->data.at(2);}
-    GNUCONST USE_RESULT CANNOT_FAIL auto red() const -> const T& {return this->data.at(0);}
-    GNUCONST USE_RESULT CANNOT_FAIL auto green() const -> const T& {return this->data.at(1);}
-    GNUCONST USE_RESULT CANNOT_FAIL auto blue() const -> const T& {return this->data.at(2);}
-    USE_RESULT CANNOT_FAIL          auto red() -> T& {return this->data.at(0);}
-    USE_RESULT CANNOT_FAIL          auto green() -> T& {return this->data.at(1);}
-    USE_RESULT CANNOT_FAIL          auto blue() -> T& {return this->data.at(2);}
-    GNUCONST USE_RESULT CANNOT_FAIL auto hue() const -> const T& {return this->data.at(0);}
-    GNUCONST USE_RESULT CANNOT_FAIL auto saturation() const -> const T& {return this->data.at(1);}
-    GNUCONST USE_RESULT CANNOT_FAIL auto value() const -> const T& {return this->data.at(2);}
-    GNUCONST USE_RESULT CANNOT_FAIL auto lightness() const -> const T& {return this->data.at(2);}
-    USE_RESULT CANNOT_FAIL          auto hue() -> T& {return this->data.at(0);}
-    USE_RESULT CANNOT_FAIL          auto saturation() -> T& {return this->data.at(1);}
-    USE_RESULT CANNOT_FAIL          auto value() -> T& {return this->data.at(2);}
-    USE_RESULT CANNOT_FAIL          auto lightness() -> T& {return this->data.at(0);}
-    USE_RESULT CANNOT_FAIL          auto a() -> T& {return this->data.at(1);} //Red-green axis
-    USE_RESULT CANNOT_FAIL          auto b() -> T& {return this->data.at(2);} //yellow-blue axis
-    GNUCONST USE_RESULT CANNOT_FAIL auto a() const -> T& {return this->data.at(1);} //Red-green axis
-    GNUCONST USE_RESULT CANNOT_FAIL auto b() const -> T& {return this->data.at(2);} //yellow-blue axis
-    USE_RESULT CANNOT_FAIL          auto xy() -> vec2<T> {return {this->x(), this->y()};}
-    USE_RESULT CANNOT_FAIL          auto bgr() -> vec3 {return {this->blue(), this->green(), this->red()};}
-    GNUCONST USE_RESULT CANNOT_FAIL auto xy() const -> vec2<T> {return {this->x(), this->y()};}
-    GNUCONST USE_RESULT CANNOT_FAIL auto bgr() const -> vec3 {return {this->blue(), this->green(), this->red()};}
+    Const UseResult CannotFail auto x() const -> const T& {return this->data.at(0);}
+    Const UseResult CannotFail auto y() const -> const T& {return this->data.at(1);}
+    Const UseResult CannotFail auto z() const -> const T& {return this->data.at(2);}
+    UseResult CannotFail          auto x() -> T& {return this->data.at(0);}
+    UseResult CannotFail          auto y() -> T& {return this->data.at(1);}
+    UseResult CannotFail          auto z() -> T& {return this->data.at(2);}
+    Const UseResult CannotFail auto width() const -> const T& {return this->data.at(0);}
+    Const UseResult CannotFail auto height() const -> const T& {return this->data.at(1);}
+    Const UseResult CannotFail auto depth() const -> const T& {return this->data.at(2);}
+    UseResult CannotFail          auto width() -> T& {return this->data.at(0);}
+    UseResult CannotFail          auto height() -> T& {return this->data.at(1);}
+    UseResult CannotFail          auto depth() -> T& {return this->data.at(2);}
+    Const UseResult CannotFail auto red() const -> const T& {return this->data.at(0);}
+    Const UseResult CannotFail auto green() const -> const T& {return this->data.at(1);}
+    Const UseResult CannotFail auto blue() const -> const T& {return this->data.at(2);}
+    UseResult CannotFail          auto red() -> T& {return this->data.at(0);}
+    UseResult CannotFail          auto green() -> T& {return this->data.at(1);}
+    UseResult CannotFail          auto blue() -> T& {return this->data.at(2);}
+    Const UseResult CannotFail auto hue() const -> const T& {return this->data.at(0);}
+    Const UseResult CannotFail auto saturation() const -> const T& {return this->data.at(1);}
+    Const UseResult CannotFail auto value() const -> const T& {return this->data.at(2);}
+    Const UseResult CannotFail auto lightness() const -> const T& {return this->data.at(2);}
+    UseResult CannotFail          auto hue() -> T& {return this->data.at(0);}
+    UseResult CannotFail          auto saturation() -> T& {return this->data.at(1);}
+    UseResult CannotFail          auto value() -> T& {return this->data.at(2);}
+    UseResult CannotFail          auto lightness() -> T& {return this->data.at(0);}
+    UseResult CannotFail          auto a() -> T& {return this->data.at(1);} //Red-green axis
+    UseResult CannotFail          auto b() -> T& {return this->data.at(2);} //yellow-blue axis
+    Const UseResult CannotFail auto a() const -> T& {return this->data.at(1);} //Red-green axis
+    Const UseResult CannotFail auto b() const -> T& {return this->data.at(2);} //yellow-blue axis
+    UseResult CannotFail          auto xy() -> vec2<T> {return {this->x(), this->y()};}
+    UseResult CannotFail          auto bgr() -> vec3 {return {this->blue(), this->green(), this->red()};}
+    Const UseResult CannotFail auto xy() const -> vec2<T> {return {this->x(), this->y()};}
+    Const UseResult CannotFail auto bgr() const -> vec3 {return {this->blue(), this->green(), this->red()};}
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator == (const vec3& other) const -> bool requires(HasEquivalenceOperator<T>)
     {
       return this->x() == other.x() && this->y() == other.y() && this->z() == other.z();
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator - () const -> vec3 requires(IsNumeric<T>)
     {
       vec3 out;
@@ -108,31 +119,31 @@ namespace axm
       return out;
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator + (const vec3& other) const -> vec3 requires(IsNumeric<T>)
     {
       return vec3{this->x() + other.x(), this->y() + other.y(), this->z() + other.z()};
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator - (const vec3& other) const -> vec3 requires(IsNumeric<T>)
     {
       return vec3{this->x() - other.x(), this->y() - other.y(), this->z() - other.z()};
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator * (const vec3& other) const -> vec3 requires(IsNumeric<T>)
     {
       return vec3{this->x() * other.x(), this->y() * other.y(), this->z() * other.z()};
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator / (const vec3& other) const -> vec3 requires(IsNumeric<T>)
     {
       return vec3{this->x() / other.x(), this->y() / other.y(), this->z() / other.z()};
     }
 
-    CANNOT_FAIL
+    CannotFail
     auto operator += (const vec3& other) -> vec3& requires(IsNumeric<T>)
     {
       this->x() += other.x();
@@ -141,7 +152,7 @@ namespace axm
       return *this;
     }
 
-    CANNOT_FAIL
+    CannotFail
     auto operator -= (const vec3& other) -> vec3& requires(IsNumeric<T>)
     {
       this->x() -= other.x();
@@ -150,7 +161,7 @@ namespace axm
       return *this;
     }
 
-    CANNOT_FAIL
+    CannotFail
     auto operator *= (const vec3& other) -> vec3& requires(IsNumeric<T>)
     {
       this->x() *= other.x();
@@ -159,7 +170,7 @@ namespace axm
       return *this;
     }
 
-    CANNOT_FAIL
+    CannotFail
     auto operator /= (const vec3& other) -> vec3& requires(IsNumeric<T>)
     {
       this->x() /= other.x();
@@ -171,35 +182,35 @@ namespace axm
     //Converting
 
     template <typename U>
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator + (U other) const -> vec3 requires(IsNumeric<T>)
     {
       return vec3{this->x() + T(other), this->y() + T(other), this->z() + T(other)};
     }
 
     template <typename U>
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator - (U other) const -> vec3 requires(IsNumeric<T>)
     {
       return vec3{this->x() - T(other), this->y() - T(other), this->z() - T(other)};
     }
 
     template <typename U>
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator * (U other) const -> vec3 requires(IsNumeric<T>)
     {
       return vec3{this->x() * T(other), this->y() * T(other), this->z() * T(other)};
     }
 
     template <typename U>
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator / (U other) const -> vec3 requires(IsNumeric<T>)
     {
       return vec3{this->x() / T(other), this->y() / T(other), this->z() / T(other)};
     }
 
     template <typename U>
-    CANNOT_FAIL
+    CannotFail
     auto operator += (U other) -> vec3& requires(IsNumeric<T>)
     {
       this->x() = this->x() + T(other);
@@ -209,7 +220,7 @@ namespace axm
     }
 
     template <typename U>
-    CANNOT_FAIL
+    CannotFail
     auto operator -= (U other) -> vec3& requires(IsNumeric<T>)
     {
       this->x() = this->x() - T(other);
@@ -219,7 +230,7 @@ namespace axm
     }
 
     template <typename U>
-    CANNOT_FAIL
+    CannotFail
     auto operator *= (U other) -> vec3& requires(IsNumeric<T>)
     {
       this->x() = this->x() * T(other);
@@ -229,7 +240,7 @@ namespace axm
     }
 
     template <typename U>
-    CANNOT_FAIL
+    CannotFail
     auto operator /= (U other) -> vec3& requires(IsNumeric<T>)
     {
       this->x() = this->x() / T(other);
@@ -238,7 +249,7 @@ namespace axm
       return *this;
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto toString() const -> std::string requires(ConvertibleToString<T>)
     {
       std::string out = "(vec3)\n[";
@@ -264,7 +275,7 @@ namespace axm
       return out;
     }
 
-    CANNOT_FAIL
+    CannotFail
     auto print(const std::string& pre = "") const -> void requires(ConvertibleToString<T>)
     {
       printf("%s: %s\n", pre.c_str(), this->toString().c_str());

@@ -48,6 +48,17 @@ namespace axm
     {
       if(index > MAX_INDEX)
       {
+        if(LOGGER)
+        {
+          LOGGER("[Warning] | axm/types/mat4x4s.hh:43 | operator [] -> vec4<T>& | With T of " +
+            getTypeName<T>() +
+            " | Index " +
+            std::to_string(index) +
+            " was out of bounds, max index is " +
+            std::to_string(MAX_INDEX) +
+            ".  Any values written to the return of this call will have been discarded!", USER_DATA);
+        }
+
         return this->getSentinel();
       }
       return this->data[index];
@@ -63,56 +74,56 @@ namespace axm
     }
 
     //Value access
-    GNUCONST USE_RESULT CANNOT_FAIL auto x1() const -> T {return this->data[0][0];}
-    GNUCONST USE_RESULT CANNOT_FAIL auto y1() const -> T {return this->data[0][1];}
-    GNUCONST USE_RESULT CANNOT_FAIL auto z1() const -> T {return this->data[0][2];}
-    GNUCONST USE_RESULT CANNOT_FAIL auto w1() const -> T {return this->data[0][3];}
-    GNUCONST USE_RESULT CANNOT_FAIL auto x2() const -> T {return this->data[1][0];}
-    GNUCONST USE_RESULT CANNOT_FAIL auto y2() const -> T {return this->data[1][1];}
-    GNUCONST USE_RESULT CANNOT_FAIL auto z2() const -> T {return this->data[1][2];}
-    GNUCONST USE_RESULT CANNOT_FAIL auto w2() const -> T {return this->data[1][3];}
-    GNUCONST USE_RESULT CANNOT_FAIL auto x3() const -> T {return this->data[2][0];}
-    GNUCONST USE_RESULT CANNOT_FAIL auto y3() const -> T {return this->data[2][1];}
-    GNUCONST USE_RESULT CANNOT_FAIL auto z3() const -> T {return this->data[2][2];}
-    GNUCONST USE_RESULT CANNOT_FAIL auto w3() const -> T {return this->data[2][3];}
-    GNUCONST USE_RESULT CANNOT_FAIL auto x4() const -> T {return this->data[3][0];}
-    GNUCONST USE_RESULT CANNOT_FAIL auto y4() const -> T {return this->data[3][1];}
-    GNUCONST USE_RESULT CANNOT_FAIL auto z4() const -> T {return this->data[3][2];}
-    GNUCONST USE_RESULT CANNOT_FAIL auto w4() const -> T {return this->data[3][3];}
-    USE_RESULT CANNOT_FAIL          auto x1() -> T& {return this->data[0][0];}
-    USE_RESULT CANNOT_FAIL          auto y1() -> T& {return this->data[0][1];}
-    USE_RESULT CANNOT_FAIL          auto z1() -> T& {return this->data[0][2];}
-    USE_RESULT CANNOT_FAIL          auto w1() -> T& {return this->data[0][3];}
-    USE_RESULT CANNOT_FAIL          auto x2() -> T& {return this->data[1][0];}
-    USE_RESULT CANNOT_FAIL          auto y2() -> T& {return this->data[1][1];}
-    USE_RESULT CANNOT_FAIL          auto z2() -> T& {return this->data[1][2];}
-    USE_RESULT CANNOT_FAIL          auto w2() -> T& {return this->data[1][3];}
-    USE_RESULT CANNOT_FAIL          auto x3() -> T& {return this->data[2][0];}
-    USE_RESULT CANNOT_FAIL          auto y3() -> T& {return this->data[2][1];}
-    USE_RESULT CANNOT_FAIL          auto z3() -> T& {return this->data[2][2];}
-    USE_RESULT CANNOT_FAIL          auto w3() -> T& {return this->data[2][3];}
-    USE_RESULT CANNOT_FAIL          auto x4() -> T& {return this->data[3][0];}
-    USE_RESULT CANNOT_FAIL          auto y4() -> T& {return this->data[3][1];}
-    USE_RESULT CANNOT_FAIL          auto z4() -> T& {return this->data[3][2];}
-    USE_RESULT CANNOT_FAIL          auto w4() -> T& {return this->data[3][3];}
+    Const UseResult CannotFail auto x1() const -> T {return this->data[0][0];}
+    Const UseResult CannotFail auto y1() const -> T {return this->data[0][1];}
+    Const UseResult CannotFail auto z1() const -> T {return this->data[0][2];}
+    Const UseResult CannotFail auto w1() const -> T {return this->data[0][3];}
+    Const UseResult CannotFail auto x2() const -> T {return this->data[1][0];}
+    Const UseResult CannotFail auto y2() const -> T {return this->data[1][1];}
+    Const UseResult CannotFail auto z2() const -> T {return this->data[1][2];}
+    Const UseResult CannotFail auto w2() const -> T {return this->data[1][3];}
+    Const UseResult CannotFail auto x3() const -> T {return this->data[2][0];}
+    Const UseResult CannotFail auto y3() const -> T {return this->data[2][1];}
+    Const UseResult CannotFail auto z3() const -> T {return this->data[2][2];}
+    Const UseResult CannotFail auto w3() const -> T {return this->data[2][3];}
+    Const UseResult CannotFail auto x4() const -> T {return this->data[3][0];}
+    Const UseResult CannotFail auto y4() const -> T {return this->data[3][1];}
+    Const UseResult CannotFail auto z4() const -> T {return this->data[3][2];}
+    Const UseResult CannotFail auto w4() const -> T {return this->data[3][3];}
+    UseResult CannotFail          auto x1() -> T& {return this->data[0][0];}
+    UseResult CannotFail          auto y1() -> T& {return this->data[0][1];}
+    UseResult CannotFail          auto z1() -> T& {return this->data[0][2];}
+    UseResult CannotFail          auto w1() -> T& {return this->data[0][3];}
+    UseResult CannotFail          auto x2() -> T& {return this->data[1][0];}
+    UseResult CannotFail          auto y2() -> T& {return this->data[1][1];}
+    UseResult CannotFail          auto z2() -> T& {return this->data[1][2];}
+    UseResult CannotFail          auto w2() -> T& {return this->data[1][3];}
+    UseResult CannotFail          auto x3() -> T& {return this->data[2][0];}
+    UseResult CannotFail          auto y3() -> T& {return this->data[2][1];}
+    UseResult CannotFail          auto z3() -> T& {return this->data[2][2];}
+    UseResult CannotFail          auto w3() -> T& {return this->data[2][3];}
+    UseResult CannotFail          auto x4() -> T& {return this->data[3][0];}
+    UseResult CannotFail          auto y4() -> T& {return this->data[3][1];}
+    UseResult CannotFail          auto z4() -> T& {return this->data[3][2];}
+    UseResult CannotFail          auto w4() -> T& {return this->data[3][3];}
 
     //Column access
-    GNUCONST USE_RESULT CANNOT_FAIL auto col0() const -> vec4<T> {return this->data[0];}
-    GNUCONST USE_RESULT CANNOT_FAIL auto col1() const -> vec4<T> {return this->data[1];}
-    GNUCONST USE_RESULT CANNOT_FAIL auto col2() const -> vec4<T> {return this->data[2];}
-    GNUCONST USE_RESULT CANNOT_FAIL auto col3() const -> vec4<T> {return this->data[3];}
-    USE_RESULT CANNOT_FAIL          auto col0() -> vec4<T>& {return this->data[0];}
-    USE_RESULT CANNOT_FAIL          auto col1() -> vec4<T>& {return this->data[1];}
-    USE_RESULT CANNOT_FAIL          auto col2() -> vec4<T>& {return this->data[2];}
-    USE_RESULT CANNOT_FAIL          auto col3() -> vec4<T>& {return this->data[3];}
+    Const UseResult CannotFail auto col0() const -> vec4<T> {return this->data[0];}
+    Const UseResult CannotFail auto col1() const -> vec4<T> {return this->data[1];}
+    Const UseResult CannotFail auto col2() const -> vec4<T> {return this->data[2];}
+    Const UseResult CannotFail auto col3() const -> vec4<T> {return this->data[3];}
+    UseResult CannotFail          auto col0() -> vec4<T>& {return this->data[0];}
+    UseResult CannotFail          auto col1() -> vec4<T>& {return this->data[1];}
+    UseResult CannotFail          auto col2() -> vec4<T>& {return this->data[2];}
+    UseResult CannotFail          auto col3() -> vec4<T>& {return this->data[3];}
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator == (const mat4x4& other) const -> bool
     {
       return this->data[0] == other.data[0] && this->data[1] == other.data[1] && this->data[2] == other.data[2] && this->data[3] == other.data[3];
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator * (T val) const -> mat4x4 requires(MathStorageType<T>)
     {
       return
@@ -124,7 +135,7 @@ namespace axm
       };
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator * (const mat4x4& other) const -> mat4x4 requires(MathStorageType<T>)
     {
       return
@@ -156,7 +167,7 @@ namespace axm
       };
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator * (const vec4<T>& vec) const -> vec4<T> requires(MathStorageType<T>)
     {
       return

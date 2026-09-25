@@ -19,37 +19,37 @@ namespace axm
       this->position = position;
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator == (const circle& other) const -> bool
     {
       return this->radius == other.radius && this->position == other.position;
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto move(const vec2<T>& offset) const -> circle
     {
       return {this->radius, this->position + offset};
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto setPosition(const vec2<T>& pos) const -> circle
     {
       return {this->radius, pos};
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto getRadius() const -> T
     {
       return this->radius;
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto getDiameter() const -> T
     {
       return this->radius * T(2);
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto getPosition() const -> vec2<T>
     {
       return this->position;

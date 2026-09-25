@@ -48,6 +48,17 @@ namespace axm
     {
       if(index > MAX_INDEX)
       {
+        if(LOGGER)
+        {
+          LOGGER("[Warning] | axm/types/vec4s.hh:47 | operator [] -> T& | With T of " +
+            getTypeName<T>() +
+            " | Index " +
+            std::to_string(index) +
+            " was out of bounds, max index is " +
+            std::to_string(MAX_INDEX) +
+            ".  Any values written to the return of this call will have been discarded!", USER_DATA);
+        }
+
         return this->getSentinel();
       }
       return this->data[index];
@@ -62,52 +73,52 @@ namespace axm
       return this->data[index];
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL auto x() const ->  const T& {return this->data.at(0);}
-    GNUCONST USE_RESULT CANNOT_FAIL auto y() const ->  const T& {return this->data.at(1);}
-    GNUCONST USE_RESULT CANNOT_FAIL auto z() const ->  const T& {return this->data.at(2);}
-    GNUCONST USE_RESULT CANNOT_FAIL auto w() const ->  const T& {return this->data.at(3);}
-    USE_RESULT CANNOT_FAIL          auto x() -> T& {return this->data.at(0);}
-    USE_RESULT CANNOT_FAIL          auto y() -> T& {return this->data.at(1);}
-    USE_RESULT CANNOT_FAIL          auto z() -> T& {return this->data.at(2);}
-    USE_RESULT CANNOT_FAIL          auto w() -> T& {return this->data.at(3);}
-    GNUCONST USE_RESULT CANNOT_FAIL auto red() const ->   const T& {return this->data.at(0);}
-    GNUCONST USE_RESULT CANNOT_FAIL auto green() const -> const T& {return this->data.at(1);}
-    GNUCONST USE_RESULT CANNOT_FAIL auto blue() const ->  const T& {return this->data.at(2);}
-    GNUCONST USE_RESULT CANNOT_FAIL auto alpha() const -> const T& {return this->data.at(3);}
-    USE_RESULT CANNOT_FAIL          auto red() ->   T& {return this->data.at(0);}
-    USE_RESULT CANNOT_FAIL          auto green() -> T& {return this->data.at(1);}
-    USE_RESULT CANNOT_FAIL          auto blue() ->  T& {return this->data.at(2);}
-    USE_RESULT CANNOT_FAIL          auto alpha() -> T& {return this->data.at(3);}
-    GNUCONST USE_RESULT CANNOT_FAIL auto cyan() const ->    const T& {return this->data.at(0);}
-    GNUCONST USE_RESULT CANNOT_FAIL auto magenta() const -> const T& {return this->data.at(1);}
-    GNUCONST USE_RESULT CANNOT_FAIL auto yellow() const ->  const T& {return this->data.at(2);}
-    GNUCONST USE_RESULT CANNOT_FAIL auto black() const ->   const T& {return this->data.at(3);}
-    USE_RESULT CANNOT_FAIL          auto cyan() ->    T& {return this->data.at(0);}
-    USE_RESULT CANNOT_FAIL          auto magenta() -> T& {return this->data.at(1);}
-    USE_RESULT CANNOT_FAIL          auto yellow() ->  T& {return this->data.at(2);}
-    USE_RESULT CANNOT_FAIL          auto black() ->   T& {return this->data.at(3);}
-    GNUCONST USE_RESULT CANNOT_FAIL auto hue() const ->        const T& {return this->data.at(0);};
-    GNUCONST USE_RESULT CANNOT_FAIL auto saturation() const -> const T& {return this->data.at(1);};
-    GNUCONST USE_RESULT CANNOT_FAIL auto value() const ->      const T& {return this->data.at(2);};
-    GNUCONST USE_RESULT CANNOT_FAIL auto lightness() const ->  const T& {return this->data.at(2);};
-    GNUCONST USE_RESULT CANNOT_FAIL auto brightness() const -> const T& {return this->data.at(2);};
-    USE_RESULT CANNOT_FAIL          auto hue() ->        T& {return this->data.at(0);};
-    USE_RESULT CANNOT_FAIL          auto saturation() -> T& {return this->data.at(1);};
-    USE_RESULT CANNOT_FAIL          auto value() ->      T& {return this->data.at(2);};
-    USE_RESULT CANNOT_FAIL          auto lightness() ->  T& {return this->data.at(2);};
-    USE_RESULT CANNOT_FAIL          auto brightness() -> T& {return this->data.at(2);};
-    GNUCONST USE_RESULT CANNOT_FAIL auto argb() const -> vec4 {return vec3{this->alpha(), this->red(), this->green(), this->blue()};}
-    GNUCONST USE_RESULT CANNOT_FAIL auto bgra() const -> vec4 {return vec3{this->blue(), this->green(), this->red(), this->alpha()};}
-    GNUCONST USE_RESULT CANNOT_FAIL auto abgr() const -> vec4 {return vec3{this->alpha(), this->blue(), this->green(), this->red()};}
-    GNUCONST USE_RESULT CANNOT_FAIL auto rgb() const -> vec3<T> {return vec3{this->red(), this->green(), this->blue()};}
-    GNUCONST USE_RESULT CANNOT_FAIL auto bgr() const -> vec3<T> {return vec3{this->blue(), this->green(), this->red()};}
-    GNUCONST USE_RESULT CANNOT_FAIL auto argb() -> vec4 {return vec3{this->alpha(), this->red(), this->green(), this->blue()};}
-    GNUCONST USE_RESULT CANNOT_FAIL auto abgr() -> vec4 {return vec3{this->alpha(), this->blue(), this->green(), this->red()};}
-    GNUCONST USE_RESULT CANNOT_FAIL auto bgra() -> vec4 {return vec3{this->blue(), this->green(), this->red(), this->alpha()};}
-    GNUCONST USE_RESULT CANNOT_FAIL auto rgb() -> vec3<T> {return vec3{this->red(), this->green(), this->blue()};}
-    GNUCONST USE_RESULT CANNOT_FAIL auto bgr() -> vec3<T> {return vec3{this->blue(), this->green(), this->red()};}
+    Const UseResult CannotFail auto x() const ->  const T& {return this->data.at(0);}
+    Const UseResult CannotFail auto y() const ->  const T& {return this->data.at(1);}
+    Const UseResult CannotFail auto z() const ->  const T& {return this->data.at(2);}
+    Const UseResult CannotFail auto w() const ->  const T& {return this->data.at(3);}
+    UseResult CannotFail          auto x() -> T& {return this->data.at(0);}
+    UseResult CannotFail          auto y() -> T& {return this->data.at(1);}
+    UseResult CannotFail          auto z() -> T& {return this->data.at(2);}
+    UseResult CannotFail          auto w() -> T& {return this->data.at(3);}
+    Const UseResult CannotFail auto red() const ->   const T& {return this->data.at(0);}
+    Const UseResult CannotFail auto green() const -> const T& {return this->data.at(1);}
+    Const UseResult CannotFail auto blue() const ->  const T& {return this->data.at(2);}
+    Const UseResult CannotFail auto alpha() const -> const T& {return this->data.at(3);}
+    UseResult CannotFail          auto red() ->   T& {return this->data.at(0);}
+    UseResult CannotFail          auto green() -> T& {return this->data.at(1);}
+    UseResult CannotFail          auto blue() ->  T& {return this->data.at(2);}
+    UseResult CannotFail          auto alpha() -> T& {return this->data.at(3);}
+    Const UseResult CannotFail auto cyan() const ->    const T& {return this->data.at(0);}
+    Const UseResult CannotFail auto magenta() const -> const T& {return this->data.at(1);}
+    Const UseResult CannotFail auto yellow() const ->  const T& {return this->data.at(2);}
+    Const UseResult CannotFail auto black() const ->   const T& {return this->data.at(3);}
+    UseResult CannotFail          auto cyan() ->    T& {return this->data.at(0);}
+    UseResult CannotFail          auto magenta() -> T& {return this->data.at(1);}
+    UseResult CannotFail          auto yellow() ->  T& {return this->data.at(2);}
+    UseResult CannotFail          auto black() ->   T& {return this->data.at(3);}
+    Const UseResult CannotFail auto hue() const ->        const T& {return this->data.at(0);};
+    Const UseResult CannotFail auto saturation() const -> const T& {return this->data.at(1);};
+    Const UseResult CannotFail auto value() const ->      const T& {return this->data.at(2);};
+    Const UseResult CannotFail auto lightness() const ->  const T& {return this->data.at(2);};
+    Const UseResult CannotFail auto brightness() const -> const T& {return this->data.at(2);};
+    UseResult CannotFail          auto hue() ->        T& {return this->data.at(0);};
+    UseResult CannotFail          auto saturation() -> T& {return this->data.at(1);};
+    UseResult CannotFail          auto value() ->      T& {return this->data.at(2);};
+    UseResult CannotFail          auto lightness() ->  T& {return this->data.at(2);};
+    UseResult CannotFail          auto brightness() -> T& {return this->data.at(2);};
+    Const UseResult CannotFail auto argb() const -> vec4 {return vec3{this->alpha(), this->red(), this->green(), this->blue()};}
+    Const UseResult CannotFail auto bgra() const -> vec4 {return vec3{this->blue(), this->green(), this->red(), this->alpha()};}
+    Const UseResult CannotFail auto abgr() const -> vec4 {return vec3{this->alpha(), this->blue(), this->green(), this->red()};}
+    Const UseResult CannotFail auto rgb() const -> vec3<T> {return vec3{this->red(), this->green(), this->blue()};}
+    Const UseResult CannotFail auto bgr() const -> vec3<T> {return vec3{this->blue(), this->green(), this->red()};}
+    Const UseResult CannotFail auto argb() -> vec4 {return vec3{this->alpha(), this->red(), this->green(), this->blue()};}
+    Const UseResult CannotFail auto abgr() -> vec4 {return vec3{this->alpha(), this->blue(), this->green(), this->red()};}
+    Const UseResult CannotFail auto bgra() -> vec4 {return vec3{this->blue(), this->green(), this->red(), this->alpha()};}
+    Const UseResult CannotFail auto rgb() -> vec3<T> {return vec3{this->red(), this->green(), this->blue()};}
+    Const UseResult CannotFail auto bgr() -> vec3<T> {return vec3{this->blue(), this->green(), this->red()};}
 
-    CANNOT_FAIL                     
+    CannotFail
     auto operator = (const vec3<T>& other) -> vec4&
     {
       this->x() = other.x();
@@ -115,14 +126,14 @@ namespace axm
       this->z() = other.z();
       return *this;
     }
-    
-    GNUCONST USE_RESULT CANNOT_FAIL 
+
+    Const UseResult CannotFail
     auto operator == (const vec4& other) const -> bool requires(HasEquivalenceOperator<T>)
     {
       return this->x() == other.x() && this->y() == other.y() && this->z() == other.z() && this->w() == other.w();
     }
-    
-    GNUCONST USE_RESULT CANNOT_FAIL 
+
+    Const UseResult CannotFail
     auto operator - () const -> vec4 requires(MathStorageType<T>)
     {
       vec4 out;
@@ -132,32 +143,32 @@ namespace axm
       out.w() = -this->w();
       return out;
     }
-    
-    GNUCONST USE_RESULT CANNOT_FAIL 
+
+    Const UseResult CannotFail
     auto operator + (const vec4& other) const -> vec4 requires(MathStorageType<T>)
     {
       return {this->x() + other.x(), this->y() + other.y(), this->z() + other.z(), this->w() + other.w()};
     }
-    
-    GNUCONST USE_RESULT CANNOT_FAIL 
+
+    Const UseResult CannotFail
     auto operator - (const vec4& other) const -> vec4 requires(MathStorageType<T>)
     {
       return {this->x() - other.x(), this->y() - other.y(), this->z() - other.z(), this->w() - other.w()};
     }
-    
-    GNUCONST USE_RESULT CANNOT_FAIL 
+
+    Const UseResult CannotFail
     auto operator * (const vec4& other) const -> vec4 requires(MathStorageType<T>)
     {
       return {this->x() * other.x(), this->y() * other.y(), this->z() * other.z(), this->w() * other.w()};
     }
-    
-    GNUCONST USE_RESULT CANNOT_FAIL 
+
+    Const UseResult CannotFail
     auto operator / (const vec4& other) const -> vec4 requires(MathStorageType<T>)
     {
       return {this->x() / other.x(), this->y() / other.y(), this->z() / other.z(), this->w() / other.w()};
     }
-    
-    CANNOT_FAIL                     
+
+    CannotFail
     auto operator += (const vec4& other) -> vec4& requires(MathStorageType<T>)
     {
       this->x() += other.x();
@@ -166,8 +177,8 @@ namespace axm
       this->w() += other.w();
       return *this;
     }
-    
-    CANNOT_FAIL                     
+
+    CannotFail
     auto operator -= (const vec4& other) -> vec4& requires(MathStorageType<T>)
     {
       this->x() -= other.x();
@@ -176,8 +187,8 @@ namespace axm
       this->w() -= other.w();
       return *this;
     }
-    
-    CANNOT_FAIL                     
+
+    CannotFail
     auto operator *= (const vec4& other) -> vec4& requires(MathStorageType<T>)
     {
       this->x() *= other.x();
@@ -186,8 +197,8 @@ namespace axm
       this->w() *= other.w();
       return *this;
     }
-    
-    CANNOT_FAIL                     
+
+    CannotFail
     auto operator /= (const vec4& other) -> vec4& requires(MathStorageType<T>)
     {
       this->x() /= other.x();
@@ -196,39 +207,39 @@ namespace axm
       this->w() /= other.w();
       return *this;
     }
-    
+
     //Converting
 
     template <typename U>
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator + (U other) const -> vec4 requires(MathStorageType<T>)
     {
       return {this->x() + T(other), this->y() + T(other), this->z() + T(other), this->w() + T(other)};
     }
 
     template <typename U>
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator - (U other) const -> vec4 requires(MathStorageType<T>)
     {
       return {this->x() - T(other), this->y() - T(other), this->z() - T(other), this->w() - T(other)};
     }
 
     template <typename U>
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator * (U other) const -> vec4 requires(MathStorageType<T>)
     {
       return {this->x() * T(other), this->y() * T(other), this->z() * T(other), this->w() * T(other)};
     }
 
     template <typename U>
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator / (U other) const -> vec4 requires(MathStorageType<T>)
     {
       return {this->x() / T(other), this->y() / T(other), this->z() / T(other), this->w() / T(other)};
     }
 
     template <typename U>
-    CANNOT_FAIL
+    CannotFail
     auto operator += (U other) -> vec4& requires(MathStorageType<T>)
     {
       this->x() += T(other);
@@ -239,7 +250,7 @@ namespace axm
     }
 
     template <typename U>
-    CANNOT_FAIL
+    CannotFail
     auto operator -= (U other) -> vec4& requires(MathStorageType<T>)
     {
       this->x() -= T(other);
@@ -250,7 +261,7 @@ namespace axm
     }
 
     template <typename U>
-    CANNOT_FAIL
+    CannotFail
     auto operator *= (U other) -> vec4& requires(MathStorageType<T>)
     {
       this->x() *= T(other);
@@ -261,7 +272,7 @@ namespace axm
     }
 
     template <typename U>
-    CANNOT_FAIL
+    CannotFail
     auto operator /= (U other) -> vec4& requires(MathStorageType<T>)
     {
       this->x() /= T(other);
@@ -271,7 +282,7 @@ namespace axm
       return *this;
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto toString() const -> std::string requires(ConvertibleToString<T>)
     {
       std::string out = "(vec4)\n[";
@@ -300,7 +311,7 @@ namespace axm
       return out;
     }
 
-    CANNOT_FAIL
+    CannotFail
     auto print(const std::string& pre = "") const -> void requires(ConvertibleToString<T>)
     {
       printf("%s: %s\n", pre.c_str(), this->toString().c_str());

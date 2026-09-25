@@ -2,6 +2,8 @@
 
 #include "../aliases.hh"
 #include "../concepts.hh"
+#include "../logging.hh"
+#include "../meta.hh"
 
 #include <string>
 #include <array>
@@ -47,15 +49,28 @@ namespace axm
     auto operator = (const vec2& other) -> vec2& = default;
     auto operator = (vec2&& other) noexcept -> vec2& = default;
 
+    CanFail
     auto operator [] (const size_t index) -> T&
     {
       if(index > MAX_INDEX)
       {
+        if(LOGGER)
+        {
+          LOGGER("[Warning] | axm/types/vec2s.hh:58 | operator [] -> T& | With T of " +
+            getTypeName<T>() +
+            " | Index " +
+            std::to_string(index) +
+            " was out of bounds, max index is " +
+            std::to_string(MAX_INDEX) +
+            ".  Any values written to the return of this call will have been discarded!", USER_DATA);
+        }
+
         return this->getSentinel();
       }
       return this->data[index];
     }
 
+    CanFail
     auto operator [] (const size_t index) const -> T
     {
       if(index > MAX_INDEX)
@@ -65,99 +80,99 @@ namespace axm
       return this->data[index];
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL auto x() const -> const T& {return this->data[0];}
-    GNUCONST USE_RESULT CANNOT_FAIL auto y() const -> const T& {return this->data[1];}
-    USE_RESULT CANNOT_FAIL          auto x() -> T& {return this->data[0];}
-    USE_RESULT CANNOT_FAIL          auto y() -> T& {return this->data[1];}
-    GNUCONST USE_RESULT CANNOT_FAIL auto width() const ->  const T& {return this->data[0];}
-    GNUCONST USE_RESULT CANNOT_FAIL auto height() const -> const T& {return this->data[1];}
-    USE_RESULT CANNOT_FAIL          auto width() ->  T& {return this->data[0];}
-    USE_RESULT CANNOT_FAIL          auto height() -> T& {return this->data[1];}
-    GNUCONST USE_RESULT CANNOT_FAIL auto min() const -> const T& {return this->data[0];}
-    GNUCONST USE_RESULT CANNOT_FAIL auto max() const -> const T& {return this->data[1];}
-    USE_RESULT CANNOT_FAIL          auto min() -> T& {return this->data[0];}
-    USE_RESULT CANNOT_FAIL          auto max() -> T& {return this->data[1];}
+    Const UseResult CannotFail auto x() const -> const T& {return this->data[0];}
+    Const UseResult CannotFail auto y() const -> const T& {return this->data[1];}
+    UseResult CannotFail          auto x() -> T& {return this->data[0];}
+    UseResult CannotFail          auto y() -> T& {return this->data[1];}
+    Const UseResult CannotFail auto width() const ->  const T& {return this->data[0];}
+    Const UseResult CannotFail auto height() const -> const T& {return this->data[1];}
+    UseResult CannotFail          auto width() ->  T& {return this->data[0];}
+    UseResult CannotFail          auto height() -> T& {return this->data[1];}
+    Const UseResult CannotFail auto min() const -> const T& {return this->data[0];}
+    Const UseResult CannotFail auto max() const -> const T& {return this->data[1];}
+    UseResult CannotFail          auto min() -> T& {return this->data[0];}
+    UseResult CannotFail          auto max() -> T& {return this->data[1];}
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator == (const vec2& other) const -> bool requires(HasEquivalenceOperator<T>)
     {
       return this->x() == other.x() && this->y() == other.y();
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator < (const vec2& other) const -> bool requires(HasComparisonOperators<T>)
     {
       return this->x() < other.x() && this->y() < other.y();
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator > (const vec2& other) const -> bool requires(HasComparisonOperators<T>)
     {
       return this->x() > other.x() && this->y() > other.y();
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator <= (const vec2& other) const -> bool requires(HasComparisonOperators<T>)
     {
       return this->x() <= other.x() && this->y() <= other.y();
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator >= (const vec2& other) const -> bool requires(HasComparisonOperators<T>)
     {
       return this->x() >= other.x() && this->y() >= other.y();
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator - () const -> vec2 requires(IsNumeric<T>)
     {
       vec2 out{-this->x(), -this->y()};
       return out;
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator + (const vec2& other) const -> vec2 requires(IsNumeric<T>)
     {
       return {this->x() + other.x(), this->y() + other.y()};
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator - (const vec2& other) const -> vec2 requires(IsNumeric<T>)
     {
       return {this->x() - other.x(), this->y() - other.y()};
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator * (const vec2& other) const -> vec2 requires(IsNumeric<T>)
     {
       return {this->x() * other.x(), this->y() * other.y()};
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator / (const vec2& other) const -> vec2 requires(IsNumeric<T>)
     {
       return {this->x() / other.x(), this->y() / other.y()};
     }
 
-    CANNOT_FAIL
+    CannotFail
     auto operator += (const vec2& other) -> vec2 requires(IsNumeric<T>)
     {
       return {this->x() + other.x(), this->y() + other.y()};
     }
 
-    CANNOT_FAIL
+    CannotFail
     auto operator -= (const vec2& other) -> vec2 requires(IsNumeric<T>)
     {
       return {this->x() - other.x(), this->y() - other.y()};
     }
 
-    CANNOT_FAIL
+    CannotFail
     auto operator *= (const vec2& other) -> vec2 requires(IsNumeric<T>)
     {
       return {this->x() * other.x(), this->y() * other.y()};
     }
 
-    CANNOT_FAIL
+    CannotFail
     auto operator /= (const vec2& other) -> vec2 requires(IsNumeric<T>)
     {
       return {this->x() / other.x(), this->y() / other.y()};
@@ -166,35 +181,35 @@ namespace axm
     //Converting
 
     template <typename U>
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator + (U other) const -> vec2
     {
       return {this->x() + T(other), this->y() + T(other)};
     }
 
     template <typename U>
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator - (U other) const -> vec2
     {
       return {this->x() - T(other), this->y() - T(other)};
     }
 
     template <typename U>
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator * (U other) const -> vec2
     {
       return {this->x() * T(other), this->y() * T(other)};
     }
 
     template <typename U>
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto operator / (U other) const -> vec2
     {
       return {this->x() / T(other), this->y() / T(other)};
     }
 
     template <typename U>
-    CANNOT_FAIL
+    CannotFail
     auto operator += (U other) -> vec2
     {
       this->x() += T(other);
@@ -203,7 +218,7 @@ namespace axm
     }
 
     template <typename U>
-    CANNOT_FAIL
+    CannotFail
     auto operator -= (U other) -> vec2
     {
       this->x() -= T(other);
@@ -212,7 +227,7 @@ namespace axm
     }
 
     template <typename U>
-    CANNOT_FAIL
+    CannotFail
     auto operator *= (U other) -> vec2
     {
       this->x() *= T(other);
@@ -221,7 +236,7 @@ namespace axm
     }
 
     template <typename U>
-    CANNOT_FAIL
+    CannotFail
     auto operator /= (U other) -> vec2
     {
       this->x() /= T(other);
@@ -229,7 +244,7 @@ namespace axm
       return *this;
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto toString() const -> std::string requires(ConvertibleToString<T>)
     {
       std::string out = "(vec2)\n[";
@@ -252,7 +267,7 @@ namespace axm
       return out;
     }
 
-    CANNOT_FAIL
+    CannotFail
     auto print(const std::string& pre = "") const -> void  requires(ConvertibleToString<T>)
     {
       printf("%s: %s\n", pre.c_str(), this->toString().c_str());

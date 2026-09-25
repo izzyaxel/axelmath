@@ -38,20 +38,20 @@ namespace axm
       this->lowerRight = {center.x() + halfW, center.y() - halfH};
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto move(const T xOffset, const T yOffset) const -> aabb2d
     {
       vec2 off{xOffset, yOffset};
       return {this->upperLeft + off, this->lowerRight + off};
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto move(const vec2<T> offset) const -> aabb2d
     {
       return {this->upperLeft + offset, this->lowerRight + offset};
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto setPosition(const vec2<T> cent) const -> aabb2d
     {
       T width = this->getWidth();
@@ -59,67 +59,67 @@ namespace axm
       return {cent, width, height};
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto minX() const -> T
     {
       return this->upperLeft.x();
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto maxX() const -> T
     {
       return this->lowerRight.x();
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto minY() const -> T
     {
       return this->lowerRight.y();
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto maxY() const -> T
     {
       return this->upperLeft.y();
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto getCenter() const -> vec2<T>
     {
       return this->center;
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto getUpperLeft() const -> vec2<T>
     {
       return this->upperLeft;
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto getUpperRight() const -> vec2<T>
     {
       return vec2{this->lowerRight.x(), this->upperLeft.y()};
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto getLowerLeft() const -> vec2<T>
     {
       return vec2{this->upperLeft.x(), this->lowerRight.y()};
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto getLowerRight() const -> vec2<T>
     {
       return this->lowerRight;
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto getWidth() const -> T
     {
       return dist(this->upperLeft.x(), this->lowerRight.x());
     }
 
-    GNUCONST USE_RESULT CANNOT_FAIL
+    Const UseResult CannotFail
     auto getHeight() const -> T
     {
       return dist(this->upperLeft.y(), this->lowerRight.y());
