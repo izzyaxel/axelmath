@@ -138,7 +138,7 @@ namespace axm
     auto getSentinel() ->vec3<T>&
     {
       static vec3<T> sentinel{};
-      sentinel = {};
+      sentinel = T();
       return sentinel;
     }
   };

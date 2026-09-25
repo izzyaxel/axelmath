@@ -274,7 +274,7 @@ namespace axm
     auto getSentinel() -> T&
     {
       static T sentinel{};
-      sentinel = {};
+      sentinel = T();
       return sentinel;
     }
   };

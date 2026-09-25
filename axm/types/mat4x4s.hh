@@ -181,7 +181,7 @@ namespace axm
     auto getSentinel() -> vec4<T>&
     {
       static vec4<T> sentinel{};
-      sentinel = {};
+      sentinel = T();
       return sentinel;
     }
   };
