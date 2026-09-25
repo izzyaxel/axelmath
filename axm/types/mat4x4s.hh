@@ -14,7 +14,7 @@ namespace axm
   template <MathStorageType T>
   struct mat4x4
   {
-    constexpr static size_t MAX_INDEX = 15;
+    constexpr static size_t MAX_INDEX = 3;
     vec4<vec4<T>> data{};
 
     /// mat4x4s are useful for a number of non-numeric things, such as convolution filters (like resampling),

@@ -15,7 +15,7 @@ namespace axm
   template<MathStorageType T>
   struct mat3x3
   {
-    constexpr static size_t MAX_INDEX = 8;
+    constexpr static size_t MAX_INDEX = 2;
     vec3<vec3<T>> data;
 
     mat3x3() requires(!IsNumeric<T>) = default;
