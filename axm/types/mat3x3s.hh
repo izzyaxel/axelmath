@@ -135,11 +135,11 @@ namespace axm
     }
 
   private:
-    auto getSentinel() ->vec3<T>&
+    vec3<T> sentinel{};
+    auto getSentinel() -> vec3<T>&
     {
-      static vec3<T> sentinel{};
-      sentinel = vec3<T>();
-      return sentinel;
+      this->sentinel = vec3<T>();
+      return this->sentinel;
     }
   };
 }

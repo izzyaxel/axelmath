@@ -307,11 +307,11 @@ namespace axm
     }
 
   private:
+    T sentinel{};
     auto getSentinel() -> T&
     {
-      static T sentinel{};
-      sentinel = T();
-      return sentinel;
+      this->sentinel = T();
+      return this->sentinel;
     }
   };
 

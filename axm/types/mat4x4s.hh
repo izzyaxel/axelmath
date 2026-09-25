@@ -178,11 +178,11 @@ namespace axm
     }
 
   private:
+    vec4<T> sentinel{};
     auto getSentinel() -> vec4<T>&
     {
-      static vec4<T> sentinel{};
-      sentinel = vec4<T>();
-      return sentinel;
+      this->sentinel = vec4<T>();
+      return this->sentinel;
     }
   };
 }
