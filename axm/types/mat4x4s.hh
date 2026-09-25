@@ -44,11 +44,11 @@ namespace axm
     auto operator = (const mat4x4& other) -> mat4x4& = default;
     auto operator = (mat4x4&& other) noexcept -> mat4x4& = default;
 
-    auto operator [] (const size_t index) -> std::expected<vec4<T>&, Error>
+    auto operator [] (const size_t index) -> vec4<T>&
     {
       if(index > MAX_INDEX)
       {
-        return std::unexpected(Error::OUT_OF_BOUNDS);
+        return this->getSentinel();
       }
       return this->data[index];
     }
@@ -175,6 +175,14 @@ namespace axm
       printf(" [%s, %s, %s, %s]\n",   std::to_string(this->x2()).c_str(), std::to_string(this->y2()).c_str(), std::to_string(this->z2()).c_str(), std::to_string(this->w2()).c_str());
       printf(" [%s, %s, %s, %s]\n",   std::to_string(this->x3()).c_str(), std::to_string(this->y3()).c_str(), std::to_string(this->z3()).c_str(), std::to_string(this->w3()).c_str());
       printf(" [%s, %s, %s, %s]\n\n", std::to_string(this->x4()).c_str(), std::to_string(this->y4()).c_str(), std::to_string(this->z4()).c_str(), std::to_string(this->w4()).c_str());
+    }
+
+  private:
+    auto getSentinel() -> vec4<T>&
+    {
+      static vec4<T> sentinel{};
+      sentinel = {};
+      return sentinel;
     }
   };
 }

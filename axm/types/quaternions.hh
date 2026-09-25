@@ -36,11 +36,11 @@ namespace axm
     auto operator = (const quat& other) -> quat& = default;
     auto operator = (quat&& other) noexcept -> quat& = default;
 
-    auto operator [] (const size_t index) -> std::expected<T&, Error>
+    auto operator [] (const size_t index) -> T&
     {
       if(index > MAX_INDEX)
       {
-        return std::unexpected(Error::OUT_OF_BOUNDS);
+        return this->getSentinel();
       }
       return this->data[index];
     }
@@ -173,6 +173,14 @@ namespace axm
     auto print(const std::string& pre = "") const -> void requires(ConvertibleToString<T>)
     {
       printf("quat %s: %s\n", pre.data(), this->toString().data());
+    }
+
+  private:
+    auto getSentinel() -> T&
+    {
+      static T sentinel{};
+      sentinel = {};
+      return sentinel;
     }
   };
 }

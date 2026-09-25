@@ -2,18 +2,16 @@
 
 #include "../aliases.hh"
 #include "../concepts.hh"
-#include "../errors.hh"
 
 #include <string>
 #include <array>
-#include <expected>
 
 namespace axm
 {
 
   /// A 2-component vector
   /// @tparam T Any type
-  template <typename T>
+  template <DefaultConstructible T>
   struct vec2
   {
     constexpr static size_t MAX_INDEX = 1;
@@ -49,11 +47,11 @@ namespace axm
     auto operator = (const vec2& other) -> vec2& = default;
     auto operator = (vec2&& other) noexcept -> vec2& = default;
 
-    auto operator [] (const size_t index) -> std::expected<T&, Error>
+    auto operator [] (const size_t index) -> T&
     {
       if(index > MAX_INDEX)
       {
-        return std::unexpected(Error::OUT_OF_BOUNDS);
+        return this->getSentinel();
       }
       return this->data[index];
     }
@@ -258,6 +256,14 @@ namespace axm
     auto print(const std::string& pre = "") const -> void  requires(ConvertibleToString<T>)
     {
       printf("%s: %s\n", pre.c_str(), this->toString().c_str());
+    }
+
+  private:
+    auto getSentinel() -> T&
+    {
+      static T sentinel{};
+      sentinel = {};
+      return sentinel;
     }
   };
 

@@ -5,7 +5,7 @@
 namespace axm
 {
 
-  template <typename T>
+  template <DefaultConstructible T>
   struct vec3
   {
     constexpr static size_t MAX_INDEX = 2;
@@ -39,11 +39,11 @@ namespace axm
     auto operator = (const vec3& other) -> vec3& = default;
     auto operator = (vec3&& other) noexcept -> vec3& = default;
 
-    auto operator [] (const size_t index) -> std::expected<T&, Error>
+    auto operator [] (const size_t index) -> T&
     {
       if(index > MAX_INDEX)
       {
-        return std::unexpected(Error::OUT_OF_BOUNDS);
+        return this->getSentinel();
       }
       return this->data[index];
     }
@@ -268,6 +268,14 @@ namespace axm
     auto print(const std::string& pre = "") const -> void requires(ConvertibleToString<T>)
     {
       printf("%s: %s\n", pre.c_str(), this->toString().c_str());
+    }
+
+  private:
+    auto getSentinel() -> T&
+    {
+      static T sentinel{};
+      sentinel = {};
+      return sentinel;
     }
   };
 

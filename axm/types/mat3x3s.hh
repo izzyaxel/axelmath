@@ -40,11 +40,11 @@ namespace axm
     auto operator = (const mat3x3& other) -> mat3x3& = default;
     auto operator = (mat3x3&& other) noexcept -> mat3x3& = default;
 
-    auto operator [] (const size_t index) -> std::expected<vec3<T>&, Error>
+    auto operator [] (const size_t index) -> vec3<T>&
     {
       if(index > MAX_INDEX)
       {
-        return std::unexpected(Error::OUT_OF_BOUNDS);
+        return this->getSentinel();
       }
       return this->data[index];
     }
@@ -132,6 +132,14 @@ namespace axm
       printf(" [%s %s %s]\n",   std::to_string(this->x1()).c_str(), std::to_string(this->y1()).c_str(), std::to_string(this->z1()).c_str());
       printf(" [%s %s %s]\n",   std::to_string(this->x2()).c_str(), std::to_string(this->y2()).c_str(), std::to_string(this->z2()).c_str());
       printf(" [%s %s %s]\n",   std::to_string(this->x3()).c_str(), std::to_string(this->y3()).c_str(), std::to_string(this->z3()).c_str());
+    }
+
+  private:
+    auto getSentinel() ->vec3<T>&
+    {
+      static vec3<T> sentinel{};
+      sentinel = {};
+      return sentinel;
     }
   };
 }

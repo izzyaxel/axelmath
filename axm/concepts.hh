@@ -7,6 +7,9 @@ namespace axm
 {
 
   template <typename T>
+  concept DefaultConstructible = std::is_default_constructible_v<T>;
+
+  template <typename T>
   concept IsNotArray = !std::is_array_v<T> && !std::is_unbounded_array_v<T>;
 
   template <typename T>
@@ -37,7 +40,7 @@ namespace axm
   };
 
   template <typename T>
-  concept MathStorageType = HasEquivalenceOperator<T> && HasMathOperators<T>;
+  concept MathStorageType = HasEquivalenceOperator<T> && HasMathOperators<T> && DefaultConstructible<T>;
 
   template <typename T>
   concept ConvertibleToString = requires(T a)

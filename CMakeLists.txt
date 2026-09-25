@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 4.3)
 project(axelmath)
 project(tests)
-set(CMAKE_CXX_STANDARD 26)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(SRC
@@ -22,7 +22,6 @@ set(SRC
     axm/types/vec2s.hh
     axm/types/vec3s.hh
     axm/types/vec4s.hh
-    axm/errors.hh
 )
 
 set(MODULES
