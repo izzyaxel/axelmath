@@ -128,23 +128,23 @@ namespace axm
 
   template <typename T>
   GNUCONST USE_RESULT CANNOT_FAIL
-  auto pow(const vec3<T>& in, const T val) -> vec3<T>
+  auto pow(const vec3<T>& in, const T exponent) -> vec3<T>
   {
     vec3<T> out{};
-    out.x() = T(std::pow(in.x(), val));
-    out.y() = T(std::pow(in.y(), val));
-    out.z() = T(std::pow(in.z(), val));
+    out.x() = T(std::pow(in.x(), exponent));
+    out.y() = T(std::pow(in.y(), exponent));
+    out.z() = T(std::pow(in.z(), exponent));
     return out;
   }
 
   template <typename T>
   GNUCONST USE_RESULT CANNOT_FAIL
-  auto pow(const vec3<T>& in, const vec3<T>& other) -> vec3<T>
+  auto pow(const vec3<T>& in, const vec3<T>& exponents) -> vec3<T>
   {
     vec3<T> out{};
-    out.x() = T(std::pow(in.x(), other.x()));
-    out.y() = T(std::pow(in.y(), other.y()));
-    out.z() = T(std::pow(in.z(), other.z()));
+    out.x() = T(std::pow(in.x(), exponents.x()));
+    out.y() = T(std::pow(in.y(), exponents.y()));
+    out.z() = T(std::pow(in.z(), exponents.z()));
     return out;
   }
 

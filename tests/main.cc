@@ -26,35 +26,9 @@ auto printMat(const glm::mat4x4& in, const std::string_view& msg = "") -> void
   printf("\n");
 }
 
-auto printMat(const axm::mat4x4<float>& in, const std::string_view& msg = "") -> void
-{
-  printf("axm::mat4x4 %s:\n ", msg.data());
-  for(int row = 0; row < 4; row++)
-  {
-    printf(" [");
-    for(int column = 0; column < 4; column++)
-    {
-      if(column == 3)
-      {
-        printf("%f]\n ", in[column][row]);
-      }
-      else
-      {
-        printf("%f, ", in[column][row]);
-      }
-    }
-  }
-  printf("\n");
-}
-
 auto printQuat(const glm::quat& in, const std::string_view& msg = "") -> void
 {
   printf("glm::quat %s: [%f, %f, %f, %f]\n", msg.data(), in.x, in.y, in.z, in.w);
-}
-
-auto printQuat(const axm::quat<float>& in, const std::string_view& msg = "") -> void
-{
-  printf("axm::quat %s: [%f, %f, %f, %f]\n", msg.data(), in.x(), in.y(), in.z(), in.w());
 }
 
 //Check quat math, rotation matrices, model matrices, view matrices, projection matrices, and mvp matricies are correct,
@@ -86,7 +60,7 @@ auto rhModelTest() -> bool
     if(!axm::closeEnough(axmRotationRH[i], glmRotationRH[i]))
     {
       printf("Right-handed quaternion lookAt rotation test failed:\n");
-      printQuat(axmRotationRH);
+      axmRotationRH.print();
       printQuat(glmRotationRH);
       return false;
     }
@@ -100,7 +74,7 @@ auto rhModelTest() -> bool
       if(!axm::closeEnough(axmRotateRH[x][y], glmRotateRH[x][y]))
       {
         printf("Right-handed rotation matrix test failed:\n");
-        printMat(axmRotateRH);
+        axmRotateRH.print();
         printMat(glmRotateRH);
         return false;
       }
@@ -115,7 +89,7 @@ auto rhModelTest() -> bool
       if(!axm::closeEnough(axmModelMatrixRH[x][y], glmModelMatrixRH[x][y]))
       {
         printf("Right-handed model matrix test failed:\n");
-        printMat(axmModelMatrixRH);
+        axmModelMatrixRH.print();
         printMat(glmModelMatrixRH);
         return false;
       }
@@ -146,7 +120,7 @@ auto lhModelTest() -> bool
     if(!axm::closeEnough(axmRotationLH[i], glmRotationLH[i]))
     {
       printf("Left-handed quaternion lookAt rotation test failed:\n");
-      printQuat(axmRotationLH);
+      axmRotationLH.print();
       printQuat(glmRotationLH);
       return false;
     }
@@ -160,7 +134,7 @@ auto lhModelTest() -> bool
       if(!axm::closeEnough(axmTranslate[x][y], glmTranslate[x][y]))
       {
         printf("Translation matrix test failed: axm[%f](index [%zu][%zu]) vs glm[%f](index [%zu][%zu])\n", axmTranslate[x][y], x, y, glmTranslate[x][y], x, y);
-        printMat(axmTranslate);
+        axmTranslate.print();
         printMat(glmTranslate);
         return false;
       }
@@ -175,7 +149,7 @@ auto lhModelTest() -> bool
       if(!axm::closeEnough(axmRotateLH[x][y], glmRotateLH[x][y]))
       {
         printf("Left-handed rotation matrix test failed: axm[%f](index [%zu][%zu]) vs glm[%f](index [%zu][%zu])\n", axmRotateLH[x][y], x, y, glmRotateLH[x][y], x, y);
-        printMat(axmRotateLH);
+        axmRotateLH.print();
         printMat(glmRotateLH);
         return false;
       }
@@ -190,7 +164,7 @@ auto lhModelTest() -> bool
       if(!axm::closeEnough(axmScale[x][y], glmScale[x][y]))
       {
         printf("Scale matrix test failed: axm[%f](index [%zu][%zu]) vs glm[%f](index [%zu][%zu])\n", axmScale[x][y], x, y, glmScale[x][y], x, y);
-        printMat(axmScale);
+        axmScale.print();
         printMat(glmScale);
         return false;
       }
@@ -205,7 +179,7 @@ auto lhModelTest() -> bool
       if(!axm::closeEnough(axmModelMatrixLH[x][y], glmModelMatrixLH[x][y]))
       {
         printf("Left-handed model matrix test failed:\n");
-        printMat(axmModelMatrixLH);
+        axmModelMatrixLH.print();
         printMat(glmModelMatrixLH);
         return false;
       }
@@ -237,7 +211,7 @@ auto viewMatrixTest() -> bool
       if(!axm::closeEnough(axmView[x][y], glmViewMat[x][y]))
       {
         printf("Left-handed view matrix test failed:\n");
-        printMat(axmView);
+        axmView.print();
         printMat(glmViewMat);
         return false;
       }
@@ -258,7 +232,7 @@ auto orthoProjMatTest() -> bool
       if(!axm::closeEnough(axmProj[x][y], glmProj[x][y]))
       {
         printf("Ortho projection matrix test failed:\n");
-        printMat(axmProj);
+        axmProj.print();
         printMat(glmProj);
         return false;
       }
@@ -279,7 +253,7 @@ auto perspProjTest() -> bool
       if(!axm::closeEnough(axmProj[x][y], glmProj[x][y]))
       {
         printf("Perspective projection matrix test failed:\n");
-        printMat(axmProj);
+        axmProj.print();
         printMat(glmProj);
         return false;
       }

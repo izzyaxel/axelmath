@@ -13,6 +13,8 @@ namespace axm
   template <MathStorageType T>
   struct quat
   {
+    constexpr static size_t MAX_INDEX = 3;
+
     /// X Y Z W, init to identity
     std::array<T, 4> data{0, 0, 0, 1};
 
@@ -34,6 +36,24 @@ namespace axm
     auto operator = (const quat& other) -> quat& = default;
     auto operator = (quat&& other) noexcept -> quat& = default;
 
+    auto operator [] (const size_t index) -> std::expected<T&, Error>
+    {
+      if(index > MAX_INDEX)
+      {
+        return std::unexpected(Error::OUT_OF_BOUNDS);
+      }
+      return this->data[index];
+    }
+
+    auto operator [] (const size_t index) const -> T
+    {
+      if(index > MAX_INDEX)
+      {
+        return {};
+      }
+      return this->data[index];
+    }
+
     GNUCONST USE_RESULT CANNOT_FAIL auto x() const -> T {return this->data[0];}
     GNUCONST USE_RESULT CANNOT_FAIL auto y() const -> T {return this->data[1];}
     GNUCONST USE_RESULT CANNOT_FAIL auto z() const -> T {return this->data[2];}
@@ -42,28 +62,6 @@ namespace axm
     USE_RESULT CANNOT_FAIL          auto y() -> T& {return this->data[1];}
     USE_RESULT CANNOT_FAIL          auto z() -> T& {return this->data[2];}
     USE_RESULT CANNOT_FAIL          auto w() -> T& {return this->data[3];}
-
-    USE_RESULT CANNOT_FAIL
-    auto operator [] (const size_t index) -> T&
-    {
-      if(index > 3)
-      {
-        return {};
-      }
-
-      return this->data[index];
-    }
-
-    GNUCONST USE_RESULT CANNOT_FAIL
-    auto operator [] (size_t index) const -> T
-    {
-      if(index > 3)
-      {
-        return {};
-      }
-
-      return this->data[index];
-    }
 
     GNUCONST USE_RESULT CANNOT_FAIL
     auto operator == (const quat& other) const -> bool requires(HasEquivalenceOperator<T>)
@@ -172,9 +170,9 @@ namespace axm
     }
 
     /// Print this quaternion with printf
-    auto print(const std::string& name) const -> void requires(ConvertibleToString<T>)
+    auto print(const std::string& pre = "") const -> void requires(ConvertibleToString<T>)
     {
-      printf("quat %s: %s\n", name.data(), this->toString().data());
+      printf("quat %s: %s\n", pre.data(), this->toString().data());
     }
   };
 }

@@ -44,6 +44,24 @@ namespace axm
     auto operator = (const vec4& other) -> vec4& = default;
     auto operator = (vec4&& other) noexcept -> vec4& = default;
 
+    auto operator [] (const size_t index) -> std::expected<T&, Error>
+    {
+      if(index > MAX_INDEX)
+      {
+        return std::unexpected(Error::OUT_OF_BOUNDS);
+      }
+      return this->data[index];
+    }
+
+    auto operator [] (const size_t index) const -> T
+    {
+      if(index > MAX_INDEX)
+      {
+        return {};
+      }
+      return this->data[index];
+    }
+
     GNUCONST USE_RESULT CANNOT_FAIL auto x() const ->  const T& {return this->data.at(0);}
     GNUCONST USE_RESULT CANNOT_FAIL auto y() const ->  const T& {return this->data.at(1);}
     GNUCONST USE_RESULT CANNOT_FAIL auto z() const ->  const T& {return this->data.at(2);}
@@ -96,30 +114,6 @@ namespace axm
       this->y() = other.y();
       this->z() = other.z();
       return *this;
-    }
-    
-    USE_RESULT CANNOT_FAIL          
-    auto operator [] (const size_t index) -> T&
-    {
-      size_t sanitized = index;
-      if(sanitized > MAX_INDEX)
-      {
-        sanitized = MAX_INDEX;
-      }
-
-      return this->data[sanitized];
-    }
-    
-    GNUCONST USE_RESULT CANNOT_FAIL 
-    auto operator [] (const size_t index) const -> const T&
-    {
-      size_t sanitized = index;
-      if(sanitized > MAX_INDEX)
-      {
-        sanitized = MAX_INDEX;
-      }
-
-      return this->data[sanitized];
     }
     
     GNUCONST USE_RESULT CANNOT_FAIL 
@@ -311,6 +305,9 @@ namespace axm
     {
       printf("%s: %s\n", pre.c_str(), this->toString().c_str());
     }
+
+  private:
+    T nVal{};
   };
 
   template <typename T>

@@ -15,6 +15,7 @@ namespace axm
   template<MathStorageType T>
   struct mat3x3
   {
+    constexpr static size_t MAX_INDEX = 8;
     vec3<vec3<T>> data;
 
     mat3x3() requires(!IsNumeric<T>) = default;
@@ -38,6 +39,24 @@ namespace axm
     mat3x3(const mat3x3& other) = default;
     auto operator = (const mat3x3& other) -> mat3x3& = default;
     auto operator = (mat3x3&& other) noexcept -> mat3x3& = default;
+
+    auto operator [] (const size_t index) -> std::expected<vec3<T>&, Error>
+    {
+      if(index > MAX_INDEX)
+      {
+        return std::unexpected(Error::OUT_OF_BOUNDS);
+      }
+      return this->data[index];
+    }
+
+    auto operator [] (const size_t index) const -> vec3<T>
+    {
+      if(index > MAX_INDEX)
+      {
+        return {};
+      }
+      return this->data[index];
+    }
 
     //Value Access
     GNUCONST USE_RESULT CANNOT_FAIL auto x1() const -> T {return this->data[0][0];}
@@ -71,28 +90,6 @@ namespace axm
     auto operator == (const mat3x3& other) const -> bool requires(HasEquivalenceOperator<T>)
     {
       return this->data[0] == other.data[0] && this->data[1] == other.data[1] && this->data[2] == other.data[2];
-    }
-
-    USE_RESULT CANNOT_FAIL
-    auto operator [] (size_t index) -> vec3<T>&
-    {
-      if(index > 2)
-      {
-        return {};
-      }
-
-      return this->data[index];
-    }
-
-    GNUCONST USE_RESULT CANNOT_FAIL
-    auto operator [] (size_t index) const -> vec3<T>
-    {
-      if(index > 2)
-      {
-        return {};
-      }
-
-      return this->data[index];
     }
 
     GNUCONST USE_RESULT CANNOT_FAIL
@@ -129,9 +126,9 @@ namespace axm
       };
     }
 
-    auto print(const std::string& msg) const -> void requires(ConvertibleToString<T>)
+    auto print(const std::string& pre = "") const -> void requires(ConvertibleToString<T>)
     {
-      printf("mat3x3: %s\n", msg.c_str());
+      printf("mat3x3: %s\n", pre.c_str());
       printf(" [%s %s %s]\n",   std::to_string(this->x1()).c_str(), std::to_string(this->y1()).c_str(), std::to_string(this->z1()).c_str());
       printf(" [%s %s %s]\n",   std::to_string(this->x2()).c_str(), std::to_string(this->y2()).c_str(), std::to_string(this->z2()).c_str());
       printf(" [%s %s %s]\n",   std::to_string(this->x3()).c_str(), std::to_string(this->y3()).c_str(), std::to_string(this->z3()).c_str());

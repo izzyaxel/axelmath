@@ -2,8 +2,6 @@
 
 #include "vec2s.hh"
 
-#include "../aliases.hh"
-
 namespace axm
 {
 
@@ -41,6 +39,24 @@ namespace axm
     auto operator = (const vec3& other) -> vec3& = default;
     auto operator = (vec3&& other) noexcept -> vec3& = default;
 
+    auto operator [] (const size_t index) -> std::expected<T&, Error>
+    {
+      if(index > MAX_INDEX)
+      {
+        return std::unexpected(Error::OUT_OF_BOUNDS);
+      }
+      return this->data[index];
+    }
+
+    auto operator [] (const size_t index) const -> T
+    {
+      if(index > MAX_INDEX)
+      {
+        return {};
+      }
+      return this->data[index];
+    }
+
     GNUCONST USE_RESULT CANNOT_FAIL auto x() const -> const T& {return this->data.at(0);}
     GNUCONST USE_RESULT CANNOT_FAIL auto y() const -> const T& {return this->data.at(1);}
     GNUCONST USE_RESULT CANNOT_FAIL auto z() const -> const T& {return this->data.at(2);}
@@ -75,28 +91,6 @@ namespace axm
     USE_RESULT CANNOT_FAIL          auto bgr() -> vec3 {return {this->blue(), this->green(), this->red()};}
     GNUCONST USE_RESULT CANNOT_FAIL auto xy() const -> vec2<T> {return {this->x(), this->y()};}
     GNUCONST USE_RESULT CANNOT_FAIL auto bgr() const -> vec3 {return {this->blue(), this->green(), this->red()};}
-
-    USE_RESULT CANNOT_FAIL
-    auto operator [] (const size_t index) -> T&
-    {
-      size_t sanitized = index;
-      if(sanitized > MAX_INDEX)
-      {
-        sanitized = MAX_INDEX;
-      }
-      return this->data.at(sanitized);
-    }
-
-    GNUCONST USE_RESULT CANNOT_FAIL
-    auto operator [] (const size_t index) const -> const T&
-    {
-      size_t sanitized = index;
-      if(sanitized > MAX_INDEX)
-      {
-        sanitized = MAX_INDEX;
-      }
-      return this->data.at(sanitized);
-    }
 
     GNUCONST USE_RESULT CANNOT_FAIL
     auto operator == (const vec3& other) const -> bool requires(HasEquivalenceOperator<T>)
