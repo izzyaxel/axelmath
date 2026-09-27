@@ -85,6 +85,16 @@ namespace axm
 
   template <typename T>
   Const UseResult CannotFail
+  auto saturate(const vec2<T>& in) -> vec2<T>
+  {
+    vec2<T> out{};
+    out.x() = T(std::clamp(in.x(), T(0), T(1)));
+    out.y() = T(std::clamp(in.y(), T(0), T(1)));
+    return out;
+  }
+
+  template <typename T>
+  Const UseResult CannotFail
   auto dot(const vec2<T>& in, const vec2<T>& other) -> T
   {
     return in.x() * other.x() + in.y() * other.y();
@@ -114,6 +124,17 @@ namespace axm
   //TODO cross
 
   //==Vec3==============================================================================================================
+
+  template <typename T>
+  Const UseResult CannotFail
+  auto saturate(const vec3<T>& in) -> vec3<T>
+  {
+    vec3<T> out{};
+    out.x() = T(std::clamp(in.x(), T(0), T(1)));
+    out.y() = T(std::clamp(in.y(), T(0), T(1)));
+    out.z() = T(std::clamp(in.z(), T(0), T(1)));
+    return out;
+  }
 
   template <typename T>
   Const UseResult CannotFail
@@ -232,6 +253,18 @@ namespace axm
   }
 
   //==Vec4==============================================================================================================
+
+  template <typename T>
+  Const UseResult CannotFail
+  auto saturate(const vec4<T>& in) -> vec4<T>
+  {
+    vec4<T> out{};
+    out.x() = T(std::clamp(in.x(), T(0), T(1)));
+    out.y() = T(std::clamp(in.y(), T(0), T(1)));
+    out.z() = T(std::clamp(in.z(), T(0), T(1)));
+    out.w() = T(std::clamp(in.w(), T(0), T(1)));
+    return out;
+  }
 
   template <IsNumeric T>
   UseResult CannotFail
