@@ -46,19 +46,9 @@ namespace axm
 
     auto operator [] (const size_t index) -> T&
     {
-      if(index > MAX_INDEX)
+      [[unlikely]] if(index > MAX_INDEX)
       {
-        if(LOGGER)
-        {
-          LOGGER("[Warning] | axm/types/vec4s.hh:47 | operator [] -> T& | With T of " +
-            getTypeName<T>() +
-            " | Index " +
-            std::to_string(index) +
-            " was out of bounds, max index is " +
-            std::to_string(MAX_INDEX) +
-            ".  Any values written to the return of this call will have been discarded!", USER_DATA);
-        }
-
+        this->logBoundsError(index);
         return this->getSentinel();
       }
       return this->data[index];
@@ -323,6 +313,20 @@ namespace axm
     {
       this->sentinel = T();
       return this->sentinel;
+    }
+
+    auto logBoundsError(const size_t index) -> void
+    {
+      if(LOGGER)
+      {
+        LOGGER("[Warning] | axm/types/vec4s.hh:47 | operator [] -> T& | With T of " +
+            getTypeName<T>() +
+            " | Index " +
+            std::to_string(index) +
+            " was out of bounds, max index is " +
+            std::to_string(MAX_INDEX) +
+            ".  Any values written to the return of this call will have been discarded!", USER_DATA);
+      }
     }
   };
 

@@ -52,19 +52,9 @@ namespace axm
     CanFail
     auto operator [] (const size_t index) -> T&
     {
-      if(index > MAX_INDEX)
+      [[unlikely]] if(index > MAX_INDEX)
       {
-        if(LOGGER)
-        {
-          LOGGER("[Warning] | axm/types/vec2s.hh:58 | operator [] -> T& | With T of " +
-            getTypeName<T>() +
-            " | Index " +
-            std::to_string(index) +
-            " was out of bounds, max index is " +
-            std::to_string(MAX_INDEX) +
-            ".  Any values written to the return of this call will have been discarded!", USER_DATA);
-        }
-
+        this->logBoundsError(index);
         return this->getSentinel();
       }
       return this->data[index];
@@ -80,18 +70,18 @@ namespace axm
       return this->data[index];
     }
 
-    Const UseResult CannotFail auto x() const -> const T& {return this->data[0];}
-    Const UseResult CannotFail auto y() const -> const T& {return this->data[1];}
-    UseResult CannotFail          auto x() -> T& {return this->data[0];}
-    UseResult CannotFail          auto y() -> T& {return this->data[1];}
-    Const UseResult CannotFail auto width() const ->  const T& {return this->data[0];}
-    Const UseResult CannotFail auto height() const -> const T& {return this->data[1];}
-    UseResult CannotFail          auto width() ->  T& {return this->data[0];}
-    UseResult CannotFail          auto height() -> T& {return this->data[1];}
-    Const UseResult CannotFail auto min() const -> const T& {return this->data[0];}
-    Const UseResult CannotFail auto max() const -> const T& {return this->data[1];}
-    UseResult CannotFail          auto min() -> T& {return this->data[0];}
-    UseResult CannotFail          auto max() -> T& {return this->data[1];}
+    Const UseResult CannotFail auto x() const -> T {return this->data[0];}
+    Const UseResult CannotFail auto y() const -> T {return this->data[1];}
+    UseResult CannotFail       auto x() -> T& {return this->data[0];}
+    UseResult CannotFail       auto y() -> T& {return this->data[1];}
+    Const UseResult CannotFail auto width() const ->  T {return this->data[0];}
+    Const UseResult CannotFail auto height() const -> T {return this->data[1];}
+    UseResult CannotFail       auto width() ->  T& {return this->data[0];}
+    UseResult CannotFail       auto height() -> T& {return this->data[1];}
+    Const UseResult CannotFail auto min() const -> T {return this->data[0];}
+    Const UseResult CannotFail auto max() const -> T {return this->data[1];}
+    UseResult CannotFail       auto min() -> T& {return this->data[0];}
+    UseResult CannotFail       auto max() -> T& {return this->data[1];}
 
     Const UseResult CannotFail
     auto operator == (const vec2& other) const -> bool requires(HasEquivalenceOperator<T>)
@@ -279,6 +269,20 @@ namespace axm
     {
       this->sentinel = T();
       return this->sentinel;
+    }
+
+    auto logBoundsError(const size_t index) -> void
+    {
+      if(LOGGER)
+      {
+        LOGGER("[Warning] | axm/types/vec2s.hh:58 | operator [] -> T& | With T of " +
+          getTypeName<T>() +
+          " | Index " +
+          std::to_string(index) +
+          " was out of bounds, max index is " +
+          std::to_string(MAX_INDEX) +
+          ".  Any values written to the return of this call will have been discarded!", USER_DATA);
+      }
     }
   };
 
