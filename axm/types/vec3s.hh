@@ -58,36 +58,36 @@ namespace axm
       return this->data[index];
     }
 
-    Const UseResult CannotFail auto x() const -> const T& {return this->data.at(0);}
-    Const UseResult CannotFail auto y() const -> const T& {return this->data.at(1);}
-    Const UseResult CannotFail auto z() const -> const T& {return this->data.at(2);}
+    Const UseResult CannotFail auto x() const -> T {return this->data.at(0);}
+    Const UseResult CannotFail auto y() const -> T {return this->data.at(1);}
+    Const UseResult CannotFail auto z() const -> T {return this->data.at(2);}
     UseResult CannotFail          auto x() -> T& {return this->data.at(0);}
     UseResult CannotFail          auto y() -> T& {return this->data.at(1);}
     UseResult CannotFail          auto z() -> T& {return this->data.at(2);}
-    Const UseResult CannotFail auto width() const -> const T& {return this->data.at(0);}
-    Const UseResult CannotFail auto height() const -> const T& {return this->data.at(1);}
-    Const UseResult CannotFail auto depth() const -> const T& {return this->data.at(2);}
+    Const UseResult CannotFail auto width() const -> T {return this->data.at(0);}
+    Const UseResult CannotFail auto height() const -> T {return this->data.at(1);}
+    Const UseResult CannotFail auto depth() const -> T {return this->data.at(2);}
     UseResult CannotFail          auto width() -> T& {return this->data.at(0);}
     UseResult CannotFail          auto height() -> T& {return this->data.at(1);}
     UseResult CannotFail          auto depth() -> T& {return this->data.at(2);}
-    Const UseResult CannotFail auto red() const -> const T& {return this->data.at(0);}
-    Const UseResult CannotFail auto green() const -> const T& {return this->data.at(1);}
-    Const UseResult CannotFail auto blue() const -> const T& {return this->data.at(2);}
+    Const UseResult CannotFail auto red() const -> T {return this->data.at(0);}
+    Const UseResult CannotFail auto green() const -> T {return this->data.at(1);}
+    Const UseResult CannotFail auto blue() const -> T {return this->data.at(2);}
     UseResult CannotFail          auto red() -> T& {return this->data.at(0);}
     UseResult CannotFail          auto green() -> T& {return this->data.at(1);}
     UseResult CannotFail          auto blue() -> T& {return this->data.at(2);}
-    Const UseResult CannotFail auto hue() const -> const T& {return this->data.at(0);}
-    Const UseResult CannotFail auto saturation() const -> const T& {return this->data.at(1);}
-    Const UseResult CannotFail auto value() const -> const T& {return this->data.at(2);}
-    Const UseResult CannotFail auto lightness() const -> const T& {return this->data.at(2);}
+    Const UseResult CannotFail auto hue() const -> T {return this->data.at(0);}
+    Const UseResult CannotFail auto saturation() const -> T {return this->data.at(1);}
+    Const UseResult CannotFail auto value() const -> T {return this->data.at(2);}
+    Const UseResult CannotFail auto lightness() const -> T {return this->data.at(2);}
     UseResult CannotFail          auto hue() -> T& {return this->data.at(0);}
     UseResult CannotFail          auto saturation() -> T& {return this->data.at(1);}
     UseResult CannotFail          auto value() -> T& {return this->data.at(2);}
     UseResult CannotFail          auto lightness() -> T& {return this->data.at(0);}
     UseResult CannotFail          auto a() -> T& {return this->data.at(1);} //Red-green axis
     UseResult CannotFail          auto b() -> T& {return this->data.at(2);} //yellow-blue axis
-    Const UseResult CannotFail auto a() const -> T& {return this->data.at(1);} //Red-green axis
-    Const UseResult CannotFail auto b() const -> T& {return this->data.at(2);} //yellow-blue axis
+    Const UseResult CannotFail    auto a() const -> T {return this->data.at(1);} //Red-green axis
+    Const UseResult CannotFail    auto b() const -> T {return this->data.at(2);} //yellow-blue axis
     UseResult CannotFail          auto xy() -> vec2<T> {return {this->x(), this->y()};}
     UseResult CannotFail          auto bgr() -> vec3 {return {this->blue(), this->green(), this->red()};}
     Const UseResult CannotFail auto xy() const -> vec2<T> {return {this->x(), this->y()};}
