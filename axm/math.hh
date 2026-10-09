@@ -25,6 +25,54 @@ namespace axm
     return std::abs(val - target) <= max * 1e-8f;
   }
 
+  Const UseResult CannotFail
+  inline auto closeEnough(const vec2<float>& val, const float target) -> bool
+  {
+    return closeEnough(val.x(), target) &&
+           closeEnough(val.y(), target);
+  }
+
+  Const UseResult CannotFail
+  inline auto closeEnough(const vec3<float>& val, const float target) -> bool
+  {
+    return closeEnough(val.x(), target) &&
+           closeEnough(val.y(), target) &&
+           closeEnough(val.z(), target);
+  }
+
+  Const UseResult CannotFail
+  inline auto closeEnough(const vec4<float>& val, const float target) -> bool
+  {
+    return closeEnough(val.x(), target) &&
+           closeEnough(val.y(), target) &&
+           closeEnough(val.z(), target) &&
+           closeEnough(val.w(), target);
+  }
+
+  Const UseResult CannotFail
+  inline auto closeEnough(const vec2<float>& val, const vec2<float>& target) -> bool
+  {
+    return closeEnough(val.x(), target.x()) &&
+           closeEnough(val.y(), target.y());
+  }
+
+  Const UseResult CannotFail
+  inline auto closeEnough(const vec3<float>& val, const vec3<float>& target) -> bool
+  {
+    return closeEnough(val.x(), target.x()) &&
+           closeEnough(val.y(), target.y()) &&
+           closeEnough(val.z(), target.z());
+  }
+
+  Const UseResult CannotFail
+  inline auto closeEnough(const vec4<float>& val, const vec4<float>& target) -> bool
+  {
+    return closeEnough(val.x(), target.x()) &&
+           closeEnough(val.y(), target.y()) &&
+           closeEnough(val.z(), target.z()) &&
+           closeEnough(val.w(), target.w());
+  }
+
   template <IsNumeric T>
   Const UseResult CannotFail
   auto degToRad(const T degrees) -> T
