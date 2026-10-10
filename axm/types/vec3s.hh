@@ -2,6 +2,10 @@
 
 #include "vec2s.hh"
 
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+#endif
 namespace axm
 {
 
@@ -308,3 +312,6 @@ namespace axm
     }
   };
 }
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic pop
+#endif
